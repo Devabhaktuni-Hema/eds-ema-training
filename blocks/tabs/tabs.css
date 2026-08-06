@@ -1,0 +1,144 @@
+/* Testimonial tabs */
+
+/* block is a flex column so tabs-list (order 2) sits below the panels */
+.tabs {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Panels (order 1, above the tab list) */
+.tabs .tabs-panel {
+  order: 1;
+}
+
+.tabs .tabs-panel[aria-hidden='true'] {
+  display: none;
+}
+
+.tabs .tabs-panel-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+@media (width >= 900px) {
+  .tabs .tabs-panel-content {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.tabs .tabs-panel-image picture {
+  display: block;
+  aspect-ratio: 4 / 3;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.tabs .tabs-panel-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tabs .tabs-panel-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.tabs .tabs-panel-text p {
+  margin: 0 0 12px;
+}
+
+.tabs .tabs-panel-text p strong {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* role sits directly under the name with a gap before the quote */
+.tabs .tabs-panel-text p:nth-child(2) {
+  margin-bottom: 24px;
+  color: var(--link-color);
+}
+
+/* the quote paragraph (last) */
+.tabs .tabs-panel-text p:last-child {
+  margin-bottom: 0;
+  font-size: 20px;
+  line-height: 32px;
+}
+
+/* Tab list (order 2, below the panels) */
+.tabs .tabs-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 32px;
+  order: 2;
+}
+
+@media (width >= 600px) {
+  .tabs .tabs-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (width >= 900px) {
+  .tabs .tabs-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.tabs .tabs-list button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0;
+  padding: 16px;
+  border: 1px solid rgb(232 232 232);
+  border-radius: 16px;
+  background-color: rgb(239 239 239);
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.tabs .tabs-list button:hover {
+  border-color: var(--text-color);
+}
+
+.tabs .tabs-list button[aria-selected='true'] {
+  border-color: var(--text-color);
+  background-color: var(--light-color);
+}
+
+.tabs .tabs-list button strong {
+  display: block;
+  font-weight: 700;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.tabs .tabs-list button p {
+  margin: 0;
+}
+
+/* first paragraph in a tab button = name, second = role */
+.tabs .tabs-list button p:last-child:not(:only-child) {
+  color: var(--link-color);
+}
+
+.tabs .tabs-list .avatar,
+.tabs .tabs-list button picture {
+  flex: 0 0 48px;
+}
+
+.tabs .tabs-list button img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 50%;
+}

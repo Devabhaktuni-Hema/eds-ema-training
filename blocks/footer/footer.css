@@ -1,20 +1,105 @@
+/* Footer — migrated from wknd-trendsetters.site (dark/inverse footer) */
+
+/* stylelint-disable no-descending-specificity */
+
 footer {
-  background-color: var(--light-color);
-  font-size: var(--body-font-size-xs);
+  background-color: var(--dark-color);
+  color: var(--background-color);
+  font-family: var(--body-font-family);
 }
 
-footer .footer > div {
-  margin: auto;
+footer .footer-columns {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
   max-width: 1200px;
-  padding: 40px 24px 24px;
-}
-
-footer .footer p {
-  margin: 0;
+  margin: 0 auto;
+  padding: 48px 24px;
 }
 
 @media (width >= 900px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
+  footer .footer-columns {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 48px;
+    padding: 80px 32px;
   }
+}
+
+footer .footer-columns p {
+  margin: 0;
+}
+
+/* ---------- Brand column ---------- */
+footer .footer-columns .footer-brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+  color: var(--background-color);
+}
+
+footer .footer-columns .footer-brand-link img,
+footer .footer-columns .footer-brand-link svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* social icons row */
+footer .footer-columns .footer-social {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+footer .footer-columns .footer-social a {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  color: var(--background-color);
+  transition: color 0.2s;
+}
+
+footer .footer-columns .footer-social a:hover {
+  color: rgb(153 153 153);
+}
+
+footer .footer-columns .footer-social img,
+footer .footer-columns .footer-social svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- Link columns ---------- */
+footer .footer-columns .footer-links h2 {
+  margin: 0 0 16px;
+  font-family: var(--heading-font-family);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: rgb(153 153 153);
+}
+
+footer .footer-columns .footer-links ul {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+footer .footer-columns .footer-links a {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(153 153 153);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+footer .footer-columns .footer-links a:hover {
+  color: var(--background-color);
 }

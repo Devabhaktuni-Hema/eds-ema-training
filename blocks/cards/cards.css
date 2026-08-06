@@ -1,27 +1,192 @@
+/* Block: cards — CSS extracted from source computed styles
+   https://wknd-trendsetters.site/about-us
+   Three variants share the .cards class; distinguished via :has() on the
+   decorated DOM (.cards > ul > li > .cards-card-image + .cards-card-body).
+   Variant selectors are mutually exclusive, so cross-variant source order
+   is irrelevant. */
+
+/* stylelint-disable no-descending-specificity */
+
+/* ---------- Base grid (mobile-first: 1 column) ---------- */
 .cards > ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
-  gap: 24px;
+  grid-template-columns: 1fr;
+  gap: 16px;
 }
 
 .cards > ul > li {
-  border: 1px solid #dadada;
-  background-color: var(--background-color);
-}
-
-.cards .cards-card-body {
-  margin: 16px;
+  background-color: transparent;
+  overflow: hidden;
 }
 
 .cards .cards-card-image {
   line-height: 0;
 }
 
-.cards > ul > li img {
+.cards .cards-card-image img {
   width: 100%;
-  aspect-ratio: 4 / 3;
   object-fit: cover;
+}
+
+/* =====================================================================
+   VARIANT 1 — Image gallery (image-only cards, empty body)
+   grid: 4 x desktop, gap 12px; cards rounded 20px, 1:1 images
+   ===================================================================== */
+.cards:has(.cards-card-body:empty) > ul {
+  gap: 12px;
+}
+
+.cards:has(.cards-card-body:empty) > ul > li {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.cards:has(.cards-card-body:empty) .cards-card-image img {
+  aspect-ratio: 1 / 1;
+}
+
+/* hide the empty body cell */
+.cards:has(.cards-card-body:empty) .cards-card-body:empty {
+  display: none;
+}
+
+/* =====================================================================
+   VARIANT 2 — Testimonials (image + name + role + quote)
+   transparent card, 4/3 image, name/quote 20px, role 16px grey-black
+   ===================================================================== */
+.cards:has(.cards-card-body strong):not(:has(h3)) > ul {
+  gap: 32px;
+}
+
+.cards:has(.cards-card-body strong):not(:has(h3)) .cards-card-image img {
+  aspect-ratio: 4 / 3;
+  border-radius: 20px;
+}
+
+.cards:has(.cards-card-body strong):not(:has(h3)) .cards-card-body {
+  margin-top: 16px;
+}
+
+/* name */
+.cards:has(.cards-card-body strong):not(:has(h3)) .cards-card-body p:first-child {
+  margin: 0;
+}
+
+.cards:has(.cards-card-body strong):not(:has(h3)) .cards-card-body strong {
+  font-family: var(--body-font-family);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 32px;
+  text-transform: none;
+  color: var(--text-color);
+}
+
+/* role (2nd paragraph) */
+.cards:has(.cards-card-body strong):not(:has(h3)) .cards-card-body p:nth-child(2) {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 25.6px;
+  color: var(--text-color);
+}
+
+/* quote (3rd paragraph) */
+.cards:has(.cards-card-body strong):not(:has(h3)) .cards-card-body p:nth-child(3) {
+  margin: 12px 0 0;
+  font-family: var(--body-font-family);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 32px;
+  color: var(--text-color);
+}
+
+/* =====================================================================
+   VARIANT 3 — Latest articles (image + meta + linked H3)
+   bordered rounded card, 16/10 image, meta line, uppercase H3
+   ===================================================================== */
+.cards:has(h3) > ul {
+  gap: 16px;
+}
+
+.cards:has(h3) > ul > li {
+  border: 1px solid rgb(232 232 232);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.cards:has(h3) .cards-card-image img {
+  aspect-ratio: 16 / 10;
+}
+
+.cards:has(h3) .cards-card-body {
+  padding: 24px;
+}
+
+/* meta line (category pill + date) — one paragraph: <strong>category</strong> date */
+.cards:has(h3) .cards-card-body p {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  text-transform: none;
+  color: var(--link-color);
+}
+
+/* category tag rendered as a lime pill */
+.cards:has(h3) .cards-card-body p strong {
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background-color: rgb(244 254 139);
+  color: var(--text-color);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.cards:has(h3) .cards-card-body h3 {
+  margin: 12px 0 0;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 19.8px;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+.cards:has(h3) .cards-card-body h3 a:any-link {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* =====================================================================
+   Desktop layout — 4 columns
+   ===================================================================== */
+@media (width >= 600px) {
+  .cards:has(.cards-card-body:empty) > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width >= 900px) {
+  .cards:has(.cards-card-body:empty) > ul {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .cards:has(.cards-card-body strong) > ul {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .cards:has(h3) > ul {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
