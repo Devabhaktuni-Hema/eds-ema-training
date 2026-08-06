@@ -1,33 +1,246 @@
+/* Columns block — three instances on /about-us:
+   1. Article header  (.columns-2-cols WITH .columns-img-col): image + article title/byline
+   2. FAQ             (.columns-2-cols WITHOUT .columns-img-col): heading + Q&A list
+   3. CTA banner      (.columns-1-cols): rounded image card w/ overlay + white text + button
+   Values extracted from wknd-trendsetters.site/about-us computed styles.
+
+   The three variants target mutually-exclusive block classes
+   (columns-1-cols vs columns-2-cols:has/:not(:has)), so their rules never
+   compete in the cascade; disable descending-specificity ordering here. */
+/* stylelint-disable no-descending-specificity */
+
+.columns img {
+  width: 100%;
+  display: block;
+}
+
+/* ------------------------------------------------------------------ */
+
+/* Shared base: stack cells on mobile                                  */
+
+/* ------------------------------------------------------------------ */
 .columns > div {
   display: flex;
   flex-direction: column;
 }
 
-.columns img {
-  width: 100%;
+/* image column stays on top when stacked */
+.columns > div > .columns-img-col {
+  order: 0;
 }
 
 .columns > div > div {
   order: 1;
 }
 
-.columns > div > .columns-img-col {
-  order: 0;
+/* ================================================================== */
+
+/* 1. ARTICLE HEADER — columns-2-cols with an image column            */
+
+/* ================================================================== */
+.columns.columns-2-cols:has(.columns-img-col) .columns-img-col img {
+  border-radius: 20px;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
 }
 
-.columns > div > .columns-img-col img {
-  display: block;
+.columns.columns-2-cols:has(.columns-img-col) h2 {
+  margin: 0;
+  font-size: 40px;
+  line-height: 44px;
 }
 
+/* byline paragraphs (author + date) */
+.columns.columns-2-cols:has(.columns-img-col) h2 + p {
+  margin: 16px 0 0;
+  font-size: 14px;
+  line-height: 22.4px;
+  color: var(--text-color);
+}
+
+.columns.columns-2-cols:has(.columns-img-col) h2 + p + p {
+  margin: 4px 0 0;
+  color: var(--link-color);
+}
+
+/* ================================================================== */
+
+/* 2. FAQ — columns-2-cols without an image column                    */
+
+/* ================================================================== */
+.columns.columns-2-cols:not(:has(.columns-img-col)) h2 {
+  margin: 0;
+  font-size: 40px;
+  line-height: 44px;
+}
+
+.columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:first-child p {
+  margin: 16px 0 0;
+  font-size: 18px;
+  line-height: 28.8px;
+  color: var(--text-color);
+}
+
+/* Q&A list: alternating question / answer paragraphs */
+.columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:last-child p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 27.2px;
+  color: rgb(64 64 64);
+}
+
+/* questions (odd paragraphs) */
+.columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:last-child p:nth-child(odd) {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 28.8px;
+  color: var(--text-color);
+}
+
+/* extra separation before each question pair (except the first) */
+.columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:last-child p:nth-child(odd):not(:first-child) {
+  margin-top: 16px;
+}
+
+/* ================================================================== */
+
+/* 3. CTA BANNER — columns-1-cols                                     */
+
+/* ================================================================== */
+.columns.columns-1-cols > div > div {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  min-height: 448px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 32px;
+  color: var(--background-color);
+}
+
+/* background image (authored as <p><picture><img></p>, first child) */
+.columns.columns-1-cols > div > div > p:first-child {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  margin: 0;
+}
+
+.columns.columns-1-cols > div > div > p:first-child picture,
+.columns.columns-1-cols > div > div > p:first-child img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+/* dark gradient overlay */
+.columns.columns-1-cols > div > div::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to top, rgb(0 0 0 / 70%) 0%, rgb(0 0 0 / 0%) 60%);
+  pointer-events: none;
+}
+
+/* text content sits above image + overlay */
+.columns.columns-1-cols > div > div > h2,
+.columns.columns-1-cols > div > div > p:not(:first-child) {
+  position: relative;
+  z-index: 2;
+  max-width: 544px;
+}
+
+.columns.columns-1-cols > div > div > h2 {
+  margin: 0;
+  font-size: 36px;
+  line-height: 1.1;
+  letter-spacing: -0.72px;
+  color: var(--background-color);
+}
+
+.columns.columns-1-cols > div > div > p:not(:first-child) {
+  margin: 16px 0 0;
+  font-size: 18px;
+  line-height: 28.8px;
+  color: var(--background-color);
+}
+
+/* "See more" button: white fill, black text, white border.
+   EDS leaves this anchor undecorated, so style the raw <a> as a pill. */
+.columns.columns-1-cols > div > div > p:last-child {
+  position: relative;
+  z-index: 2;
+  margin: 24px 0 0;
+}
+
+.columns.columns-1-cols > div > div > p:last-child a:any-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border: 2px solid var(--background-color);
+  border-radius: 9999px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.6;
+  text-decoration: none;
+  text-transform: none;
+}
+
+.columns.columns-1-cols > div > div > p:last-child a:hover {
+  background-color: transparent;
+  color: var(--background-color);
+  text-decoration: none;
+}
+
+/* ================================================================== */
+
+/* Desktop layout                                                      */
+
+/* ================================================================== */
 @media (width >= 900px) {
-  .columns > div {
-    align-items: center;
-    flex-direction: unset;
+  /* article header: two equal columns, vertically centered */
+  .columns.columns-2-cols:has(.columns-img-col) > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 24px;
+    align-items: center;
   }
 
-  .columns > div > div {
-    flex: 1;
+  /* FAQ: two equal columns, top aligned, wider gap */
+  .columns.columns-2-cols:not(:has(.columns-img-col)) > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .columns.columns-2-cols > div > div {
     order: unset;
+  }
+
+  /* CTA banner: larger heading + roomier padding on desktop */
+  .columns.columns-1-cols > div > div {
+    padding: 64px;
+  }
+
+  .columns.columns-1-cols > div > div > h2 {
+    font-size: 56px;
+    line-height: 61.6px;
+    letter-spacing: -1.12px;
   }
 }

@@ -1,0 +1,25 @@
+:root {
+  /* brand fonts */
+  --heading-font-family: "Syncopate", sans-serif;
+  --body-font-family: "Instrument Sans", sans-serif;
+
+  /* brand colors */
+  --background-color: rgb(255 255 255);
+  --text-color: rgb(0 0 0);
+  --link-color: rgb(102 102 102);
+  --link-hover-color: rgb(0 0 0);
+  --light-color: rgb(245 245 245);
+  --dark-color: rgb(0 0 0);
+
+  /* brand spacing */
+  --section-padding: 128px;
+  --nav-height: 64px;
+
+  /* brand heading sizes (desktop) */
+  --heading-size-xxl: 56px;
+  --heading-size-xl: 40px;
+  --heading-size-l: 28px;
+  --heading-size-m: 22px;
+  --heading-size-s: 18px;
+  --heading-size-xs: 16px;
+}
