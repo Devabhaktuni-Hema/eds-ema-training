@@ -242,9 +242,15 @@ export default async function decorate(block) {
   // Section 0 = brand/logo, 1 = primary nav links, 2 = utility (Sign In + locales)
   const [brandSection, navSection, utilSection] = sections;
 
-  // --- Utility area (Sign In + locale) ---
+  // --- Utility bar (Sign In + locale) ---
+  // Full-width dark band (a direct child of the wrapper, not inside the
+  // centered nav) so it spans the content width without a scrollbar-unsafe
+  // `vw` breakout. Its inner content is centered to the same content edge.
+  const utilityBar = document.createElement('div');
+  utilityBar.className = 'nav-utility-bar';
   const utility = document.createElement('div');
   utility.className = 'nav-utility';
+  utilityBar.append(utility);
   if (utilSection) {
     const signIn = utilSection.querySelector('p a');
     if (signIn) {
@@ -279,7 +285,7 @@ export default async function decorate(block) {
   hamburgerBtn.addEventListener('click', () => toggleMenu(nav));
   hamburger.append(hamburgerBtn);
 
-  nav.append(utility, brand, tools, hamburger);
+  nav.append(brand, tools, hamburger);
 
   // Close locale dropdown on outside click; escape collapses the mobile menu.
   document.addEventListener('click', () => {
@@ -305,6 +311,6 @@ export default async function decorate(block) {
 
   const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
-  navWrapper.append(nav);
+  navWrapper.append(utilityBar, nav);
   block.append(navWrapper);
 }

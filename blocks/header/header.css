@@ -17,9 +17,7 @@ header .nav-wrapper {
 header nav {
   box-sizing: border-box;
   display: grid;
-  grid-template:
-    'util   util' auto
-    'brand  tools' auto / auto 1fr;
+  grid-template: 'brand  tools' auto / auto 1fr;
   gap: 0;
   max-width: 1200px;
   margin: auto;
@@ -27,40 +25,44 @@ header nav {
   font-family: var(--body-font-family);
 }
 
-/* --- Utility bar (Sign In + locale): full-bleed dark band ---
-   Breaks out of the centered nav container to span the viewport, then pads
-   its content back to the content edge so Sign In / locale stay right-aligned
-   with the header row below. */
-header nav .nav-utility {
-  grid-area: util;
+/* --- Utility bar (Sign In + locale): full-width dark band ---
+   A direct wrapper child so it spans the content width (scrollbar-safe, no
+   `vw` breakout); its inner row is centered to the same content edge as the
+   header below and right-aligns Sign In / locale. */
+header .nav-utility-bar {
+  background-color: #202020;
+  color: #ebebeb;
+}
+
+header .nav-utility {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 24px;
-  margin: 0 calc(50% - 50vw);
-  padding: 3px calc(50vw - 50% + 24px);
-  background-color: #202020;
-  color: #ebebeb;
+  max-width: 1200px;
+  margin: auto;
+  padding: 3px 24px;
   font-size: 14px;
 }
 
-header nav .nav-utility a.nav-signin {
+header .nav-utility a.nav-signin {
   color: #ebebeb;
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
 
-header nav .nav-utility a.nav-signin:hover {
+header .nav-utility a.nav-signin:hover {
   color: #fff;
 }
 
 /* Locale toggle */
-header nav .nav-locale {
+header .nav-locale {
   position: relative;
 }
 
-header nav .nav-locale-toggle {
+header .nav-locale-toggle {
   background: none;
   border: none;
   padding: 0;
@@ -76,20 +78,20 @@ header nav .nav-locale-toggle {
 }
 
 /* US flag before the locale label */
-header nav .nav-locale-flag {
+header .nav-locale-flag {
   display: inline-flex;
   width: 22px;
   height: 15px;
   flex: 0 0 auto;
 }
 
-header nav .nav-locale-flag svg {
+header .nav-locale-flag svg {
   width: 100%;
   height: 100%;
   border-radius: 1px;
 }
 
-header nav .nav-locale-toggle::after {
+header .nav-locale-toggle::after {
   content: '';
   width: 6px;
   height: 6px;
@@ -102,13 +104,13 @@ header nav .nav-locale-toggle::after {
 }
 
 /* Caret points up while the dropdown is open (matches source ∧). */
-header nav .nav-locale[aria-expanded='true'] .nav-locale-toggle::after {
+header .nav-locale[aria-expanded='true'] .nav-locale-toggle::after {
   transform: rotate(-135deg);
   margin-top: 3px;
 }
 
 /* Dropdown panel: dark, country-grouped (matches WKND source). */
-header nav .nav-locale-list {
+header .nav-locale-list {
   display: none;
   position: absolute;
   top: calc(100% + 12px);
@@ -121,12 +123,12 @@ header nav .nav-locale-list {
   z-index: 10;
 }
 
-header nav .nav-locale[aria-expanded='true'] .nav-locale-list {
+header .nav-locale[aria-expanded='true'] .nav-locale-list {
   display: block;
 }
 
 /* One country row: flag + (name over locale codes), divider between rows. */
-header nav .nav-locale-country {
+header .nav-locale-country {
   display: flex;
   align-items: center;
   gap: 16px;
@@ -134,22 +136,22 @@ header nav .nav-locale-country {
   border-bottom: 1px solid rgb(255 255 255 / 12%);
 }
 
-header nav .nav-locale-country:last-child { border-bottom: none; }
+header .nav-locale-country:last-child { border-bottom: none; }
 
-header nav .nav-locale-country-flag {
+header .nav-locale-country-flag {
   display: inline-flex;
   width: 34px;
   height: 22px;
   flex: 0 0 auto;
 }
 
-header nav .nav-locale-country-flag svg {
+header .nav-locale-country-flag svg {
   width: 100%;
   height: 100%;
   border-radius: 1px;
 }
 
-header nav .nav-locale-country-name {
+header .nav-locale-country-name {
   display: block;
   color: #b8b8b8;
   font-size: 12px;
@@ -159,13 +161,13 @@ header nav .nav-locale-country-name {
 }
 
 /* Locale codes on one line, separated by thin vertical dividers. */
-header nav .nav-locale-codes {
+header .nav-locale-codes {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
 }
 
-header nav .nav-locale-codes a {
+header .nav-locale-codes a {
   color: #f7f7f7;
   text-decoration: none;
   text-transform: uppercase;
@@ -175,17 +177,17 @@ header nav .nav-locale-codes a {
   line-height: 1.2;
 }
 
-header nav .nav-locale-codes a:first-child {
+header .nav-locale-codes a:first-child {
   padding-left: 0;
   border-left: none;
 }
 
-header nav .nav-locale-codes a:hover {
+header .nav-locale-codes a:hover {
   text-decoration: underline;
 }
 
 /* Current locale is underlined (matches source). */
-header nav .nav-locale-codes a[aria-current='true'] {
+header .nav-locale-codes a[aria-current='true'] {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -379,15 +381,25 @@ header nav .nav-hamburger { display: none; }
     transform: translateY(-6px) rotate(-45deg);
   }
 
-  /* Collapsed by default on mobile */
-  header nav .nav-tools,
-  header nav .nav-utility { display: none; }
+  /* Collapsed by default on mobile: hide the dark utility bar and the tools
+     until the hamburger opens the menu. */
+  header .nav-utility-bar { display: none; }
+  header nav .nav-tools { display: none; }
 
   header nav[aria-expanded='true'] {
     grid-template:
       'brand hamburger' auto
-      'tools tools' auto
-      'util  util' auto / 1fr auto;
+      'tools tools' auto / 1fr auto;
+  }
+
+  /* Show the utility bar when the menu is open (bar is a sibling of nav). */
+  header .nav-wrapper:has(nav[aria-expanded='true']) .nav-utility-bar {
+    display: block;
+  }
+
+  header .nav-utility {
+    justify-content: flex-start;
+    padding: 12px 16px;
   }
 
   header nav[aria-expanded='true'] .nav-tools {
@@ -414,14 +426,4 @@ header nav .nav-hamburger { display: none; }
   }
 
   header nav[aria-expanded='true'] .nav-search { width: 100%; }
-
-  header nav[aria-expanded='true'] .nav-utility {
-    grid-area: util;
-    display: flex;
-    justify-content: flex-start;
-    gap: 20px;
-    padding: 12px 16px;
-    width: 100%;
-    margin: 0;
-  }
 }
