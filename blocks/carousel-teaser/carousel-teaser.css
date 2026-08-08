@@ -205,7 +205,8 @@
 /* ---- Desktop: white card overlaps the image, wider gutters ---- */
 @media (width >= 900px) {
   .carousel-teaser .carousel-teaser-slide-image img {
-    aspect-ratio: 2 / 1; /* 50vw — source 640px @ 1280 */
+    height: 640px; /* source uses a fixed 640px hero height at all desktop widths */
+    aspect-ratio: auto;
   }
 
   .carousel-teaser .carousel-teaser-slide-content {
