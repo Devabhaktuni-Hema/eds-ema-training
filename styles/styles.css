@@ -58,8 +58,9 @@
     --heading-font-size-s: 16px;
     --heading-font-size-xs: 14px;
 
-    /* desktop header: dark utility bar (32px) + main row */
-    --nav-height: 123px;
+    /* desktop header: dark utility bar (~28px) + tall main row (~171px),
+       matching the source's airy ~194px header */
+    --nav-height: 199px;
   }
 }
 

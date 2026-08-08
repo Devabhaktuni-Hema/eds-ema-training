@@ -320,6 +320,15 @@ header nav .nav-search:focus-within {
 /* --- Hamburger (mobile only, hidden on desktop) --- */
 header nav .nav-hamburger { display: none; }
 
+/* ================= Desktop ================= */
+@media (width >= 900px) {
+  /* Taller main row (~52px above/below the 48px logo → ~166px), giving the
+     ~194px airy header of the source. Mobile stays compact. */
+  header nav .nav-brand {
+    padding: 52px 0;
+  }
+}
+
 /* ================= Mobile ================= */
 @media (width < 900px) {
   header nav {
