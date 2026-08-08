@@ -38,8 +38,9 @@
   --heading-font-size-s: 16px;
   --heading-font-size-xs: 14px;
 
-  /* nav height */
-  --nav-height: 64px;
+  /* nav height — reserves space so the sticky header doesn't cause CLS.
+     Mobile: single row (~91px, utility bar hidden behind hamburger). */
+  --nav-height: 91px;
 }
 
 @media (width >= 900px) {
@@ -56,6 +57,9 @@
     --heading-font-size-m: 20px;
     --heading-font-size-s: 16px;
     --heading-font-size-xs: 14px;
+
+    /* desktop header: dark utility bar (32px) + main row */
+    --nav-height: 123px;
   }
 }
 
@@ -73,8 +77,13 @@ body.appear {
   display: block;
 }
 
+/* Header stays pinned to the top while the page scrolls (matches WKND).
+   The reserved height keeps it in normal flow so there's no layout shift. */
 header {
   height: var(--nav-height);
+  position: sticky;
+  top: 0;
+  z-index: 20;
 }
 
 header .header,
