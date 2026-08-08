@@ -1,0 +1,44 @@
+{
+  "variantName": "accordion-faq",
+  "baseBlock": "accordion",
+  "version": "1.0.0",
+  "created": "2026-08-07T12:41:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en/faqs.html",
+    "originPage": "WKND FAQs page (faq template)",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "wide",
+    "purpose": "faq",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "repeating question header + expandable answer panel",
+    "buttonCount": 0,
+    "imageCount": 0,
+    "itemCount": 7
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "FAQ pages with question-and-answer pairs",
+      "collapsible/expandable content sections where users toggle to reveal detail",
+      "compact stacks of related topics that benefit from progressive disclosure"
+    ],
+    "notSuitableFor": [
+      "tabbed content switchers where one panel is visible at a time (use tabs)",
+      "side-by-side comparison layouts (use columns)",
+      "always-visible content that does not need toggling (use default content)"
+    ]
+  },
+  "distinctFrom": {
+    "accordion": "Vanilla Block Collection 'accordion' is the base; accordion-faq is the WKND FAQ-styled variant (light color scheme, no images, 7 Q&A items). No local accordion block existed prior to this migration, so a new variant was created from the vanilla accordion rather than reusing an existing one.",
+    "tabs-detail / tabs-listing": "Those tabs variants show one panel at a time via a tab strip. accordion-faq stacks all question headers vertically and lets multiple/none be expanded independently — the correct pattern for a Q&A list."
+  },
+  "usage": {
+    "pagesUsing": ["/us/en/faqs"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-07T12:41:00.000Z"
+  }
+}

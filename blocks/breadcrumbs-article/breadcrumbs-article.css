@@ -1,0 +1,52 @@
+/* breadcrumbs-article — WKND magazine breadcrumb trail
+ * Source: https://wknd.site/us/en/magazine/arctic-surfing.html (.cmp-breadcrumb)
+ * Horizontal uppercase trail: MAGAZINE ▸ ARCTIC SURFING
+ * All values extracted from source computed styles. */
+
+.breadcrumbs-article .breadcrumbs-article-list {
+  display: block; /* items are inline-flex, wrap naturally */
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  line-height: 21px;
+  color: var(--text-color); /* #202020 */
+}
+
+.breadcrumbs-article .breadcrumbs-article-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 0;
+  text-transform: uppercase;
+}
+
+/* Separator before every item after the first.
+ * Source uses wknd-icon-font glyph U+EA1C (filled right triangle) in brand
+ * yellow; substituted with Unicode ▸ since that font is not on this site. */
+.breadcrumbs-article .breadcrumbs-article-item + .breadcrumbs-article-item::before {
+  content: "\25B6\FE0E"; /* ▶ + text-presentation selector (solid triangle, not emoji) */
+  margin: 0 5px;
+  color: var(--accent-color); /* #ffea00 WKND yellow */
+  font-size: 14px;
+  line-height: 1;
+}
+
+.breadcrumbs-article .breadcrumbs-article-link:any-link {
+  color: var(--text-color); /* #202020 */
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.breadcrumbs-article .breadcrumbs-article-link:hover,
+.breadcrumbs-article .breadcrumbs-article-link:focus-visible {
+  text-decoration: underline;
+}
+
+/* Current (active) page — same color, regular weight, not a link. */
+.breadcrumbs-article .breadcrumbs-article-item-current span {
+  color: var(--text-color); /* #202020 */
+  font-weight: 400;
+  text-transform: uppercase;
+}

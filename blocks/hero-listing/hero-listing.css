@@ -1,0 +1,125 @@
+/*
+ * hero-listing — WKND adventures listing intro banner.
+ * A content-width feature photograph with a white text panel (heading + short
+ * description, no CTA) overlapping the lower edge of the image on desktop, and
+ * sitting attached below the image on mobile.
+ *
+ * Source: https://wknd.site/us/en/adventures.html  (.teaser.cmp-teaser--hero)
+ * Exact computed styles captured in migration-work/hero-listing-extracted.css.
+ * Source teaser is a `flex column-reverse` (image visually above the panel);
+ * the EDS rows are authored image-first then text, which already gives that
+ * visual stacking, so no reordering is needed here.
+ *
+ * Layout (from source computed styles):
+ *   image  — object-fit: cover; desktop crops to the source 2.25:1 band,
+ *            mobile shows the natural landscape ratio uncropped, full width.
+ *   panel  — white box; desktop pulled up over the image bottom (bottom-aligned,
+ *            horizontally centred, ~83% of the image width), mobile flush below.
+ *   title  — 36px Asar 400, line-height 1.5 (54px), #202020, margin 18px 0 0.
+ *   desc   — 18px Source Sans Pro 400, line-height 1.75 (31.5px), #202020.
+ */
+
+/*
+ * Keep the block within the site content column (--content-max-width: 1024px,
+ * inherited from `main > .section > div`) but cancel the wrapper's side padding
+ * so the feature image spans the content column edge-to-edge — a content-width
+ * feature image, matching the hero-article sibling convention.
+ */
+.hero-listing-container .hero-listing-wrapper {
+  padding: 0;
+}
+
+.hero-listing {
+  margin: 0;
+  padding: 0;
+}
+
+/* --- Image row: content-width feature photo --- */
+.hero-listing .hero-listing-image,
+.hero-listing .hero-listing-image > div {
+  margin: 0;
+  padding: 0;
+}
+
+.hero-listing .hero-listing-image picture {
+  display: block;
+  line-height: 0; /* remove inline whitespace gap beneath the image */
+}
+
+.hero-listing .hero-listing-image img {
+  display: block;
+  width: 100%;
+  height: auto; /* mobile: natural landscape ratio, no crop */
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+/* --- Text panel: white box with heading + short description (no CTA) --- */
+.hero-listing .hero-listing-text {
+  margin: 0;
+}
+
+.hero-listing .hero-listing-text > div {
+  box-sizing: border-box;
+  padding: 0 14px; /* source mobile panel side padding */
+  background-color: var(--background-color);
+}
+
+.hero-listing .hero-listing-text h1,
+.hero-listing .hero-listing-text h2,
+.hero-listing .hero-listing-text h3 {
+  margin: 18px 0 0;
+  font-family: var(--heading-font-family);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.5; /* 54px at 36px */
+  color: var(--text-color);
+}
+
+/* Intro heading carries no yellow underline accent. */
+.hero-listing .hero-listing-text h1::after,
+.hero-listing .hero-listing-text h2::after,
+.hero-listing .hero-listing-text h3::after {
+  content: none;
+  display: none;
+}
+
+.hero-listing .hero-listing-text p {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m); /* 18px */
+  font-weight: 400;
+  line-height: 1.75; /* 31.5px at 18px */
+  color: var(--text-color);
+}
+
+/* No-image fallback: keep text readable on a light background. */
+.hero-listing.no-image * {
+  color: var(--text-color);
+}
+
+/*
+ * --- Desktop: crop the image to the source band and overlap the white panel
+ * onto its lower edge (bottom-aligned, horizontally centred). ---
+ */
+@media (width >= 900px) {
+  .hero-listing .hero-listing-image img {
+    aspect-ratio: 9 / 4; /* source display crop 1440x640 = 2.25:1 */
+    height: auto;
+  }
+
+  .hero-listing .hero-listing-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center; /* centre the panel across the image width */
+    margin-top: -128px; /* pull the panel up so its base meets the image edge */
+  }
+
+  .hero-listing .hero-listing-text > div {
+    width: 83%; /* source panel is ~82.8% of the image width */
+    max-width: 850px;
+    min-height: 128px; /* panel band taller than its text, per source */
+    padding: 0 28px; /* source desktop panel side padding */
+  }
+}

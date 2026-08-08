@@ -1,0 +1,44 @@
+{
+  "variantName": "hero-listing",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-08-07T10:35:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en/adventures.html",
+    "originPage": "WKND adventures listing page (adventures-listing template)",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "wide",
+    "purpose": "hero",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image + heading + description (no CTA)",
+    "buttonCount": 0,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "listing/landing page intro banners with a feature photo and a short heading + description",
+      "content-width feature image with a white text panel overlapping its lower edge",
+      "section intros that need an image plus a brief lead-in but no call-to-action"
+    ],
+    "notSuitableFor": [
+      "promo banners that need a CTA button (use hero-banner)",
+      "image-only editorial article leads with the title rendered below as default content (use hero-article)",
+      "rotating multi-slide hero banners (use carousel-teaser)"
+    ]
+  },
+  "distinctFrom": {
+    "hero": "Vanilla local 'hero' is bare boilerplate (background-image + overlaid heading, toggles a no-image class only). hero-listing renders a content-width feature image with a separate white heading+description panel overlapping the image's lower edge.",
+    "hero-banner": "hero-banner (colorScheme=accent) always renders a CTA button and is full-bleed with a 2:1 letterbox crop or a grey side panel. hero-listing has NO CTA and keeps the image at content width with a white overlay panel. Similarity scored ~0.75 (< 0.80 threshold).",
+    "hero-article": "hero-article is image-ONLY (no in-block heading/description; the article title renders below as default content). hero-listing renders the heading and description inside the block over the image. Structural mismatch — new variant created."
+  },
+  "usage": {
+    "pagesUsing": ["/us/en/adventures"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-07T10:35:00.000Z"
+  }
+}

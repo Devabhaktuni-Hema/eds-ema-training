@@ -1,0 +1,149 @@
+/*
+ * carousel-hero — WKND "mini" banner carousel
+ * Full-bleed, fixed-height image banner with a controls strip below the image:
+ * centered dot indicators + right-aligned prev/next chevrons.
+ * Visual values extracted from wknd.site (.carousel.cmp-carousel--mini):
+ *   image height 400px (constant across breakpoints), object-fit cover;
+ *   dots 10x10 circle rgba(0,0,0,.8), 7px side margins; indicators margin-top 9px;
+ *   nav actions ~26x24 transparent with black chevron glyph.
+ */
+
+/* Full-bleed: break the banner out of the section's centered max-width wrapper. */
+.carousel-hero-wrapper {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+.carousel-hero {
+  margin: 0;
+  padding: 0;
+}
+
+.carousel-hero .carousel-hero-slides-container {
+  position: relative;
+}
+
+.carousel-hero .carousel-hero-slides {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  overflow: scroll clip;
+}
+
+.carousel-hero .carousel-hero-slides::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-hero .carousel-hero-slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  scroll-snap-align: start;
+}
+
+.carousel-hero .carousel-hero-slide .carousel-hero-slide-image,
+.carousel-hero .carousel-hero-slide .carousel-hero-slide-image picture {
+  display: block;
+}
+
+/* Fixed-height full-width banner image (source: 400px at all breakpoints). */
+.carousel-hero .carousel-hero-slide .carousel-hero-slide-image img {
+  display: block;
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+/* Controls strip, in normal flow below the image. Arrows overlay the right
+ * edge (position: absolute) so the dots stay centered across the full width,
+ * exactly like the source "mini" carousel. */
+.carousel-hero .carousel-hero-controls {
+  position: relative;
+  margin-top: 9px;
+}
+
+/* Dot indicators: centered across the full strip width. */
+.carousel-hero .carousel-hero-slide-indicators {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+
+.carousel-hero .carousel-hero-slide-indicator {
+  margin: 0 7px;
+}
+
+.carousel-hero .carousel-hero-slide-indicator button {
+  width: 10px;
+  height: 10px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: rgb(0 0 0 / 40%);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* Active (disabled by JS) / hover dot matches the source dot color exactly. */
+.carousel-hero .carousel-hero-slide-indicator button:disabled,
+.carousel-hero .carousel-hero-slide-indicator button:hover,
+.carousel-hero .carousel-hero-slide-indicator button:focus-visible {
+  background-color: rgb(0 0 0 / 80%);
+}
+
+/* Prev/next chevrons, pinned to the right edge of the strip. */
+.carousel-hero .carousel-hero-navigation-buttons {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel-hero .carousel-hero-navigation-buttons button {
+  position: relative;
+  width: 26px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.carousel-hero .carousel-hero-navigation-buttons button:hover,
+.carousel-hero .carousel-hero-navigation-buttons button:focus-visible {
+  opacity: 0.6;
+}
+
+.carousel-hero .carousel-hero-navigation-buttons button::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border: 2px solid #000;
+  border-bottom: 0;
+  border-left: 0;
+  transform: translate(-50%, -50%) rotate(-135deg);
+}
+
+.carousel-hero .carousel-hero-navigation-buttons button.slide-next::after {
+  transform: translate(-50%, -50%) rotate(45deg);
+}

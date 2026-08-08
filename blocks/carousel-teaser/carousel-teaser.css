@@ -1,0 +1,221 @@
+/*
+ * carousel-teaser — WKND homepage HERO carousel
+ * Full-bleed rotating gallery. Each slide is a full-width image with a white
+ * content card (heading + description + yellow CTA) overlapping the image
+ * bottom, plus centered dot indicators and bottom-right prev/next chevrons.
+ *
+ * Visual values extracted from wknd.site .carousel.cmp-carousel--hero
+ * (see migration-work/carousel-teaser-extracted.css). Desktop: image 50vw
+ * (2:1), white card pulled up -180px, 44px gutters. Mobile: image 16:9, text
+ * stacked on the page (no card / no overlap), 14px gutters. Heading Asar
+ * 36/54 #202020, description 18/31.5, CTA #ffea00 bg / #202020 uppercase 14px.
+ */
+
+/* Full-bleed: break the hero out of the section's centered max-width wrapper. */
+.carousel-teaser-wrapper {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+.carousel-teaser {
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+.carousel-teaser .carousel-teaser-slides,
+.carousel-teaser .carousel-teaser-slide-indicators {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.carousel-teaser .carousel-teaser-slides {
+  display: flex;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  overflow: scroll clip;
+}
+
+.carousel-teaser .carousel-teaser-slides::-webkit-scrollbar {
+  display: none;
+}
+
+/* Slide = image stacked over a content card (block flow so the card's negative
+ * top margin can overlap the image on desktop). */
+.carousel-teaser .carousel-teaser-slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  scroll-snap-align: start;
+}
+
+/* Full-bleed image — mobile 16:9 (source 219/390 ≈ 56.25vw). */
+.carousel-teaser .carousel-teaser-slide-image,
+.carousel-teaser .carousel-teaser-slide-image picture {
+  display: block;
+}
+
+.carousel-teaser .carousel-teaser-slide-image img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* Content — mobile: plain stacked text on the page, 14px side gutters. */
+.carousel-teaser .carousel-teaser-slide-content {
+  position: relative;
+  padding: 18px 14px;
+  background-color: var(--background-color);
+}
+
+/* Heading — Asar 36/54, no accent underline (source hero heading has none). */
+.carousel-teaser .carousel-teaser-slide-content h2 {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 54px;
+  color: var(--text-color);
+}
+
+.carousel-teaser .carousel-teaser-slide-content h2::after {
+  content: none;
+}
+
+/* Description — Source Sans Pro 18/31.5. */
+.carousel-teaser .carousel-teaser-slide-content p {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 31.5px;
+  color: var(--text-color);
+}
+
+/* CTA row sits 18px below the description. */
+.carousel-teaser .carousel-teaser-slide-content p:last-child {
+  margin-top: 18px;
+  line-height: 0;
+}
+
+/* CTA — yellow accent block, dark uppercase label (source plain <a>). */
+.carousel-teaser .carousel-teaser-slide-content a:any-link {
+  display: inline-block;
+  padding: 14px 35px;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 21px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.carousel-teaser .carousel-teaser-slide-content a:hover,
+.carousel-teaser .carousel-teaser-slide-content a:focus-visible {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+/* Dot indicators — centered strip below the slides, 9px above margin. */
+.carousel-teaser .carousel-teaser-slide-indicators {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 9px 0 0;
+  line-height: 0;
+}
+
+.carousel-teaser .carousel-teaser-slide-indicator {
+  margin: 0 7px;
+}
+
+.carousel-teaser .carousel-teaser-slide-indicator button {
+  width: 10px;
+  height: 10px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: rgb(175 175 175); /* #afafaf inactive */
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* Active indicator (JS disables the current slide's button) + hover. */
+.carousel-teaser .carousel-teaser-slide-indicator button:disabled,
+.carousel-teaser .carousel-teaser-slide-indicator button:hover,
+.carousel-teaser .carousel-teaser-slide-indicator button:focus-visible {
+  background-color: rgb(0 0 0 / 80%);
+}
+
+/* Prev/next chevrons — bottom-right, transparent, black chevron glyph. */
+.carousel-teaser .carousel-teaser-navigation-buttons {
+  position: absolute;
+  right: 16px;
+  bottom: 4px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel-teaser .carousel-teaser-navigation-buttons button {
+  position: relative;
+  width: 26px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.carousel-teaser .carousel-teaser-navigation-buttons button:hover,
+.carousel-teaser .carousel-teaser-navigation-buttons button:focus-visible {
+  opacity: 0.6;
+}
+
+.carousel-teaser .carousel-teaser-navigation-buttons button::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border: 2px solid #000;
+  border-bottom: 0;
+  border-left: 0;
+  transform: translate(-50%, -50%) rotate(-135deg);
+}
+
+.carousel-teaser .carousel-teaser-navigation-buttons button.slide-next::after {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* ---- Desktop: white card overlaps the image, wider gutters ---- */
+@media (width >= 900px) {
+  .carousel-teaser .carousel-teaser-slide-image img {
+    aspect-ratio: 2 / 1; /* 50vw — source 640px @ 1280 */
+  }
+
+  .carousel-teaser .carousel-teaser-slide-content {
+    margin: -180px 44px 0;
+    padding: 18px 28px;
+    min-height: 180px;
+  }
+
+  .carousel-teaser .carousel-teaser-navigation-buttons {
+    right: 24px;
+    bottom: 6px;
+  }
+}

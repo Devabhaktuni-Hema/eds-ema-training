@@ -1,0 +1,43 @@
+{
+  "variantName": "hero-banner",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-08-06T16:20:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en.html",
+    "originPage": "WKND homepage (landing-page-template)",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "accent",
+    "density": "wide",
+    "purpose": "hero",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image + heading + description + CTA",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "homepage/landing alternating promotional hero banners",
+      "full-bleed image banner with heading, description paragraph and a single CTA",
+      "featured-article/featured-trip teasers combining an image with a text panel"
+    ],
+    "notSuitableFor": [
+      "rotating multi-slide banners (use carousel-teaser)",
+      "compact inline text with no feature image",
+      "repeating card grids (use cards)"
+    ]
+  },
+  "distinctFrom": {
+    "hero": "The vanilla local 'hero' block is bare boilerplate (empty decoration, background-image + single H1 heading colored on the image, no description/CTA styling). hero-banner extends the boilerplate to render heading + description paragraph + CTA over a full-width feature image, matching the WKND homepage cmp-teaser--hero / featured teaser banners.",
+    "usedFor": "Both alternating homepage banners: the 'Featured Article: Camping in Western Australia' teaser (section 2) and the full-bleed 'Climbing New Zealand' banner (section 3)."
+  },
+  "usage": {
+    "pagesUsing": ["/us/en"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-06T16:20:00.000Z"
+  }
+}

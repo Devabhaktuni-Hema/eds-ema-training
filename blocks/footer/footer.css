@@ -1,20 +1,154 @@
+/*
+ * WKND footer — migrated from wknd.site/us/en, with a cleaner modern layout.
+ * Dark brand bar (#202020) with a 3-column top row (brand | Explore nav |
+ * Follow Us social) and a slim divided bottom bar for copyright/attribution.
+ * Content comes from /content/footer.plain.html; layout + social SVG icons are
+ * built in footer.js.
+ */
+
 footer {
-  background-color: var(--light-color);
-  font-size: var(--body-font-size-xs);
+  background-color: #202020;
+  color: #ebebeb;
+  margin-top: 48px;
+  padding: 48px 0 24px;
+  font-family: var(--body-font-family);
 }
 
-footer .footer > div {
-  margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
+footer .footer-inner {
+  max-width: var(--content-max-width, 1024px);
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
-footer .footer p {
+/* --- Top row: brand | nav | follow --- */
+footer .footer-top {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 48px;
+  align-items: start;
+  padding-bottom: 32px;
+}
+
+/* --- Brand --- */
+footer .footer-brand p { margin: 0; }
+
+footer .footer-brand img {
+  width: 130px;
+  height: auto;
+}
+
+/* --- Column heading shared by nav + follow --- */
+footer .footer-nav h4,
+footer .footer-follow h4 {
+  margin: 0 0 16px;
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+}
+
+footer .footer-nav h4::after,
+footer .footer-follow h4::after { content: none; }
+
+/* --- Footer nav (stacked column) --- */
+footer .footer-nav ul {
+  list-style: none;
   margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-@media (width >= 900px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
+footer .footer-nav li { margin: 0; }
+
+footer .footer-nav a {
+  color: #cfcfcf;
+  text-decoration: none;
+  font-size: 15px;
+  transition: color 0.2s ease;
+}
+
+footer .footer-nav a:hover { color: var(--accent-color); }
+
+/* --- Follow Us + social --- */
+footer .footer-follow { text-align: left; }
+
+footer .footer-social {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 12px;
+}
+
+footer .footer-social li { margin: 0; }
+
+/* stylelint-disable-next-line no-descending-specificity -- independent component, cannot match the same <a> as .footer-nav a:hover */
+footer .footer-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgb(255 255 255 / 30%);
+  border-radius: 50%;
+  color: #ebebeb;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+footer .footer-social a:hover {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: #202020;
+}
+
+footer .footer-social svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* --- Bottom bar: copyright / attribution --- */
+footer .footer-legal {
+  border-top: 1px solid rgb(255 255 255 / 15%);
+  padding-top: 20px;
+}
+
+footer .footer-legal p {
+  margin: 0 0 8px;
+  color: #9a9a9a;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+footer .footer-legal p:first-child {
+  color: #ebebeb;
+  font-size: 13px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- independent component, cannot match the same <a> as .footer-nav a:hover */
+footer .footer-legal a {
+  color: #cfcfcf;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+footer .footer-legal a:hover { color: var(--accent-color); }
+
+/* ================= Mobile ================= */
+@media (width < 900px) {
+  footer { padding: 32px 0 24px; }
+
+  footer .footer-top {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    text-align: center;
   }
+
+  footer .footer-nav ul { align-items: center; }
+  footer .footer-social { justify-content: center; }
+  footer .footer-legal { text-align: left; }
 }

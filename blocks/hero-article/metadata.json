@@ -1,0 +1,43 @@
+{
+  "variantName": "hero-article",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-08-07T09:10:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en/magazine/arctic-surfing.html",
+    "originPage": "WKND magazine article (magazine-article template)",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "wide",
+    "purpose": "hero",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image",
+    "buttonCount": 0,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "editorial/magazine article lead images",
+      "full-width image-only hero banners at the top of a content page",
+      "long-form article headers where the title/author appear below the image as default content"
+    ],
+    "notSuitableFor": [
+      "promo banners with an overlaid heading, description and CTA (use hero-banner)",
+      "rotating multi-slide hero banners (use carousel-teaser)",
+      "compact inline text banners with no feature image"
+    ]
+  },
+  "distinctFrom": {
+    "hero": "Vanilla local 'hero' is bare boilerplate that only toggles a no-image state class. hero-article keeps that behavior but is styled specifically for a full-width, image-only editorial lead where the article title and author render below the image as default content.",
+    "hero-banner": "hero-banner (colorScheme=accent) renders an overlaid/adjacent text panel with heading + description + a single CTA button for homepage promo banners. hero-article is image-ONLY with no overlaid text or CTA — a lead photograph for magazine articles. Similarity to hero-banner scored ~0.65 (< 0.80 threshold), so a new variant was created rather than reusing hero-banner."
+  },
+  "usage": {
+    "pagesUsing": ["/us/en/magazine/arctic-surfing", "/us/en/faqs"],
+    "reuseCount": 2,
+    "lastUsed": "2026-08-07T12:41:00.000Z"
+  }
+}

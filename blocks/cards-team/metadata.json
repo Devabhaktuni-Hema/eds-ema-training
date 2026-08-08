@@ -1,0 +1,43 @@
+{
+  "variantName": "cards-team",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-08-07T11:38:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en/about-us.html",
+    "originPage": "WKND About Us page (feature-landing template)",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "team",
+    "imagePattern": "icon"
+  },
+  "contentPattern": {
+    "structure": "circular avatar image + name (H3) + role/tags (H5) + social-icon links",
+    "buttonCount": 3,
+    "imageCount": 1,
+    "cardsPerRow": "3-4 (responsive auto-fill)"
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "team / contributor / staff / people grids",
+      "author or guide directories with a photo, name, role and social links",
+      "any repeating people card where the avatar is circular and content is centered"
+    ],
+    "notSuitableFor": [
+      "article / feature / product teaser grids with rectangular cover images and descriptions (use vanilla cards)",
+      "single promotional banners (use a hero variant)",
+      "side-by-side comparison layouts (use columns)"
+    ]
+  },
+  "distinctFrom": {
+    "cards": "Vanilla 'cards' renders bordered rectangular cards with a 4:3 cover image on top and a left-aligned heading + description. cards-team is a borderless people/team treatment: circular avatar (1:1, border-radius 50%), centered name + uppercase role line, and a centered inline row of social-icon links. Same content model (image cell | text cell per card) but a distinct visual purpose, so a new variant was created rather than restyling vanilla cards. The magazine article grid (coverage gap) keeps using vanilla cards."
+  },
+  "usage": {
+    "pagesUsing": ["/us/en/about-us"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-07T11:38:00.000Z"
+  }
+}

@@ -1,0 +1,76 @@
+/*
+ * table-specs — WKND adventure spec sheet
+ * Source: .contentfragment.cmp-contentfragment--elements on wknd.site (a dl of
+ * dt/dd pairs). The EDS block JS renders a <table>; here we restyle that table
+ * to reproduce the stacked spec-sheet look: a faint left accent tick per row,
+ * an uppercase muted label above an uppercase bold value.
+ * All values extracted from source computed styles.
+ */
+
+.table-specs.block {
+  width: 100%;
+  overflow: visible;
+}
+
+.table-specs.block table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 18px 0;
+  color: var(--text-color);
+}
+
+/* Break table layout so each row stacks as a spec pair */
+.table-specs.block thead,
+.table-specs.block tbody {
+  display: block;
+}
+
+/* Each row = one label/value pair with the faint accent tick on the left */
+.table-specs.block tr {
+  display: block;
+  border-left: 5px solid #ebebeb;
+  padding: 0 18px;
+  margin: 0 0 22.5px;
+}
+
+/* Cells stack vertically (label above value) */
+.table-specs.block th,
+.table-specs.block td {
+  display: block;
+  padding: 0;
+  border: 0;
+  text-align: left;
+}
+
+/* Reset the paragraph wrappers EDS adds inside cells */
+.table-specs.block th p,
+.table-specs.block td p {
+  margin: 0;
+}
+
+/* Label — first cell in every row (th in the first row, td after) */
+.table-specs.block tr > :first-child,
+.table-specs.block tr > :first-child p {
+  padding: 12px 0 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  text-transform: uppercase;
+  color: var(--muted-color);
+}
+
+/* The label text is wrapped in <strong>; de-emphasize to match source weight */
+.table-specs.block tr > :first-child strong {
+  font-weight: 400;
+}
+
+/* Value — second cell in every row */
+.table-specs.block tr > :last-child,
+.table-specs.block tr > :last-child p {
+  padding: 7px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 21px;
+  text-transform: uppercase;
+  color: var(--text-color);
+}

@@ -1,0 +1,133 @@
+/*
+ * cards-team — WKND contributor / team card grid.
+ * Values extracted from the source About Us page
+ * (.cmp-experience-fragment--contributor) computed styles.
+ *
+ * Card treatment: circular avatar photo, centered serif name, an uppercase
+ * role line, and a centered row of square social-icon buttons (the source uses
+ * the wknd-icon-font; equivalent inline SVGs are injected by cards-team.js).
+ */
+
+/* Grid — mobile-first. Source AEM Grid: phone 1/row, tablet 2/row, desktop 4/row.
+   Cards butt together (no gap); the per-card padding provides the spacing. */
+.cards-team > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+@media (width >= 600px) {
+  .cards-team > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width >= 900px) {
+  .cards-team > ul {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Borderless team cards — the photo carries the card, not a box. */
+.cards-team > ul > li {
+  border: 0;
+  background-color: transparent;
+  margin: 0;
+  padding: 9px 14px 18px;
+  text-align: center;
+}
+
+/* Circular avatar image. */
+.cards-team .cards-team-card-image {
+  line-height: 0;
+  margin: 0 auto 14px;
+  width: 164px;
+  max-width: 100%;
+}
+
+.cards-team .cards-team-card-image img {
+  width: 164px;
+  height: 164px;
+  max-width: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+}
+
+/* Card body — centered name + role + social icons. */
+.cards-team .cards-team-card-body {
+  margin: 0;
+}
+
+/* Name (h3 in source). */
+.cards-team .cards-team-card-body h3 {
+  margin: 0 0 6px;
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-l, 24px);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-color);
+  text-align: center;
+}
+
+/* Role / tags line (h5 in source; authored as a paragraph). */
+.cards-team .cards-team-card-body .role,
+.cards-team .cards-team-card-body p {
+  margin: 0 0 3.5px;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs, 14px);
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--text-color);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Social icon row — centered, icons touch to form a bar (source gap = 0). */
+.cards-team .cards-team-card-body ul.social-row {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 0;
+}
+
+.cards-team .cards-team-card-body ul.social-row li {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+/* Square dark icon buttons: 48x48, #202020 fill, #ebebeb glyph. */
+.cards-team .cards-team-card-body ul.social-row a:any-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--text-color);
+  color: #ebebeb;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.cards-team .cards-team-card-body ul.social-row a:hover,
+.cards-team .cards-team-card-body ul.social-row a:focus-visible {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.cards-team .cards-team-card-body ul.social-row a svg {
+  width: 20px;
+  height: 20px;
+}

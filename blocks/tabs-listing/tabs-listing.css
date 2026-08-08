@@ -1,0 +1,181 @@
+/*
+ * tabs-listing — WKND adventures listing (filterable card grid).
+ * A horizontal tab bar filters a responsive grid of adventure cards.
+ *
+ * Source: https://wknd.site/us/en/adventures.html
+ *   (.tabs.panelcontainer tab bar + .cmp-image-list card grid per panel)
+ *
+ * All values below are extracted from the source computed styles:
+ *   Tab bar   — <ol> flex-wrap, margin 18px 0; tab = Source Sans Pro 14px/21px,
+ *               weight 400, uppercase, padding 8px 16px; inactive #202020 on
+ *               transparent, active #fff on #202020 fill.
+ *   Card grid — 4 cols desktop / 2 tablet / 1 mobile; row-gap 32px, col-gap 14px.
+ *               Image 260x200 (aspect 13/10, object-fit cover).
+ *               Title  = Source Sans Pro 18px/27px, weight 600, uppercase, #202020.
+ *               Desc   = Source Sans Pro 14px/21px, weight 400, uppercase, #696969,
+ *                        single-line ellipsis, margin-top 16px.
+ *
+ * EDS decorated DOM (targets reflect this, built by tabs-listing.js):
+ *   .tabs-listing.block
+ *     > .tabs-listing-list[role=tablist]
+ *         > button.tabs-listing-tab[role=tab] > p   (label wrapped in <p>)
+ *     > .tabs-listing-panel[role=tabpanel]          (visibility via aria-hidden)
+ *         > .tabs-listing-cards                     (grid)
+ *             > .tabs-listing-card
+ *                 > .tabs-listing-card-image > p > picture > img
+ *                 > .tabs-listing-card-body  > h3 > a  +  p (description)
+ */
+
+/* ---- Tablist (source: <ol> flex-wrap, margin 18px 0, no gap) ---- */
+.tabs-listing .tabs-listing-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 18px 0 27px;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---- Tab button (reset EDS/browser button chrome first) ---- */
+.tabs-listing .tabs-listing-tab {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 8px 16px;
+  background-color: transparent;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 400;
+  line-height: 21px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.tabs-listing .tabs-listing-tab p {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  color: inherit;
+  text-transform: inherit;
+}
+
+.tabs-listing .tabs-listing-tab:hover {
+  background-color: var(--light-color);
+}
+
+/* Active tab: solid dark fill, white text (source: #202020 bg / #fff text). */
+.tabs-listing .tabs-listing-tab[aria-selected='true'] {
+  background-color: var(--text-color);
+  color: var(--background-color);
+  cursor: default;
+}
+
+.tabs-listing .tabs-listing-tab[aria-selected='true']:hover {
+  background-color: var(--text-color);
+}
+
+/* ---- Panel ---- */
+.tabs-listing .tabs-listing-panel {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.tabs-listing .tabs-listing-panel[aria-hidden='true'] {
+  display: none;
+}
+
+/* ---- Adventure-card grid (mobile first: 1 col -> 2 -> 4) ---- */
+.tabs-listing .tabs-listing-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px 14px;
+  margin: 0;
+  padding: 0;
+}
+
+@media (width >= 600px) {
+  .tabs-listing .tabs-listing-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width >= 900px) {
+  .tabs-listing .tabs-listing-cards {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ---- Card ---- */
+.tabs-listing .tabs-listing-card {
+  min-width: 0; /* prevent wide images from blowing out grid tracks */
+  margin: 0;
+  padding: 0;
+}
+
+/* Card image — fixed 13/10 aspect (source 260x200), cover crop. */
+.tabs-listing .tabs-listing-card-image {
+  margin: 0;
+  overflow: hidden;
+}
+
+.tabs-listing .tabs-listing-card-image p {
+  margin: 0;
+}
+
+.tabs-listing .tabs-listing-card-image picture {
+  display: block;
+}
+
+.tabs-listing .tabs-listing-card-image img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 13 / 10;
+  object-fit: cover;
+}
+
+/* ---- Card body ---- */
+.tabs-listing .tabs-listing-card-body {
+  margin: 0;
+}
+
+/* Card title link — uppercase, dark, weight 600, body font. */
+.tabs-listing .tabs-listing-card-body h3 {
+  margin: 2px 0 0;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 27px;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+.tabs-listing .tabs-listing-card-body h3 a {
+  color: inherit;
+  font: inherit;
+  text-transform: inherit;
+  text-decoration: none;
+}
+
+.tabs-listing .tabs-listing-card-body h3 a:hover {
+  text-decoration: underline;
+}
+
+/* Card description — uppercase muted grey, single-line ellipsis. */
+.tabs-listing .tabs-listing-card-body p {
+  margin: 16px 0 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 400;
+  line-height: 21px;
+  text-transform: uppercase;
+  color: var(--muted-color);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

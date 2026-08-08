@@ -7,13 +7,13 @@
   gap: 24px;
 }
 
+/* WKND article cards are borderless — image with text flowing beneath it */
 .cards > ul > li {
-  border: 1px solid #dadada;
-  background-color: var(--background-color);
+  background-color: transparent;
 }
 
 .cards .cards-card-body {
-  margin: 16px;
+  margin: 12px 0 0;
 }
 
 .cards .cards-card-image {
@@ -22,6 +22,32 @@
 
 .cards > ul > li img {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 765 / 535;
   object-fit: cover;
+}
+
+/* Card title: plain-weight Adobe-blue body-font link (not a serif heading) */
+.cards .cards-card-body h3 {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.cards .cards-card-body h3 a:any-link {
+  color: #0045ff;
+}
+
+.cards .cards-card-body h3 a:hover {
+  color: #0045ff;
+  text-decoration: underline;
+}
+
+/* Card description: smaller, muted grey */
+.cards .cards-card-body p {
+  margin: 16px 0 0;
+  font-size: var(--body-font-size-xs);
+  line-height: 1.5;
+  color: #696969;
 }

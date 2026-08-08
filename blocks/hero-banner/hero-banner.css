@@ -1,0 +1,205 @@
+/*
+ * hero-banner — WKND homepage promo banners
+ * Values extracted from https://wknd.site/us/en (cmp-teaser--featured and
+ * cmp-teaser--hero.cmp-teaser--imagebottom computed styles).
+ *
+ * Two variants (set in hero-banner.js):
+ *   .featured — image beside a grey text panel, led by a pretitle
+ *   .banner   — full-bleed image with a white text panel attached below
+ */
+
+/* The banner variant is full-bleed; drop the 1024px section clamp for it.
+   The featured variant stays inside the normal section width. */
+.section.hero-banner-container:has(.hero-banner.banner) > .hero-banner-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+.hero-banner {
+  margin: 0;
+}
+
+/* Neither source teaser title carries the global yellow underline bar. */
+.hero-banner h2::after {
+  content: none;
+  display: none;
+}
+
+/* --- Image row --- */
+.hero-banner .hero-banner-image picture {
+  display: block;
+  line-height: 0;
+}
+
+.hero-banner .hero-banner-image img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* --- Text cell contents (shared) --- */
+.hero-banner .hero-banner-text > div > * {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.hero-banner .hero-banner-text h2 {
+  margin: 18px 0 0;
+  font-family: var(--heading-font-family);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-color);
+}
+
+.hero-banner .hero-banner-text p {
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-weight: 400;
+}
+
+/* Pretitle — small bold eyebrow above the heading (featured only).
+   Selector is p.<class> to outrank the `.hero-banner-text p` rule above. */
+.hero-banner .hero-banner-text p.hero-banner-pretitle {
+  margin: 0 0 13.5px;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 2.5;
+}
+
+/* CTA row sits below the description. */
+.hero-banner .hero-banner-text p:last-child {
+  margin-top: 18px;
+}
+
+/* --- CTA: WKND square yellow button --- */
+.hero-banner .hero-banner-text a:any-link {
+  display: inline-block;
+  padding: 14px 35px;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.hero-banner .hero-banner-text a:hover,
+.hero-banner .hero-banner-text a:focus-visible {
+  background-color: #e6d200; /* darkened WKND yellow */
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* =====================================================================
+   FEATURED variant — grey panel beside image
+   Mobile-first: text panel then image stacked.
+   ===================================================================== */
+
+/* Mobile: source stacks the grey text panel above the image. */
+.hero-banner.featured {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.hero-banner.featured .hero-banner-text > div {
+  display: flex;
+  flex-direction: column;
+  padding: 63px 36px 36px;
+  background-color: #ebebeb;
+}
+
+/* Featured heading carries bottom spacing before the description. */
+.hero-banner.featured .hero-banner-text h2 {
+  margin-bottom: 18px;
+}
+
+.hero-banner.featured .hero-banner-text p:not(.hero-banner-pretitle, :last-child) {
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+/* =====================================================================
+   BANNER variant — full-bleed image + white panel attached below
+   Mobile-first: image on top, text panel below (no overlap on mobile).
+   ===================================================================== */
+.hero-banner.banner .hero-banner-image img {
+  object-position: 50% 100%; /* bottom-anchored crop */
+}
+
+.hero-banner.banner .hero-banner-text > div {
+  padding: 18px 14px;
+}
+
+/* Banner heading sits flush above the description (no gap between them). */
+.hero-banner.banner .hero-banner-text h2 {
+  margin-top: 0;
+}
+
+.hero-banner.banner .hero-banner-text p:not(:last-child) {
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+/* =====================================================================
+   Desktop (>= 900px)
+   ===================================================================== */
+@media (width >= 900px) {
+  /* FEATURED: image left (~62.5%) + grey panel right (~37.5%), equal height */
+  .hero-banner.featured {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .hero-banner.featured .hero-banner-image {
+    flex: 5 1 0;
+    min-width: 0;
+  }
+
+  .hero-banner.featured .hero-banner-image picture,
+  .hero-banner.featured .hero-banner-image img {
+    height: 100%;
+  }
+
+  .hero-banner.featured .hero-banner-image img {
+    object-position: 50% 0%; /* top-anchored crop */
+  }
+
+  .hero-banner.featured .hero-banner-text {
+    flex: 3 1 0;
+    min-width: 0;
+  }
+
+  .hero-banner.featured .hero-banner-text > div {
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  /* BANNER: source crops the feature image to a 2:1 cinematic letterbox
+     (1280x640) at desktop; mobile shows the natural ratio. */
+  .hero-banner.banner .hero-banner-image img {
+    aspect-ratio: 2 / 1;
+    height: auto;
+  }
+
+  /* BANNER: white text panel overlaps the bottom of the image, aligned to
+     the site content grid. */
+  .hero-banner.banner .hero-banner-text > div {
+    position: relative;
+    box-sizing: content-box;
+    max-width: var(--content-max-width, 1024px);
+    margin: -180px auto 0;
+    padding: 18px 28px;
+    background-color: var(--background-color);
+  }
+}
