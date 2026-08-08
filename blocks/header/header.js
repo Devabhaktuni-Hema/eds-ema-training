@@ -3,6 +3,34 @@ import { getMetadata } from '../../scripts/aem.js';
 // Media query that indicates desktop width.
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
+// Compact US flag (matches the source en-US locale indicator: 13 stripes +
+// blue canton). Rendered ~20px wide beside the locale label.
+const FLAG_US = `
+<svg viewBox="0 0 76 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <rect width="76" height="40" fill="#b22234"/>
+  <g fill="#fff">
+    <rect y="3.08" width="76" height="3.08"/>
+    <rect y="9.23" width="76" height="3.08"/>
+    <rect y="15.38" width="76" height="3.08"/>
+    <rect y="21.54" width="76" height="3.08"/>
+    <rect y="27.69" width="76" height="3.08"/>
+    <rect y="33.85" width="76" height="3.08"/>
+  </g>
+  <rect width="30.4" height="21.54" fill="#3c3b6e"/>
+  <g fill="#fff">
+    <circle cx="3" cy="2.6" r="1.1"/><circle cx="9" cy="2.6" r="1.1"/><circle cx="15" cy="2.6" r="1.1"/>
+    <circle cx="21" cy="2.6" r="1.1"/><circle cx="27" cy="2.6" r="1.1"/>
+    <circle cx="6" cy="6.4" r="1.1"/><circle cx="12" cy="6.4" r="1.1"/><circle cx="18" cy="6.4" r="1.1"/>
+    <circle cx="24" cy="6.4" r="1.1"/>
+    <circle cx="3" cy="10.2" r="1.1"/><circle cx="9" cy="10.2" r="1.1"/><circle cx="15" cy="10.2" r="1.1"/>
+    <circle cx="21" cy="10.2" r="1.1"/><circle cx="27" cy="10.2" r="1.1"/>
+    <circle cx="6" cy="14" r="1.1"/><circle cx="12" cy="14" r="1.1"/><circle cx="18" cy="14" r="1.1"/>
+    <circle cx="24" cy="14" r="1.1"/>
+    <circle cx="3" cy="17.8" r="1.1"/><circle cx="9" cy="17.8" r="1.1"/><circle cx="15" cy="17.8" r="1.1"/>
+    <circle cx="21" cy="17.8" r="1.1"/><circle cx="27" cy="17.8" r="1.1"/>
+  </g>
+</svg>`;
+
 /**
  * Collapse the mobile menu / reset the hamburger label.
  * @param {Element} nav
@@ -42,9 +70,16 @@ function buildLocale(localeList) {
   const toggle = document.createElement('button');
   toggle.type = 'button';
   toggle.className = 'nav-locale-toggle';
-  toggle.textContent = current;
   toggle.setAttribute('aria-haspopup', 'true');
   toggle.setAttribute('aria-expanded', 'false');
+  // Flag + locale label (source shows a US flag before "EN-US").
+  const flag = document.createElement('span');
+  flag.className = 'nav-locale-flag';
+  flag.innerHTML = FLAG_US;
+  const label = document.createElement('span');
+  label.className = 'nav-locale-label';
+  label.textContent = current;
+  toggle.append(flag, label);
 
   localeList.className = 'nav-locale-list';
 
@@ -60,52 +95,26 @@ function buildLocale(localeList) {
 }
 
 /**
- * Build the search widget: a magnifying-glass icon button that expands to
- * reveal the input on click (collapses when it loses focus / on Escape).
- * The form control is created here (not in the plain fragment) per the nav
- * content contract.
+ * Build the search widget: an always-visible light-grey box with a leading
+ * magnifying-glass icon and a "SEARCH" placeholder input (matches the WKND
+ * source). The form control is created here (not in the plain fragment) per
+ * the nav content contract.
  * @returns {Element}
  */
 function buildSearch() {
   const search = document.createElement('div');
   search.className = 'nav-search';
-  search.setAttribute('aria-expanded', 'false');
 
-  const toggle = document.createElement('button');
-  toggle.type = 'button';
-  toggle.className = 'nav-search-toggle';
-  toggle.setAttribute('aria-label', 'Search');
-  toggle.innerHTML = '<span class="nav-search-icon"></span>';
+  const icon = document.createElement('span');
+  icon.className = 'nav-search-icon';
+  icon.setAttribute('aria-hidden', 'true');
 
   const input = document.createElement('input');
   input.type = 'search';
   input.placeholder = 'Search';
   input.setAttribute('aria-label', 'Search');
 
-  const open = () => {
-    search.setAttribute('aria-expanded', 'true');
-    toggle.setAttribute('aria-expanded', 'true');
-    input.focus();
-  };
-  const close = () => {
-    search.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute('aria-expanded', 'false');
-  };
-
-  toggle.addEventListener('click', (e) => {
-    e.stopPropagation();
-    if (search.getAttribute('aria-expanded') === 'true') close();
-    else open();
-  });
-  // Keep open while interacting with the input; collapse when empty and blurred.
-  input.addEventListener('blur', () => {
-    if (!input.value) close();
-  });
-  input.addEventListener('keydown', (e) => {
-    if (e.code === 'Escape') { close(); toggle.focus(); }
-  });
-
-  search.append(toggle, input);
+  search.append(icon, input);
   return search;
 }
 
