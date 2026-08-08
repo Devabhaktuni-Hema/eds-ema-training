@@ -161,7 +161,7 @@ header nav .nav-tools {
 
 header nav .nav-sections ul {
   display: flex;
-  gap: 30px;
+  gap: 0;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -177,13 +177,15 @@ header nav .nav-sections a {
   font-size: 14px;
   font-weight: 400;
   letter-spacing: 0.03em;
-  padding: 6px 0;
+  padding: 15px 17px;
   display: inline-block;
-  border-bottom: 2px solid transparent;
+  transition: background-color 0.2s ease;
 }
 
+/* Hover: solid yellow fill box with dark text (matches WKND source). */
 header nav .nav-sections a:hover {
-  border-bottom-color: var(--accent-color);
+  background-color: var(--accent-color);
+  color: var(--text-color);
 }
 
 /* --- Search: always-visible light-grey box (magnifier + input) --- */
@@ -192,9 +194,13 @@ header nav .nav-search {
   align-items: center;
   gap: 8px;
   background: rgb(235 235 235 / 54%);
+
+  /* transparent border at rest so the focus border doesn't shift layout */
+  border: 1px solid transparent;
   padding: 0 16px;
   height: 42px;
   min-width: 194px;
+  box-sizing: border-box;
 }
 
 /* Magnifying-glass drawn in CSS (circle + handle) */
@@ -253,9 +259,10 @@ header nav .nav-search input:focus {
   outline: none;
 }
 
+/* On focus/click the box gains a dark border and white fill (WKND source). */
 header nav .nav-search:focus-within {
-  outline: 2px solid var(--accent-color);
-  outline-offset: -2px;
+  border: 1px solid var(--text-color);
+  background: #fff;
 }
 
 /* --- Hamburger (mobile only, hidden on desktop) --- */
