@@ -27,13 +27,22 @@ function socialKey(a) {
  * @param {Element} block The footer block element
  */
 export default async function decorate(block) {
+  // Resolve footer content path. `aem up` serves it at /content/footer.plain.html;
+  // DA/EDS serves it at ${footerMeta || '/footer'}.plain.html. Try the
+  // environment's expected path first so neither logs a 404 on the happy path.
   const footerMeta = getMetadata('footer');
-  let resp = await fetch('/content/footer.plain.html');
-  if (!resp.ok) {
-    const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
-    resp = await fetch(`${footerPath}.plain.html`);
+  const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
+  const isLocal = window.location.hostname === 'localhost';
+  const candidates = isLocal
+    ? ['/content/footer.plain.html', `${footerPath}.plain.html`]
+    : [`${footerPath}.plain.html`, '/content/footer.plain.html'];
+  let resp;
+  for (let i = 0; i < candidates.length; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    resp = await fetch(candidates[i]);
+    if (resp.ok) break;
   }
-  if (!resp.ok) return;
+  if (!resp || !resp.ok) return;
 
   const html = await resp.text();
   const fragment = document.createElement('div');

@@ -114,15 +114,23 @@ function buildSearch() {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
-  // Resolve nav content path: localhost/aem up serves /content/nav.plain.html;
-  // DA/EDS serves ${navMeta}.plain.html.
+  // Resolve nav content path. `aem up` serves the local content folder at
+  // /content/nav.plain.html; DA/EDS serves it at ${navMeta || '/nav'}.plain.html.
+  // Try the environment's expected path first so neither logs a 404 on the
+  // happy path, then fall back to the other.
   const navMeta = getMetadata('nav');
-  let resp = await fetch('/content/nav.plain.html');
-  if (!resp.ok) {
-    const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
-    resp = await fetch(`${navPath}.plain.html`);
+  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
+  const isLocal = window.location.hostname === 'localhost';
+  const candidates = isLocal
+    ? ['/content/nav.plain.html', `${navPath}.plain.html`]
+    : [`${navPath}.plain.html`, '/content/nav.plain.html'];
+  let resp;
+  for (let i = 0; i < candidates.length; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    resp = await fetch(candidates[i]);
+    if (resp.ok) break;
   }
-  if (!resp.ok) return;
+  if (!resp || !resp.ok) return;
 
   const html = await resp.text();
   const fragment = document.createElement('div');
