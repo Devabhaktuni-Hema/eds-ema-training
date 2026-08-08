@@ -98,20 +98,26 @@ header nav .nav-locale-toggle::after {
   transform: rotate(45deg);
   margin-left: 2px;
   margin-top: -3px;
+  transition: transform 0.2s ease;
 }
 
+/* Caret points up while the dropdown is open (matches source ∧). */
+header nav .nav-locale[aria-expanded='true'] .nav-locale-toggle::after {
+  transform: rotate(-135deg);
+  margin-top: 3px;
+}
+
+/* Dropdown panel: dark, country-grouped (matches WKND source). */
 header nav .nav-locale-list {
   display: none;
   position: absolute;
-  top: 100%;
+  top: calc(100% + 12px);
   right: 0;
-  min-width: 90px;
-  margin: 4px 0 0;
-  padding: 8px 0;
-  list-style: none;
-  background: #fff;
-  border: 1px solid #ebebeb;
-  box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
+  width: 270px;
+  margin: 0;
+  padding: 0;
+  background: #202020;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 30%);
   z-index: 10;
 }
 
@@ -119,19 +125,69 @@ header nav .nav-locale[aria-expanded='true'] .nav-locale-list {
   display: block;
 }
 
-header nav .nav-locale-list li { margin: 0; }
-
-header nav .nav-locale-list a {
-  display: block;
-  padding: 6px 16px;
-  color: var(--text-color);
-  text-decoration: none;
-  text-transform: uppercase;
-  font-size: 13px;
+/* One country row: flag + (name over locale codes), divider between rows. */
+header nav .nav-locale-country {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgb(255 255 255 / 12%);
 }
 
-header nav .nav-locale-list a:hover {
-  background: var(--light-color);
+header nav .nav-locale-country:last-child { border-bottom: none; }
+
+header nav .nav-locale-country-flag {
+  display: inline-flex;
+  width: 34px;
+  height: 22px;
+  flex: 0 0 auto;
+}
+
+header nav .nav-locale-country-flag svg {
+  width: 100%;
+  height: 100%;
+  border-radius: 1px;
+}
+
+header nav .nav-locale-country-name {
+  display: block;
+  color: #b8b8b8;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+/* Locale codes on one line, separated by thin vertical dividers. */
+header nav .nav-locale-codes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+header nav .nav-locale-codes a {
+  color: #f7f7f7;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 0 10px;
+  border-left: 1px solid rgb(255 255 255 / 25%);
+  line-height: 1.2;
+}
+
+header nav .nav-locale-codes a:first-child {
+  padding-left: 0;
+  border-left: none;
+}
+
+header nav .nav-locale-codes a:hover {
+  text-decoration: underline;
+}
+
+/* Current locale is underlined (matches source). */
+header nav .nav-locale-codes a[aria-current='true'] {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* --- Brand / logo --- */

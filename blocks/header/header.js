@@ -31,6 +31,50 @@ const FLAG_US = `
   </g>
 </svg>`;
 
+// Simple flags for the other locale countries (viewBox 0 0 3 2), rendered in
+// the language dropdown next to each country group.
+const FLAG_CA = '<svg viewBox="0 0 6 3" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="6" height="3" fill="#fff"/><rect width="1.5" height="3" fill="#d52b1e"/><rect x="4.5" width="1.5" height="3" fill="#d52b1e"/><path fill="#d52b1e" d="M3 1.15l.12.28.3-.06-.14.27.24.19-.3.06.02.3-.24-.18-.24.18.02-.3-.3-.06.24-.19-.14-.27.3.06z"/></svg>';
+const FLAG_CH = '<svg viewBox="0 0 3 3" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="3" height="3" fill="#d52b1e"/><rect x="1.25" y="0.6" width="0.5" height="1.8" fill="#fff"/><rect x="0.6" y="1.25" width="1.8" height="0.5" fill="#fff"/></svg>';
+const FLAG_DE = '<svg viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="3" height="2" y="0" fill="#000"/><rect width="3" height="1.333" y="0.667" fill="#d00"/><rect width="3" height="0.667" y="1.333" fill="#ffce00"/></svg>';
+const FLAG_FR = '<svg viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="1" height="2" x="0" fill="#002395"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ed2939"/></svg>';
+const FLAG_ES = '<svg viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="3" height="2" fill="#c60b1e"/><rect width="3" height="1" y="0.5" fill="#ffc400"/></svg>';
+const FLAG_IT = '<svg viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="1" height="2" x="0" fill="#009246"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce2b37"/></svg>';
+
+// Map a URL country segment (/us/…, /ca/…) to its display name + flag SVG.
+const COUNTRIES = {
+  us: { name: 'United States', flag: FLAG_US },
+  ca: { name: 'Canada', flag: FLAG_CA },
+  ch: { name: 'Switzerland', flag: FLAG_CH },
+  de: { name: 'Germany', flag: FLAG_DE },
+  fr: { name: 'France', flag: FLAG_FR },
+  es: { name: 'Spain', flag: FLAG_ES },
+  it: { name: 'Italy', flag: FLAG_IT },
+};
+
+/**
+ * Group flat locale links by their URL country segment, preserving first-seen
+ * order. Returns [{ code, name, flag, locales: [{label, href}] }].
+ * @param {HTMLAnchorElement[]} links
+ */
+function groupLocalesByCountry(links) {
+  const groups = [];
+  const byCode = new Map();
+  links.forEach((a) => {
+    const code = (new URL(a.href, window.location).pathname.split('/').filter(Boolean)[0] || '').toLowerCase();
+    const meta = COUNTRIES[code] || { name: code.toUpperCase(), flag: '' };
+    let group = byCode.get(code);
+    if (!group) {
+      group = {
+        code, name: meta.name, flag: meta.flag, locales: [],
+      };
+      byCode.set(code, group);
+      groups.push(group);
+    }
+    group.locales.push({ label: a.textContent.trim(), href: a.getAttribute('href') });
+  });
+  return groups;
+}
+
 /**
  * Collapse the mobile menu / reset the hamburger label.
  * @param {Element} nav
@@ -66,22 +110,55 @@ function buildLocale(localeList) {
 
   const links = [...localeList.querySelectorAll('a')];
   const current = links[0] ? links[0].textContent.trim() : 'en-US';
+  const currentCountry = COUNTRIES[
+    (new URL(links[0]?.href || '/us/en', window.location).pathname.split('/').filter(Boolean)[0] || 'us').toLowerCase()
+  ] || COUNTRIES.us;
 
+  // --- Toggle: current country's flag + locale label + caret ---
   const toggle = document.createElement('button');
   toggle.type = 'button';
   toggle.className = 'nav-locale-toggle';
   toggle.setAttribute('aria-haspopup', 'true');
   toggle.setAttribute('aria-expanded', 'false');
-  // Flag + locale label (source shows a US flag before "EN-US").
   const flag = document.createElement('span');
   flag.className = 'nav-locale-flag';
-  flag.innerHTML = FLAG_US;
+  flag.innerHTML = currentCountry.flag;
   const label = document.createElement('span');
   label.className = 'nav-locale-label';
   label.textContent = current;
   toggle.append(flag, label);
 
-  localeList.className = 'nav-locale-list';
+  // --- Dropdown: country groups (flag + name + locale codes) ---
+  const panel = document.createElement('div');
+  panel.className = 'nav-locale-list';
+  groupLocalesByCountry(links).forEach((group) => {
+    const row = document.createElement('div');
+    row.className = 'nav-locale-country';
+
+    const groupFlag = document.createElement('span');
+    groupFlag.className = 'nav-locale-country-flag';
+    groupFlag.innerHTML = group.flag;
+
+    const body = document.createElement('div');
+    body.className = 'nav-locale-country-body';
+    const name = document.createElement('span');
+    name.className = 'nav-locale-country-name';
+    name.textContent = group.name;
+
+    const codes = document.createElement('div');
+    codes.className = 'nav-locale-codes';
+    group.locales.forEach((loc) => {
+      const a = document.createElement('a');
+      a.href = loc.href;
+      a.textContent = loc.label;
+      if (loc.label === current) a.setAttribute('aria-current', 'true');
+      codes.append(a);
+    });
+
+    body.append(name, codes);
+    row.append(groupFlag, body);
+    panel.append(row);
+  });
 
   toggle.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -90,7 +167,7 @@ function buildLocale(localeList) {
     toggle.setAttribute('aria-expanded', open ? 'false' : 'true');
   });
 
-  wrapper.append(toggle, localeList);
+  wrapper.append(toggle, panel);
   return wrapper;
 }
 
