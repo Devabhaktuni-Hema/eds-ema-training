@@ -430,3 +430,32 @@ main > .section.table-specs-container.tabs-detail-container h5 {
   text-transform: uppercase;
   margin: 0;
 }
+
+/*
+ * Magazine-article body (matches wknd.site magazine articles). The article
+ * H1/byline/paragraphs render as default content inside the section that also
+ * holds the quote-pull block (.quote-pull-container is unique to this
+ * template). Constrain the reading column, style the byline as a compact
+ * uppercase label, and give body paragraphs the WKND airy justified leading.
+ */
+main > .section.quote-pull-container > div {
+  max-width: 776px; /* source article measure */
+}
+
+/* Byline "By Jacob Wester" — source: 16px Source Sans, 600, uppercase
+   (imported as an h4, which would otherwise be Asar 20px). */
+main > .section.quote-pull-container .default-content-wrapper h4 {
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 1.35;
+  margin: 0 0 0.8em;
+}
+
+/* Body paragraphs — source uses the WKND text component's airy 45px leading,
+   justified. */
+main > .section.quote-pull-container .default-content-wrapper p {
+  line-height: 45px;
+  text-align: justify;
+}
