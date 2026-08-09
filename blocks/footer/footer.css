@@ -9,7 +9,7 @@ footer {
   background-color: #202020;
   color: #ebebeb;
   margin-top: 48px;
-  padding: 24px 0;
+  padding: 16px 0 24px; /* source footer: 16px top / 24px bottom */
   font-family: var(--body-font-family);
 }
 
@@ -32,7 +32,7 @@ footer .footer-top {
 footer .footer-brand p { margin: 0; }
 
 footer .footer-brand img {
-  width: 130px;
+  width: 128px; /* matches source footer logo (and the header logo) */
   height: auto;
 }
 
