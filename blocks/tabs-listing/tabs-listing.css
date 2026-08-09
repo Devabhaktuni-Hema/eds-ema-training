@@ -144,19 +144,19 @@
   margin: 0;
 }
 
-/* Card title link — uppercase, dark, weight 600, body font. */
+/* Card title link — Adobe-blue plain-weight link, normal-case (matches the
+   WKND source and the homepage cards). */
 .tabs-listing .tabs-listing-card-body h3 {
   margin: 2px 0 0;
   font-family: var(--body-font-family);
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 27px;
-  text-transform: uppercase;
-  color: var(--text-color);
+  text-transform: none;
 }
 
 .tabs-listing .tabs-listing-card-body h3 a {
-  color: inherit;
+  color: #0045ff;
   font: inherit;
   text-transform: inherit;
   text-decoration: none;

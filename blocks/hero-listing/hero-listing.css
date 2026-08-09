@@ -104,8 +104,8 @@
  */
 @media (width >= 900px) {
   .hero-listing .hero-listing-image img {
-    aspect-ratio: 9 / 4; /* source display crop 1440x640 = 2.25:1 */
-    height: auto;
+    height: 640px; /* source uses a fixed 640px intro image at desktop widths */
+    aspect-ratio: auto;
   }
 
   .hero-listing .hero-listing-text {
