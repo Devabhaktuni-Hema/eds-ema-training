@@ -84,27 +84,28 @@ footer .footer-social {
   margin: 0;
   padding: 0;
   display: flex;
-  gap: 12px;
+  gap: 0; /* source icon buttons butt together */
 }
 
 footer .footer-social li { margin: 0; }
 
+/* Source social buttons: 48x48 solid light square with a dark glyph. */
 /* stylelint-disable-next-line no-descending-specificity -- independent component, cannot match the same <a> as .footer-nav a:hover */
 footer .footer-social a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border: 1px solid rgb(255 255 255 / 30%);
-  border-radius: 50%;
-  color: #ebebeb;
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 0;
+  background-color: #ebebeb;
+  color: #202020;
+  transition: color 0.2s ease, background-color 0.2s ease;
 }
 
 footer .footer-social a:hover {
   background-color: var(--accent-color);
-  border-color: var(--accent-color);
   color: #202020;
 }
 
