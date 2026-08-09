@@ -288,6 +288,42 @@ button.button.accent:disabled:focus-visible {
   color: var(--dark-color);
 }
 
+/*
+ * WKND section CTAs. On wknd.site, a standalone call-to-action link in default
+ * content (e.g. "All Articles", "All Trips") is authored with the Core
+ * Components button and renders as a solid yellow block with dark uppercase
+ * text. The import emits these as a bare <p><a> (no <strong>/<em>), so the
+ * boilerplate's decorateButtons() leaves them as plain links. Style any
+ * default-content paragraph whose only child is a link to match the source
+ * button — scoped to main default content so block links and inline links
+ * (where the <p> holds more than the anchor) are untouched.
+ */
+main .default-content-wrapper p:has(> a:only-child) {
+  margin: 12px 0;
+  line-height: 0;
+}
+
+main .default-content-wrapper p:has(> a:only-child) > a:only-child {
+  display: inline-block;
+  padding: 14px 35px;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 600;
+  line-height: 21px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+main .default-content-wrapper p:has(> a:only-child) > a:only-child:hover,
+main .default-content-wrapper p:has(> a:only-child) > a:only-child:focus-visible {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  text-decoration: none;
+  opacity: 0.85;
+}
+
 main img {
   max-width: 100%;
   width: auto;
@@ -311,6 +347,7 @@ main > .section {
 }
 
 main > .section > div {
+  box-sizing: border-box; /* padding sits inside max-width → content edge at the 152 gutter */
   max-width: var(--content-max-width, 1024px);
   margin: auto;
   padding: 0 24px;
@@ -362,12 +399,14 @@ main > .section:first-child .default-content-wrapper > ol li + li::before {
   font-size: 12px;
 }
 
+/* stylelint-disable-next-line no-descending-specificity -- independent component; the section-CTA "p > a" rule above targets a different, non-overlapping selector */
 main > .section:first-child .default-content-wrapper > ol a {
   color: var(--text-color);
   font-weight: 600;
   text-decoration: none;
 }
 
+/* stylelint-disable-next-line no-descending-specificity -- independent component; the section-CTA "p > a" rule above targets a different, non-overlapping selector */
 main > .section:first-child .default-content-wrapper > ol a:hover {
   text-decoration: underline;
 }
@@ -384,6 +423,7 @@ main > .section:first-child .default-content-wrapper > ol a:hover {
  */
 @media (width >= 900px) {
   main > .section.table-specs-container.tabs-detail-container {
+    box-sizing: border-box; /* padding inside max-width → grid aligns to the 152 gutter */
     max-width: var(--content-max-width, 1024px);
     margin: 40px auto;
     padding: 0 32px;
@@ -456,7 +496,10 @@ main > .section.cards-team-container .default-content-wrapper p em {
  * uppercase label, and give body paragraphs the WKND airy justified leading.
  */
 main > .section.quote-pull-container > div {
-  max-width: 776px; /* source article measure */
+  /* Source article text measure is 776px. The base rule adds box-sizing:
+     border-box + 0 32px padding, so add the 64px back to keep the *text* at
+     776 (not 712). */
+  max-width: 840px;
 }
 
 /* Byline "By Jacob Wester" — source: 16px Source Sans, 600, uppercase

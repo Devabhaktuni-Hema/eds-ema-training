@@ -210,7 +210,9 @@
   }
 
   .carousel-teaser .carousel-teaser-slide-content {
-    margin: -180px 44px 0;
+    box-sizing: border-box;
+    max-width: 1192px; /* 1136 content + 2×28 padding → text aligns to the 152 gutter */
+    margin: -180px auto 0;
     padding: 18px 28px;
     min-height: 180px;
   }

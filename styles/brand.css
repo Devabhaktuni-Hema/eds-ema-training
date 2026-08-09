@@ -21,7 +21,11 @@
 
   /* Spacing / layout */
   --section-padding: 10px;
-  --content-max-width: 1024px;
+
+  /* Content region: 1200 max-width + 32px section padding centers to a 152px
+     gutter at 1440 (text flush at 152, width 1136) — matching the WKND source
+     and the header/footer/hero, which all align to the same 152/1288 edges. */
+  --content-max-width: 1200px;
   --nav-height: 64px;
 
   /* Heading sizes (desktop) */
