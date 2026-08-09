@@ -432,6 +432,23 @@ main > .section.table-specs-container.tabs-detail-container h5 {
 }
 
 /*
+ * Feature-landing (About Us) group intros. The two intro blurbs ("Meet the
+ * outstanding individuals…", "Meet our extraordinary travel guides…") are
+ * authored with <em>, so they'd render italic 18px; the source renders them
+ * upright 14px justified. Scoped to the section's default content so the
+ * card role/name text (inside .cards-team-card-body) is untouched.
+ */
+main > .section.cards-team-container .default-content-wrapper p {
+  font-size: var(--body-font-size-xs); /* 14px */
+  line-height: 35px;
+  text-align: justify;
+}
+
+main > .section.cards-team-container .default-content-wrapper p em {
+  font-style: normal; /* source group intros are upright, not italic */
+}
+
+/*
  * Magazine-article body (matches wknd.site magazine articles). The article
  * H1/byline/paragraphs render as default content inside the section that also
  * holds the quote-pull block (.quote-pull-container is unique to this
