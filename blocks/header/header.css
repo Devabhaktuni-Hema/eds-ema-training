@@ -21,7 +21,7 @@ header nav {
   gap: 0;
   max-width: 1200px;
   margin: auto;
-  padding: 0 24px;
+  padding: 0 32px; /* content edge ~152px at 1440, matching the source gutter */
   font-family: var(--body-font-family);
 }
 
@@ -42,7 +42,7 @@ header .nav-utility {
   gap: 24px;
   max-width: 1200px;
   margin: auto;
-  padding: 3px 24px;
+  padding: 3px 32px; /* align with the header row's ~152px content edge */
   font-size: 14px;
 }
 
