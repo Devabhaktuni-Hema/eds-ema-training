@@ -335,6 +335,44 @@ main .section.highlight {
 }
 
 /*
+ * Adventure-detail breadcrumb. The import emits the trail as a plain <ol> in
+ * the page's first section (not the breadcrumbs-article block), so style that
+ * leading list to match the source: a horizontal uppercase trail with a yellow
+ * "▸" separator between items. Scoped to a first-section <ol> so it can't hit
+ * ordered lists in article body content.
+ */
+main > .section:first-child .default-content-wrapper > ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--body-font-size-xs); /* 14px */
+  line-height: 21px;
+  text-transform: uppercase;
+}
+
+main > .section:first-child .default-content-wrapper > ol li {
+  display: inline-flex;
+  align-items: center;
+}
+
+main > .section:first-child .default-content-wrapper > ol li + li::before {
+  content: "\25B6\FE0E"; /* solid ▸ triangle, matches magazine breadcrumb */
+  margin: 0 8px;
+  color: var(--accent-color);
+  font-size: 12px;
+}
+
+main > .section:first-child .default-content-wrapper > ol a {
+  color: var(--text-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+main > .section:first-child .default-content-wrapper > ol a:hover {
+  text-decoration: underline;
+}
+
+/*
  * Adventure-detail 2-column body (matches wknd.site adventure pages).
  * The import emits one section per page whose direct children are, in order:
  *   1. default-content-wrapper  → page H1
@@ -381,4 +419,14 @@ main .section.highlight {
   main > .section.table-specs-container.tabs-detail-container > .tabs-detail-wrapper {
     grid-area: tabs;
   }
+}
+
+/* "Share this Adventure" heading — source renders it 14px uppercase 600
+   (not the default h5 size). Scoped to the adventure-detail section. */
+main > .section.table-specs-container.tabs-detail-container h5 {
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 600;
+  text-transform: uppercase;
+  margin: 0;
 }
