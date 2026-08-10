@@ -346,6 +346,20 @@ main .default-content-wrapper p:has(> a:only-child) > a:only-child:focus-visible
   opacity: 0.85;
 }
 
+/*
+ * Section separator before a follow-on heading. On wknd.site a thin light
+ * rule sits between a section's CTA ("All Articles") and the next section
+ * heading ("Next Adventures"). The import merges them into one default-content
+ * block with no <hr>, so draw the rule as a top border on a heading that
+ * directly follows the CTA paragraph, with the source's generous spacing
+ * (~64px above the line, ~90px below to the heading text).
+ */
+main .default-content-wrapper p:has(> a:only-child) + h2 {
+  margin-top: 64px;
+  padding-top: 90px;
+  border-top: 1px solid #ebebeb;
+}
+
 main img {
   max-width: 100%;
   width: auto;
