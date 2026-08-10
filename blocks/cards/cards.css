@@ -4,7 +4,7 @@
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
-  gap: 24px;
+  gap: 14px; /* source card gutter (~14px between the 4 article cards) */
 }
 
 /* WKND article cards are borderless — image with text flowing beneath it */
@@ -22,7 +22,7 @@
 
 .cards > ul > li img {
   width: 100%;
-  aspect-ratio: 765 / 535;
+  aspect-ratio: 13 / 10; /* source article thumbnails render ~260x200 */
   object-fit: cover;
 }
 
