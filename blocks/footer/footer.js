@@ -98,7 +98,18 @@ export default async function decorate(block) {
   // --- Legal / copyright (bottom bar) ---
   const legal = document.createElement('div');
   legal.className = 'footer-legal';
-  if (legalSection) legal.append(...legalSection.childNodes);
+  if (legalSection) {
+    // The source authors the copyright as U+24B8 "Ⓒ" (CIRCLED LATIN CAPITAL
+    // LETTER C), which body fonts like Source Sans Pro don't include — it
+    // renders as a missing-glyph box. Normalise it to the standard copyright
+    // sign U+00A9 "©", which is visually identical and universally supported.
+    legalSection.querySelectorAll('p').forEach((p) => {
+      if (p.textContent.includes('Ⓒ')) {
+        p.textContent = p.textContent.replace(/Ⓒ/g, '©');
+      }
+    });
+    legal.append(...legalSection.childNodes);
+  }
 
   footer.append(top, legal);
   block.append(footer);
