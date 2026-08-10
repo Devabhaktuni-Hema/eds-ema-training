@@ -249,6 +249,7 @@ header nav .nav-sections a:hover {
 
 /* --- Search: always-visible light-grey box (magnifier + input) --- */
 header nav .nav-search {
+  position: relative; /* anchors the typeahead dropdown */
   display: flex;
   align-items: center;
   gap: 8px;
@@ -298,6 +299,64 @@ header nav .nav-search-icon::after {
   background: currentcolor;
   transform: rotate(45deg);
   transform-origin: right center;
+}
+
+/* While the index loads, the magnifier is replaced by a spinning ring
+   (matches the source's loading indicator). */
+header nav .nav-search.nav-search-loading .nav-search-icon::before {
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentcolor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: nav-search-spin 0.7s linear infinite;
+}
+
+header nav .nav-search.nav-search-loading .nav-search-icon::after {
+  display: none;
+}
+
+@keyframes nav-search-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* --- Typeahead dropdown: dark panel under the search box (WKND source) --- */
+header nav .nav-search-results {
+  display: none;
+  position: absolute;
+  top: calc(100% + 1px);
+  right: -1px; /* align to the box's outer (bordered) right edge */
+  left: -1px;
+  z-index: 10;
+  margin: 0;
+  padding: 0;
+  background: #202020;
+  border: 1px solid #ccc;
+  box-shadow: 0 5px 10px rgb(0 0 0 / 25%);
+}
+
+header nav .nav-search.nav-search-open .nav-search-results {
+  display: block;
+}
+
+header nav .nav-search-item {
+  display: block;
+  padding: 15px 17px;
+  color: #ebebeb;
+  font-size: 14px;
+  line-height: 21px;
+  text-decoration: none;
+}
+
+header nav .nav-search-item:hover,
+header nav .nav-search-item[aria-selected='true'] {
+  background: rgb(255 255 255 / 8%);
+}
+
+/* Matched substring — light chip with dark text (source .cmp-search__item-mark). */
+header nav .nav-search-item-mark {
+  background: #f7f7f7;
+  color: #202020;
 }
 
 header nav .nav-search input {
