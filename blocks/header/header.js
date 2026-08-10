@@ -313,4 +313,25 @@ export default async function decorate(block) {
   navWrapper.className = 'nav-wrapper';
   navWrapper.append(utilityBar, nav);
   block.append(navWrapper);
+
+  // Shrink-on-scroll: the source collapses the fixed header (~194px → ~114px)
+  // once the page is scrolled a little, and expands it again at the top.
+  // Toggle a class on the <header> past a small threshold (source: ~16-20px);
+  // the CSS animates the height/padding change.
+  const headerEl = block.closest('header') || document.querySelector('header');
+  if (headerEl) {
+    const SHRINK_AT = 16;
+    let ticking = false;
+    const updateScrolled = () => {
+      headerEl.classList.toggle('nav-scrolled', window.scrollY > SHRINK_AT);
+      ticking = false;
+    };
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(updateScrolled);
+      }
+    }, { passive: true });
+    updateScrolled();
+  }
 }

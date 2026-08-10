@@ -198,6 +198,7 @@ header nav .nav-brand {
   display: flex;
   align-items: center;
   padding: 12px 0;
+  transition: padding 0.2s ease;
 }
 
 /* stylelint-disable-next-line no-descending-specificity -- independent component, cannot match the same <a> as .nav-locale-list a:hover */
@@ -328,6 +329,17 @@ header nav .nav-hamburger { display: none; }
      ~194px airy header of the source. Mobile stays compact. */
   header nav .nav-brand {
     padding: 52px 0;
+  }
+
+  /* Shrink-on-scroll (source: ~194px → ~114px). Drop the reserved header
+     height and the brand row's vertical padding so the fixed bar collapses
+     smoothly once the page is scrolled. */
+  header.nav-scrolled {
+    --nav-height: 119px;
+  }
+
+  header.nav-scrolled nav .nav-brand {
+    padding: 12px 0;
   }
 }
 

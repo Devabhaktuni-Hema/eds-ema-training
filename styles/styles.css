@@ -79,12 +79,21 @@ body.appear {
 }
 
 /* Header stays pinned to the top while the page scrolls (matches WKND).
-   The reserved height keeps it in normal flow so there's no layout shift. */
+   The reserved height keeps it in normal flow so there's no layout shift.
+   On scroll it collapses (see header.js → .nav-scrolled), so animate height. */
 header {
   height: var(--nav-height);
   position: sticky;
   top: 0;
   z-index: 20;
+  transition: height 0.2s ease;
+}
+
+/* Shrunk state: the source drops the header from ~194px to ~114px once
+   scrolled. Mobile has no tall padding to shed, so it only shrinks on desktop
+   (the --nav-height override + reduced brand padding live in the desktop MQ). */
+header.nav-scrolled {
+  height: var(--nav-height);
 }
 
 header .header,
