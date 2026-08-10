@@ -574,21 +574,43 @@ main > .section.quote-pull-container .default-content-wrapper p {
 }
 
 /*
- * FAQ template (matches wknd.site/us/en/faqs). The source constrains the whole
- * FAQ column — lead image, intro, accordion, "Need more help?" — to a ~776px
- * reading measure (not the full 1136 content gutter). The imported page puts
- * all of it in one section (.hero-article-container.accordion-faq-container),
- * so narrow that section's wrappers and give the intro the WKND airy leading.
+ * FAQ template (matches wknd.site/us/en/faqs). The source lays the page out in
+ * two columns: a ~748px left column (FAQs heading, lead image, intro,
+ * accordion) and a ~291px right sidebar ("Need more help?" + contact),
+ * top-aligned, with a ~111px gutter. The import emits one section whose
+ * children are, in order: FAQs H1 (default-content), lead image
+ * (hero-article), intro (default-content), accordion, and the Need-more-help
+ * default-content block. On desktop, grid the section into those two columns
+ * and drop the trailing block into the right column at the top row. Mobile
+ * stays single-column stacked.
  */
-main > .section.hero-article-container.accordion-faq-container > div {
-  max-width: 840px; /* border-box + 0 32px padding → ~776px text measure */
-}
+@media (width >= 900px) {
+  main > .section.hero-article-container.accordion-faq-container {
+    box-sizing: border-box;
+    max-width: var(--content-max-width, 1024px);
+    margin: 40px auto;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: 748fr 291fr; /* left content · right sidebar */
+    column-gap: 111px;
+    align-items: start;
+  }
 
-/* The hero-article wrapper cancels its side padding (for a full-column lead
-   image elsewhere), so on the FAQ template pull it to the 776px text measure
-   so the lead image aligns to the same edges as the intro/accordion. */
-main > .section.hero-article-container.accordion-faq-container > .hero-article-wrapper {
-  max-width: 776px;
+  /* Neutralise the base per-wrapper centering/padding now that the section is
+     the grid. Left-column items (all but the last) stack in column 1. */
+  main > .section.hero-article-container.accordion-faq-container > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    grid-column: 1;
+  }
+
+  /* The trailing default-content block ("Need more help?") is the right
+     sidebar: column 2, starting at the first row so it top-aligns with FAQs. */
+  main > .section.hero-article-container.accordion-faq-container > div:last-child {
+    grid-column: 2;
+    grid-row: 1 / 100;
+  }
 }
 
 /* Intro paragraph — source: 18px, 45px airy leading, justified. */
