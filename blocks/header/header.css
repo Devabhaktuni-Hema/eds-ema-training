@@ -104,7 +104,7 @@ header .nav-locale-toggle::after {
 }
 
 /* Caret points up while the dropdown is open (matches source ∧). */
-header .nav-locale[aria-expanded='true'] .nav-locale-toggle::after {
+header .nav-locale[data-expanded='true'] .nav-locale-toggle::after {
   transform: rotate(-135deg);
   margin-top: 3px;
 }
@@ -123,7 +123,7 @@ header .nav-locale-list {
   z-index: 10;
 }
 
-header .nav-locale[aria-expanded='true'] .nav-locale-list {
+header .nav-locale[data-expanded='true'] .nav-locale-list {
   display: block;
 }
 

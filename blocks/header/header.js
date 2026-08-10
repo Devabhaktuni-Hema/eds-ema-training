@@ -106,7 +106,9 @@ function toggleMenu(nav) {
 function buildLocale(localeList) {
   const wrapper = document.createElement('div');
   wrapper.className = 'nav-locale';
-  wrapper.setAttribute('aria-expanded', 'false');
+  // State lives in data-expanded (a plain <div> can't carry aria-expanded —
+  // that belongs on the toggle button below). Used only as a CSS hook.
+  wrapper.dataset.expanded = 'false';
 
   const links = [...localeList.querySelectorAll('a')];
   const current = links[0] ? links[0].textContent.trim() : 'en-US';
@@ -162,8 +164,8 @@ function buildLocale(localeList) {
 
   toggle.addEventListener('click', (e) => {
     e.stopPropagation();
-    const open = wrapper.getAttribute('aria-expanded') === 'true';
-    wrapper.setAttribute('aria-expanded', open ? 'false' : 'true');
+    const open = wrapper.dataset.expanded === 'true';
+    wrapper.dataset.expanded = open ? 'false' : 'true';
     toggle.setAttribute('aria-expanded', open ? 'false' : 'true');
   });
 
@@ -467,7 +469,7 @@ export default async function decorate(block) {
   document.addEventListener('click', () => {
     const locale = nav.querySelector('.nav-locale');
     if (locale) {
-      locale.setAttribute('aria-expanded', 'false');
+      locale.dataset.expanded = 'false';
       const t = locale.querySelector('.nav-locale-toggle');
       if (t) t.setAttribute('aria-expanded', 'false');
     }
