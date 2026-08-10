@@ -161,17 +161,24 @@
     align-items: stretch;
   }
 
+  /* The image cell is stretched to the panel's height by align-items:stretch.
+     Fill it with the image regardless of any intermediate <picture>/<div>
+     wrapper depth (which varies between local and DA-published markup) by
+     absolutely positioning the img to the cell — a percentage-height chain
+     breaks when a wrapper has auto height and letterboxes the image. */
   .hero-banner.featured .hero-banner-image {
     flex: 5 1 0;
     min-width: 0;
+    position: relative;
+    overflow: hidden;
   }
 
-  .hero-banner.featured .hero-banner-image picture,
   .hero-banner.featured .hero-banner-image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
     height: 100%;
-  }
-
-  .hero-banner.featured .hero-banner-image img {
+    object-fit: cover;
     object-position: 50% 0%; /* top-anchored crop */
   }
 
