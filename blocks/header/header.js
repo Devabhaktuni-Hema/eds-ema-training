@@ -173,203 +173,27 @@ function buildLocale(localeList) {
   return wrapper;
 }
 
-// Locale-aware search results page. Magazine/adventures live under the same
-// locale, so keep search within it. On `aem up` the pages are served under a
-// /content prefix (/content/us/en/…); on the preview/live host they are not —
-// preserve whatever prefix the current page uses so the form posts to a real
-// URL in both environments.
-function searchPagePath() {
-  const seg = window.location.pathname.split('/').filter(Boolean);
-  const hasContentPrefix = seg[0] === 'content';
-  const rest = hasContentPrefix ? seg.slice(1) : seg;
-  const locale = rest.slice(0, 2).join('/'); // e.g. "us/en"
-  return `${hasContentPrefix ? '/content' : ''}/${locale}/search`;
-}
-
-// --- Search typeahead ---------------------------------------------------
-
-// Fetch + cache the site query index once. The backend builds
-// /query-index.json from helix-query.yaml; `aem up` serves a local copy.
-let searchIndexPromise;
-function fetchSearchIndex() {
-  if (!searchIndexPromise) {
-    searchIndexPromise = fetch('/query-index.json')
-      .then((resp) => (resp.ok ? resp.json() : { data: [] }))
-      .then((json) => json.data || [])
-      .catch(() => []);
-  }
-  return searchIndexPromise;
-}
-
-// Resolve an index path to a link that works in the current environment:
-// `aem up` serves pages under /content/…; preview/live serve them at the
-// clean path. The index stores clean paths (e.g. /us/en/…), so add the
-// /content prefix locally.
-function resolveResultHref(path) {
-  const onContent = window.location.pathname.split('/').filter(Boolean)[0] === 'content';
-  if (onContent && !path.startsWith('/content')) return `/content${path}`;
-  return path;
-}
-
-const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-/**
- * Build a title node with the matched query run wrapped in <mark>. Uses
- * textContent throughout (no innerHTML), so the query can't inject markup.
- * @param {string} title
- * @param {string} query
- * @returns {HTMLElement}
- */
-function highlightTitle(title, query) {
-  const span = document.createElement('span');
-  span.className = 'nav-search-item-title';
-  const re = new RegExp(escapeRegExp(query), 'ig');
-  let last = 0;
-  let m = re.exec(title);
-  while (m) {
-    const [matched] = m;
-    if (m.index > last) span.append(document.createTextNode(title.slice(last, m.index)));
-    const mark = document.createElement('mark');
-    mark.className = 'nav-search-item-mark';
-    mark.textContent = matched;
-    span.append(mark);
-    last = m.index + matched.length;
-    if (matched.length === 0) re.lastIndex += 1; // guard against zero-width matches
-    m = re.exec(title);
-  }
-  if (last < title.length) span.append(document.createTextNode(title.slice(last)));
-  return span;
-}
-
 /**
  * Build the search widget: an always-visible light-grey box with a leading
- * magnifying-glass icon and a "Search" input (matches the WKND source). As the
- * user types, a dark dropdown lists pages whose title matches; picking one
- * navigates to that page. Submitting the form (Enter with no active item)
- * falls back to the dedicated results page with `?q=`.
+ * magnifying-glass icon and a "Search" placeholder input (matches the WKND
+ * source). The form control is created here (not in the plain fragment) per
+ * the nav content contract.
  * @returns {Element}
  */
 function buildSearch() {
-  const MAX_RESULTS = 8;
-  const search = document.createElement('form');
+  const search = document.createElement('div');
   search.className = 'nav-search';
-  search.setAttribute('role', 'search');
-  search.action = searchPagePath();
-  search.method = 'get';
 
-  const icon = document.createElement('button');
-  icon.type = 'submit';
+  const icon = document.createElement('span');
   icon.className = 'nav-search-icon';
-  icon.setAttribute('aria-label', 'Search');
+  icon.setAttribute('aria-hidden', 'true');
 
   const input = document.createElement('input');
   input.type = 'search';
-  input.name = 'q';
   input.placeholder = 'Search';
   input.setAttribute('aria-label', 'Search');
-  input.setAttribute('role', 'combobox');
-  input.setAttribute('aria-autocomplete', 'list');
-  input.setAttribute('aria-expanded', 'false');
-  input.autocomplete = 'off';
 
-  const results = document.createElement('div');
-  results.className = 'nav-search-results';
-  results.setAttribute('role', 'listbox');
-  results.setAttribute('aria-label', 'Search results');
-  const listId = 'nav-search-results';
-  results.id = listId;
-  input.setAttribute('aria-controls', listId);
-
-  search.append(icon, input, results);
-
-  let items = []; // current option elements
-  let activeIndex = -1;
-
-  const closePanel = () => {
-    search.classList.remove('nav-search-open');
-    input.setAttribute('aria-expanded', 'false');
-    input.removeAttribute('aria-activedescendant');
-    results.textContent = '';
-    items = [];
-    activeIndex = -1;
-  };
-
-  const setActive = (idx) => {
-    if (items[activeIndex]) items[activeIndex].setAttribute('aria-selected', 'false');
-    activeIndex = idx;
-    if (items[activeIndex]) {
-      items[activeIndex].setAttribute('aria-selected', 'true');
-      input.setAttribute('aria-activedescendant', items[activeIndex].id);
-      items[activeIndex].scrollIntoView({ block: 'nearest' });
-    } else {
-      input.removeAttribute('aria-activedescendant');
-    }
-  };
-
-  const render = (rows, query) => {
-    results.textContent = '';
-    items = rows.map((row, i) => {
-      const a = document.createElement('a');
-      a.className = 'nav-search-item';
-      a.id = `${listId}-item-${i}`;
-      a.setAttribute('role', 'option');
-      a.setAttribute('aria-selected', 'false');
-      a.href = resolveResultHref(row.path);
-      a.append(highlightTitle(row.title || row.path, query));
-      results.append(a);
-      return a;
-    });
-    activeIndex = -1;
-    if (rows.length) {
-      search.classList.add('nav-search-open');
-      input.setAttribute('aria-expanded', 'true');
-    } else {
-      closePanel();
-    }
-  };
-
-  const runSearch = async (query) => {
-    const q = query.trim();
-    if (q.length < 2) { closePanel(); return; }
-    search.classList.add('nav-search-loading');
-    const rows = await fetchSearchIndex();
-    const ql = q.toLowerCase();
-    const matches = rows
-      .filter((row) => (row.title || '').toLowerCase().includes(ql))
-      .slice(0, MAX_RESULTS);
-    search.classList.remove('nav-search-loading');
-    // Ignore stale runs if the input changed while awaiting.
-    if (input.value.trim() !== q) return;
-    render(matches, q);
-  };
-
-  let debounce;
-  input.addEventListener('input', () => {
-    clearTimeout(debounce);
-    debounce = setTimeout(() => runSearch(input.value), 150);
-  });
-
-  input.addEventListener('keydown', (e) => {
-    if (!items.length) return;
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      setActive((activeIndex + 1) % items.length);
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setActive((activeIndex - 1 + items.length) % items.length);
-    } else if (e.key === 'Enter' && activeIndex >= 0) {
-      e.preventDefault();
-      window.location.assign(items[activeIndex].href);
-    } else if (e.key === 'Escape') {
-      closePanel();
-    }
-  });
-
-  // Close on outside click / blur (deferred so an item click still fires).
-  document.addEventListener('click', (e) => {
-    if (!search.contains(e.target)) closePanel();
-  });
-
+  search.append(icon, input);
   return search;
 }
 
@@ -450,6 +274,25 @@ export default async function decorate(block) {
   const navSections = document.createElement('div');
   navSections.className = 'nav-sections';
   if (navSection) navSections.append(...navSection.childNodes);
+
+  // Highlight the nav item for the current page (source: active link gets the
+  // yellow box + aria-current). Normalise both sides to a bare locale path
+  // (drop /content prefix, .html, trailing slash) so a nav link to
+  // /us/en/magazine matches whether we're on /content/us/en/magazine or the
+  // clean preview path, and any child page under it (e.g. an article) keeps
+  // its section highlighted.
+  const normalizePath = (p) => p
+    .replace(/^\/content/, '')
+    .replace(/\.html$/, '')
+    .replace(/\/$/, '') || '/';
+  const here = normalizePath(window.location.pathname);
+  navSections.querySelectorAll('a[href]').forEach((a) => {
+    const target = normalizePath(new URL(a.href, window.location).pathname);
+    if (target !== '/' && (here === target || here.startsWith(`${target}/`))) {
+      a.setAttribute('aria-current', 'page');
+    }
+  });
+
   tools.append(navSections, buildSearch());
 
   // --- Hamburger (mobile) ---
