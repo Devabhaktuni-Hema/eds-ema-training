@@ -132,17 +132,22 @@
 }
 
 .carousel-teaser .carousel-teaser-slide-indicator {
-  margin: 0 7px;
+  margin: 0 2px;
 }
 
+/* The visible dot is 10px, but the button is a 24x24 tap target (WCAG /
+   Lighthouse tap-targets): the colored circle is painted only in the 10px
+   content box, with a transparent 7px padding ring extending the hit area. */
 .carousel-teaser .carousel-teaser-slide-indicator button {
+  box-sizing: content-box;
   width: 10px;
   height: 10px;
   margin: 0;
-  padding: 0;
+  padding: 7px;
   border: 0;
   border-radius: 50%;
   background-color: rgb(175 175 175); /* #afafaf inactive */
+  background-clip: content-box;
   cursor: pointer;
   transition: background-color 0.2s;
 }
@@ -168,8 +173,8 @@
 /* stylelint-disable-next-line no-descending-specificity */
 .carousel-teaser .carousel-teaser-navigation-buttons button {
   position: relative;
-  width: 26px;
-  height: 24px;
+  width: 32px; /* ≥24px tap target (Lighthouse tap-targets); chevron glyph is centered */
+  height: 32px;
   margin: 0;
   padding: 0;
   border: 0;
