@@ -63,7 +63,10 @@ footer .footer-nav a {
   transition: color 0.2s ease;
 }
 
-footer .footer-nav a:hover { color: var(--accent-color); }
+footer .footer-nav a:hover {
+  color: #ebebeb; /* source keeps the light color and adds an underline on hover */
+  text-decoration: underline;
+}
 
 /* --- "FOLLOW US" label + social box, inline on the right --- */
 footer .footer-follow {
@@ -97,7 +100,8 @@ footer .footer-social {
 
 footer .footer-social li { margin: 0; }
 
-/* Source social buttons: 48x48 solid light square with a dark glyph. */
+/* Source social buttons: 48x48 solid light square with a dark glyph.
+   The source applies no hover change — the button stays #ebebeb / #202020. */
 /* stylelint-disable-next-line no-descending-specificity -- independent component, cannot match the same <a> as .footer-nav a:hover */
 footer .footer-social a {
   display: inline-flex;
@@ -108,12 +112,6 @@ footer .footer-social a {
   border: 0;
   border-radius: 0;
   background-color: #ebebeb;
-  color: #202020;
-  transition: color 0.2s ease, background-color 0.2s ease;
-}
-
-footer .footer-social a:hover {
-  background-color: var(--accent-color);
   color: #202020;
 }
 
