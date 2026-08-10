@@ -86,14 +86,17 @@ header {
   position: sticky;
   top: 0;
   z-index: 20;
-  transition: height 0.2s ease;
+  transition: height 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* Shrunk state: the source drops the header from ~194px to ~114px once
-   scrolled. Mobile has no tall padding to shed, so it only shrinks on desktop
-   (the --nav-height override + reduced brand padding live in the desktop MQ). */
+   scrolled and adds a drop shadow beneath the bar. Mobile has no tall padding
+   to shed, so the height only shrinks on desktop (the --nav-height override +
+   reduced brand padding live in the desktop MQ); the shadow applies at all
+   widths. */
 header.nav-scrolled {
   height: var(--nav-height);
+  box-shadow: 0 8px 20px 0 rgb(0 0 0 / 26%); /* source scrolled-header shadow */
 }
 
 header .header,
