@@ -192,21 +192,22 @@
     box-sizing: border-box;
   }
 
-  /* BANNER: source crops the feature image to a 2:1 cinematic letterbox
-     (1280x640) at desktop; mobile shows the natural ratio. */
+  /* BANNER: source crops the feature image to a 2.25:1 cinematic letterbox
+     (1440x640) at desktop; mobile shows the natural ratio. */
   .hero-banner.banner .hero-banner-image img {
-    aspect-ratio: 2 / 1;
+    aspect-ratio: 9 / 4;
     height: auto;
   }
 
   /* BANNER: white text panel overlaps the bottom of the image, aligned to
-     the site content grid. */
+     the site content grid (border-box + 32px padding → text at the 152
+     gutter, matching the source panel). */
   .hero-banner.banner .hero-banner-text > div {
     position: relative;
-    box-sizing: content-box;
+    box-sizing: border-box;
     max-width: var(--content-max-width, 1024px);
     margin: -180px auto 0;
-    padding: 18px 28px;
+    padding: 18px 32px;
     background-color: var(--background-color);
   }
 }
