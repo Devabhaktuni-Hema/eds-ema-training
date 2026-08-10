@@ -26,28 +26,36 @@
   object-fit: cover;
 }
 
-/* Card title: plain-weight Adobe-blue body-font link (not a serif heading) */
+/* Card title — source renders a dark, uppercase, semibold body-font label
+   (cmp-image-list__item-title), not a blue link or serif heading. */
 .cards .cards-card-body h3 {
   margin: 0;
   font-family: var(--body-font-family);
-  font-size: var(--body-font-size-m);
-  font-weight: 400;
-  line-height: 1.5;
+  font-size: var(--body-font-size-m); /* 18px */
+  font-weight: 600;
+  line-height: 1.5; /* 27px */
+  text-transform: uppercase;
 }
 
 .cards .cards-card-body h3 a:any-link {
-  color: #0045ff;
+  color: var(--text-color); /* #202020 */
+  text-decoration: none;
 }
 
 .cards .cards-card-body h3 a:hover {
-  color: #0045ff;
+  color: var(--text-color);
   text-decoration: underline;
 }
 
-/* Card description: smaller, muted grey */
+/* Card description — muted grey, uppercase, truncated to a single line with
+   an ellipsis (matches the source card excerpt). */
 .cards .cards-card-body p {
   margin: 16px 0 0;
-  font-size: var(--body-font-size-xs);
-  line-height: 1.5;
+  font-size: var(--body-font-size-xs); /* 14px */
+  line-height: 1.5; /* 21px */
   color: #696969;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
