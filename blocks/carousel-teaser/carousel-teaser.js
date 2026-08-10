@@ -40,68 +40,22 @@ export function showSlide(block, slideIndex = 0) {
   });
 }
 
-// Auto-rotation interval (ms). WKND-style hero cycles roughly every 6s.
-const AUTOPLAY_DELAY = 6000;
-
-/**
- * Start auto-advancing the carousel and wire the pause/resume triggers.
- * Rotation pauses on hover/focus-within and when the tab is hidden, and
- * respects prefers-reduced-motion (no autoplay at all). The returned resetter
- * is called on manual navigation so the timer restarts from the new slide.
- * @param {Element} block the .carousel-teaser element
- * @returns {() => void} reset — restart the autoplay timer
- */
-function startAutoplay(block) {
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let timer = null;
-  let paused = false;
-
-  const advance = () => {
-    showSlide(block, parseInt(block.dataset.activeSlide || '0', 10) + 1);
-  };
-  const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
-  const run = () => {
-    stop();
-    if (paused || reduceMotion.matches || document.hidden) return;
-    timer = setInterval(advance, AUTOPLAY_DELAY);
-  };
-
-  // Pause while the user is interacting (hover or keyboard focus inside).
-  block.addEventListener('mouseenter', () => { paused = true; stop(); });
-  block.addEventListener('mouseleave', () => { paused = false; run(); });
-  block.addEventListener('focusin', () => { paused = true; stop(); });
-  block.addEventListener('focusout', () => { paused = false; run(); });
-  // Pause when the tab is backgrounded; resume on return.
-  document.addEventListener('visibilitychange', run);
-  reduceMotion.addEventListener('change', run);
-
-  run();
-  return run; // calling run() again restarts the interval from now
-}
-
 function bindEvents(block) {
   const slideIndicators = block.querySelector('.carousel-teaser-slide-indicators');
   if (!slideIndicators) return;
-
-  // Kick off auto-rotation; resetAutoplay() restarts the timer after any
-  // manual navigation so the full delay applies from the user's chosen slide.
-  const resetAutoplay = startAutoplay(block);
 
   slideIndicators.querySelectorAll('button').forEach((button) => {
     button.addEventListener('click', (e) => {
       const slideIndicator = e.currentTarget.parentElement;
       showSlide(block, parseInt(slideIndicator.dataset.targetSlide, 10));
-      resetAutoplay();
     });
   });
 
   block.querySelector('.slide-prev').addEventListener('click', () => {
     showSlide(block, parseInt(block.dataset.activeSlide, 10) - 1);
-    resetAutoplay();
   });
   block.querySelector('.slide-next').addEventListener('click', () => {
     showSlide(block, parseInt(block.dataset.activeSlide, 10) + 1);
-    resetAutoplay();
   });
 
   const slideObserver = new IntersectionObserver((entries) => {
