@@ -345,10 +345,43 @@ header nav .nav-hamburger { display: none; }
 
 /* ================= Mobile ================= */
 @media (width < 900px) {
+  /* Source mobile header: a dark utility bar (Sign In left, locale right) that
+     stays visible, over a white row of hamburger | logo | search box. The nav
+     links live behind the hamburger and drop down full-width when opened. */
+
+  /* Utility bar stays visible (source keeps Sign In + locale on mobile). */
+  header .nav-utility-bar { display: block; }
+
+  header .nav-utility {
+    justify-content: space-between; /* Sign In left · locale right */
+    gap: 12px;
+    padding: 4px 16px;
+  }
+
+  /* Main row: hamburger | logo | search, all always visible. nav-tools is a
+     pass-through so its children (search + sections) become grid items. */
   header nav {
-    grid-template: 'brand hamburger' auto / 1fr auto;
-    padding: 0 16px;
+    grid-template: 'hamburger brand search' auto / auto 1fr auto;
+    gap: 12px;
+    padding: 8px 16px;
     align-items: center;
+  }
+
+  header nav .nav-brand {
+    grid-area: brand;
+    padding: 8px 0;
+  }
+
+  header nav .nav-brand img { width: 96px; } /* source mobile logo width */
+
+  header nav .nav-tools { display: contents; }
+
+  /* Search box stays visible on the right of the main row. */
+  header nav .nav-search {
+    grid-area: search;
+    width: auto;
+    min-width: 140px;
+    height: 40px;
   }
 
   header nav .nav-hamburger {
@@ -393,35 +426,21 @@ header nav .nav-hamburger { display: none; }
     transform: translateY(-6px) rotate(-45deg);
   }
 
-  /* Collapsed by default on mobile: hide the dark utility bar and the tools
-     until the hamburger opens the menu. */
-  header .nav-utility-bar { display: none; }
-  header nav .nav-tools { display: none; }
+  /* Nav links hide behind the hamburger; drop down full-width when opened. */
+  header nav .nav-sections {
+    grid-area: sections;
+    display: none;
+  }
 
   header nav[aria-expanded='true'] {
     grid-template:
-      'brand hamburger' auto
-      'tools tools' auto / 1fr auto;
+      'hamburger brand search' auto
+      'sections sections sections' auto / auto 1fr auto;
   }
 
-  /* Show the utility bar when the menu is open (bar is a sibling of nav). */
-  header .nav-wrapper:has(nav[aria-expanded='true']) .nav-utility-bar {
+  header nav[aria-expanded='true'] .nav-sections {
     display: block;
-  }
-
-  header .nav-utility {
-    justify-content: flex-start;
-    padding: 12px 16px;
-  }
-
-  header nav[aria-expanded='true'] .nav-tools {
-    grid-area: tools;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 16px;
-    padding: 16px 0;
-    width: 100%;
+    padding: 8px 0 16px;
   }
 
   header nav[aria-expanded='true'] .nav-sections ul {
@@ -436,6 +455,4 @@ header nav .nav-hamburger { display: none; }
     padding: 12px 0;
     border-bottom: 1px solid #ebebeb;
   }
-
-  header nav[aria-expanded='true'] .nav-search { width: 100%; }
 }
