@@ -66,7 +66,23 @@ export default async function decorate(block) {
   // --- Brand ---
   const brand = document.createElement('div');
   brand.className = 'footer-brand';
-  if (brandSection) brand.append(...brandSection.childNodes);
+  if (brandSection) {
+    brand.append(...brandSection.childNodes);
+    // Force the light WKND wordmark bundled with this block. The DA-published
+    // footer references a stray 33x33 placeholder asset for the logo, which
+    // renders as a dark square on the dark footer band. Point the brand logo
+    // at the committed light SVG so it's correct in every environment, and
+    // drop any <picture> <source> variants that would otherwise win.
+    const logo = brand.querySelector('img');
+    if (logo) {
+      logo.closest('picture')?.querySelectorAll('source').forEach((s) => s.remove());
+      logo.setAttribute('src', '/blocks/footer/wknd-logo-light.svg');
+      logo.removeAttribute('srcset');
+      logo.removeAttribute('width');
+      logo.removeAttribute('height');
+      logo.setAttribute('alt', logo.getAttribute('alt') || 'WKND Logo');
+    }
+  }
 
   // --- Footer nav ---
   const navCol = document.createElement('div');
