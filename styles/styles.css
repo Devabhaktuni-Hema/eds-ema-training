@@ -124,13 +124,15 @@ h6 {
   scroll-margin: 40px;
 }
 
-/* WKND signature: fixed 84px yellow accent bar beneath top-level headings */
+/* WKND signature: fixed 84px yellow accent bar beneath top-level headings.
+   Source spacing: ~8px between the heading text and the bar, then ~13.5px
+   below the bar before the following content. */
 main h1::after,
 main h2::after {
   content: "";
   display: block;
   width: 84px;
-  margin-top: 0.4em;
+  margin-top: 8px;
   border-bottom: 2px solid var(--accent-color);
 }
 
@@ -140,6 +142,14 @@ h3 { font-size: var(--heading-font-size-l); }
 h4 { font-size: var(--heading-font-size-m); }
 h5 { font-size: var(--heading-font-size-s); }
 h6 { font-size: var(--heading-font-size-xs); }
+
+/* Section headings that carry the accent bar sit ~13.5px above the content
+   that follows (source). Placed after the h1–h6 rules to keep ascending
+   specificity order. */
+main h1,
+main h2 {
+  margin-bottom: 13.5px;
+}
 
 p,
 dl,
