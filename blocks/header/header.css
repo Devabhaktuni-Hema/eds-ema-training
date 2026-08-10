@@ -262,14 +262,19 @@ header nav .nav-search {
   box-sizing: border-box;
 }
 
-/* Magnifying-glass drawn in CSS (circle + handle) */
+/* Magnifying-glass drawn in CSS (circle + handle). It's a submit <button>,
+   so strip the native button chrome and keep just the glyph box. */
 header nav .nav-search-icon {
   width: 16px;
   height: 16px;
   position: relative;
   display: inline-block;
   flex: 0 0 auto;
+  padding: 0;
+  border: 0;
+  background: none;
   color: var(--text-color);
+  cursor: pointer;
 }
 
 header nav .nav-search-icon::before {

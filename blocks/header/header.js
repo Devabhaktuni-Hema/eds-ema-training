@@ -171,23 +171,42 @@ function buildLocale(localeList) {
   return wrapper;
 }
 
+// Locale-aware search results page. Magazine/adventures live under the same
+// locale, so keep search within it. On `aem up` the pages are served under a
+// /content prefix (/content/us/en/…); on the preview/live host they are not —
+// preserve whatever prefix the current page uses so the form posts to a real
+// URL in both environments.
+function searchPagePath() {
+  const seg = window.location.pathname.split('/').filter(Boolean);
+  const hasContentPrefix = seg[0] === 'content';
+  const rest = hasContentPrefix ? seg.slice(1) : seg;
+  const locale = rest.slice(0, 2).join('/'); // e.g. "us/en"
+  return `${hasContentPrefix ? '/content' : ''}/${locale}/search`;
+}
+
 /**
  * Build the search widget: an always-visible light-grey box with a leading
- * magnifying-glass icon and a "SEARCH" placeholder input (matches the WKND
- * source). The form control is created here (not in the plain fragment) per
- * the nav content contract.
+ * magnifying-glass icon and a "Search" input (matches the WKND source).
+ * Submitting the form navigates to the locale's search results page with the
+ * query in `?q=`. The form control is created here (not in the plain
+ * fragment) per the nav content contract.
  * @returns {Element}
  */
 function buildSearch() {
-  const search = document.createElement('div');
+  const search = document.createElement('form');
   search.className = 'nav-search';
+  search.setAttribute('role', 'search');
+  search.action = searchPagePath();
+  search.method = 'get';
 
-  const icon = document.createElement('span');
+  const icon = document.createElement('button');
+  icon.type = 'submit';
   icon.className = 'nav-search-icon';
-  icon.setAttribute('aria-hidden', 'true');
+  icon.setAttribute('aria-label', 'Search');
 
   const input = document.createElement('input');
   input.type = 'search';
+  input.name = 'q';
   input.placeholder = 'Search';
   input.setAttribute('aria-label', 'Search');
 
