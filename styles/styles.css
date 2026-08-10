@@ -572,3 +572,28 @@ main > .section.quote-pull-container .default-content-wrapper p {
   line-height: 45px;
   text-align: justify;
 }
+
+/*
+ * FAQ template (matches wknd.site/us/en/faqs). The source constrains the whole
+ * FAQ column — lead image, intro, accordion, "Need more help?" — to a ~776px
+ * reading measure (not the full 1136 content gutter). The imported page puts
+ * all of it in one section (.hero-article-container.accordion-faq-container),
+ * so narrow that section's wrappers and give the intro the WKND airy leading.
+ */
+main > .section.hero-article-container.accordion-faq-container > div {
+  max-width: 840px; /* border-box + 0 32px padding → ~776px text measure */
+}
+
+/* The hero-article wrapper cancels its side padding (for a full-column lead
+   image elsewhere), so on the FAQ template pull it to the 776px text measure
+   so the lead image aligns to the same edges as the intro/accordion. */
+main > .section.hero-article-container.accordion-faq-container > .hero-article-wrapper {
+  max-width: 776px;
+}
+
+/* Intro paragraph — source: 18px, 45px airy leading, justified. */
+/* stylelint-disable-next-line no-descending-specificity -- independent component; the cards-container trailing-CTA separator above targets a different, non-overlapping section */
+main > .section.hero-article-container.accordion-faq-container > .default-content-wrapper p {
+  line-height: 45px;
+  text-align: justify;
+}
