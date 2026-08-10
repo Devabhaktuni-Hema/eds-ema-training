@@ -360,6 +360,21 @@ main .default-content-wrapper p:has(> a:only-child) + h2 {
   border-top: 1px solid #ebebeb;
 }
 
+/*
+ * Trailing section separator. The source also closes the final listing
+ * section ("Where do you want to go?" → "All Trips") with the same thin rule
+ * before the footer. That CTA is the last default-content-wrapper of a cards
+ * section with no following heading, so draw the rule as a bottom border on
+ * the CTA paragraph itself (which sits inside the 32px content padding, so the
+ * line spans the 152→1288 gutter like the source): ~64px below the button,
+ * then ~112px to the footer.
+ */
+main > .section.cards-container > .default-content-wrapper:last-child > p:has(> a:only-child):last-child {
+  margin-bottom: 112px;
+  padding-bottom: 64px;
+  border-bottom: 1px solid #ebebeb;
+}
+
 main img {
   max-width: 100%;
   width: auto;
@@ -514,6 +529,7 @@ main > .section.table-specs-container.tabs-detail-container h5 {
  * upright 14px justified. Scoped to the section's default content so the
  * card role/name text (inside .cards-team-card-body) is untouched.
  */
+/* stylelint-disable-next-line no-descending-specificity -- independent component; the cards-container trailing-CTA separator above targets a different, non-overlapping section */
 main > .section.cards-team-container .default-content-wrapper p {
   font-size: var(--body-font-size-xs); /* 14px */
   line-height: 35px;
@@ -551,6 +567,7 @@ main > .section.quote-pull-container .default-content-wrapper h4 {
 
 /* Body paragraphs — source uses the WKND text component's airy 45px leading,
    justified. */
+/* stylelint-disable-next-line no-descending-specificity -- independent component; the cards-container trailing-CTA separator above targets a different, non-overlapping section */
 main > .section.quote-pull-container .default-content-wrapper p {
   line-height: 45px;
   text-align: justify;
