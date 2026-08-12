@@ -439,7 +439,12 @@ main .section.highlight {
 main > .section:first-child .default-content-wrapper > ol {
   list-style: none;
   margin: 0;
-  padding: 0;
+
+  /* Breathing room around the breadcrumb band (source: ~11px above the trail,
+     ~10px below before the hero). Without the top gap the trail sits flush at
+     the sticky header's bottom edge, so a small scroll tucks it under the
+     still-full-height header and clips it. The top space gives it clearance. */
+  padding: 11px 0 10px;
   font-size: var(--body-font-size-xs); /* 14px */
   line-height: 21px;
   text-transform: uppercase;
