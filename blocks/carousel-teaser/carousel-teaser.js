@@ -74,14 +74,27 @@ function createSlide(row, slideIndex, carouselId) {
   slide.setAttribute('id', `carousel-teaser-${carouselId}-slide-${slideIndex}`);
   slide.classList.add('carousel-teaser-slide');
 
-  row.querySelectorAll(':scope > div').forEach((column, colIdx) => {
-    column.classList.add(`carousel-teaser-slide-${colIdx === 0 ? 'image' : 'content'}`);
+  // Classify each authored cell by what it holds rather than by position: the
+  // cell with the picture is the image, everything else is content. This keeps
+  // the layout correct for author variability — an image-only row, or a row
+  // whose cells arrive in a different order — instead of blindly tagging cell 0
+  // as the image.
+  row.querySelectorAll(':scope > div').forEach((column) => {
+    const isImage = column.querySelector('picture, img');
+    column.classList.add(`carousel-teaser-slide-${isImage ? 'image' : 'content'}`);
     slide.append(column);
   });
 
+  // Label the slide by its heading for a11y. Headings inside blocks aren't
+  // auto-assigned ids (that only happens for default content), so mint one when
+  // missing — otherwise getAttribute('id') is null and we'd set the literal
+  // string "null". A slide with no heading (e.g. image-only) gets no label.
   const labeledBy = slide.querySelector('h1, h2, h3, h4, h5, h6');
   if (labeledBy) {
-    slide.setAttribute('aria-labelledby', labeledBy.getAttribute('id'));
+    if (!labeledBy.id) {
+      labeledBy.id = `carousel-teaser-${carouselId}-slide-${slideIndex}-title`;
+    }
+    slide.setAttribute('aria-labelledby', labeledBy.id);
   }
 
   return slide;
