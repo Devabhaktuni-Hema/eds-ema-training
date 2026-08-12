@@ -10,15 +10,18 @@ indices:
     target: /query-index.json
     properties:
       # Short nav title (e.g. "Arctic Surfing"), matching the source listing
-      # cards — not og:title, which holds the long article headline.
+      # cards. Read og:title: on the published pages the index builds from,
+      # that carries the short title (the capital meta[name="Title"] the DA
+      # authoring render exposed is not present on the live/published HTML).
       title:
-        select: head > meta[name="Title"]
+        select: head > meta[property="og:title"]
         value: |
           attribute(el, 'content')
-      # Clean authored teaser, matching the source cards — not the lowercase
-      # `description`, which is an auto-generated dump of the page body.
+      # Clean authored teaser, matching the source cards. Read the standard
+      # description meta present on the published pages (the capital
+      # meta[name="Description"] is not emitted on the live render).
       description:
-        select: head > meta[name="Description"]
+        select: head > meta[name="description"]
         value: |
           attribute(el, 'content')
       image:
