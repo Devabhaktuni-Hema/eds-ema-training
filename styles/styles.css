@@ -450,11 +450,17 @@ main > .section:first-child .default-content-wrapper > ol li {
   align-items: center;
 }
 
+/* Separator: solid yellow right-triangle. Drawn with CSS borders rather than a
+   Unicode glyph so the shape/size is identical across platforms (the source
+   uses a private icon-font triangle we can't ship). Source glyph ≈ 8px tall. */
 main > .section:first-child .default-content-wrapper > ol li + li::before {
-  content: "\25B6\FE0E"; /* solid ▸ triangle, matches magazine breadcrumb */
-  margin: 0 8px;
-  color: var(--accent-color);
-  font-size: 12px;
+  content: "";
+  width: 0;
+  height: 0;
+  margin: 0 10px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid var(--accent-color); /* points right, WKND yellow */
 }
 
 /* stylelint-disable-next-line no-descending-specificity -- independent component; the section-CTA "p > a" rule above targets a different, non-overlapping selector */

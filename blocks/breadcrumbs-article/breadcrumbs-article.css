@@ -23,13 +23,16 @@
 
 /* Separator before every item after the first.
  * Source uses wknd-icon-font glyph U+EA1C (filled right triangle) in brand
- * yellow; substituted with Unicode ▸ since that font is not on this site. */
+ * yellow. That font isn't on this site, so draw the triangle with CSS borders
+ * — identical shape/size on every platform (no Unicode-glyph variance). */
 .breadcrumbs-article .breadcrumbs-article-item + .breadcrumbs-article-item::before {
-  content: "\25B6\FE0E"; /* ▶ + text-presentation selector (solid triangle, not emoji) */
-  margin: 0 5px;
-  color: var(--accent-color); /* #ffea00 WKND yellow */
-  font-size: 14px;
-  line-height: 1;
+  content: "";
+  width: 0;
+  height: 0;
+  margin: 0 10px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid var(--accent-color); /* points right, #ffea00 WKND yellow */
 }
 
 .breadcrumbs-article .breadcrumbs-article-link:any-link {
