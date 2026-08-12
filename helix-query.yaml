@@ -35,6 +35,13 @@ indices:
         select: head > meta[name="category"]
         value: |
           attribute(el, 'content')
+      # Original publication date (authored per page as meta[name="publication-date"],
+      # e.g. "2020-07-09"), used by the magazine related-stories sidebar. Not the
+      # migration's last-modified, which doesn't match the source article dates.
+      date:
+        select: head > meta[name="publication-date"]
+        value: |
+          attribute(el, 'content')
       lastModified:
         select: none
         value: |
