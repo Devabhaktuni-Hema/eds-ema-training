@@ -59,3 +59,21 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* Dynamic listing (Magazine "All Articles") — the source renders these card
+   titles as a plain-weight, sentence-case blue link, unlike the dark uppercase
+   labels on the homepage "Recent Articles" grid. */
+.cards.cards-dynamic .cards-card-body h3 {
+  font-weight: 400;
+  text-transform: none;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.cards.cards-dynamic .cards-card-body h3 a:any-link {
+  color: #0045ff;
+}
+
+.cards.cards-dynamic .cards-card-body h3 a:hover {
+  color: #0045ff;
+  text-decoration: underline;
+}

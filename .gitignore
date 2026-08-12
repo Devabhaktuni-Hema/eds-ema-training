@@ -14,5 +14,5 @@ helix-importer-ui
 migration-work/navigation-validation/
 migration-work/footer-validation/
 
-# Local search index for `aem up` testing; the backend builds this from helix-query.yaml in prod
+# Local search/listing index for `aem up`; the backend builds this from helix-query.yaml in prod
 query-index.json
