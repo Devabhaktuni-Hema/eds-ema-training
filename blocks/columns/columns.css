@@ -31,3 +31,91 @@
     order: unset;
   }
 }
+
+/* =====================================================================
+   .teasers variant — WKND "Members Only" promo teasers.
+   Each column is a small teaser: content on top (compact Source Sans title,
+   short description, grey "Read More" pill) with the image below. Columns
+   are top-aligned and left-packed (not stretched full-width).
+   Source: wknd.site/us/en/magazine.html (.cmp-teaser).
+   ===================================================================== */
+
+/* Thin light rule above the teasers, matching the source separator that sits
+   between the "Members Only" intro and the two teasers. Drawn on the teasers
+   section so it spans the content gutter. */
+.section.columns-container:has(.columns.teasers) {
+  border-top: 1px solid #ebebeb;
+  padding-top: 36px;
+  margin-top: 27px;
+}
+
+.columns.teasers > div > div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Image sits below the teaser text (source order). */
+.columns.teasers .columns-img-col {
+  order: 1;
+  margin-top: 18px;
+}
+
+.columns.teasers .columns-img-col img {
+  aspect-ratio: 128 / 71; /* source teaser image 360x200 */
+  object-fit: cover;
+}
+
+/* Teaser title — compact body-font label, not the serif section heading,
+   and without the global yellow accent bar. */
+.columns.teasers h2 {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- variant override of the global accent-bar rule */
+.columns.teasers h2::after {
+  content: none;
+}
+
+.columns.teasers p {
+  margin: 4px 0 0;
+  color: var(--text-color);
+}
+
+/* "Read More" — small grey pill (source: #696969 on #ebebeb, 7x14px). */
+.columns.teasers p a:any-link {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 7px 14px;
+  background-color: #ebebeb; /* source teaser pill */
+  color: var(--muted-color, #696969);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 400;
+  line-height: 1.5;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.columns.teasers p a:hover,
+.columns.teasers p a:focus-visible {
+  background-color: #e0e0e0;
+  color: var(--muted-color, #696969);
+  text-decoration: none;
+}
+
+@media (width >= 900px) {
+  /* Top-align the two teasers and keep them at their natural (narrow) width
+     rather than stretching each to half the row. */
+  .columns.teasers > div {
+    align-items: start;
+    justify-content: start;
+    gap: 68px;
+  }
+
+  .columns.teasers > div > div {
+    flex: 0 1 360px; /* source teaser column width */
+  }
+}
