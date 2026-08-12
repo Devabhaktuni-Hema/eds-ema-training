@@ -109,6 +109,18 @@
   line-height: 0;
 }
 
+/* Image caption — the short line beneath an image (source .cmp-image__title):
+   14px semibold, left-aligned, tight. Authored as an emphasised paragraph
+   (<em>) so it's distinguishable from body copy that also follows an image on
+   other adventure pages. */
+.tabs-detail .tabs-detail-panel p.tabs-detail-caption {
+  margin-top: 0;
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 600;
+  line-height: 21px;
+  text-align: left;
+}
+
 /* ---- Panel lists (source: ul list-style none, li 18px / line-height 36px,
    triangle marker reproduced from the wknd-icon-font glyph) ---- */
 .tabs-detail .tabs-detail-panel ul {

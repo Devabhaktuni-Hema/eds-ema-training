@@ -43,5 +43,17 @@ export default async function decorate(block) {
     tab.remove();
   });
 
+  // Mark image captions: a short paragraph authored in italics (<em>) directly
+  // after an image is the image's caption (source .cmp-image__title). Using the
+  // <em> signal avoids misclassifying body copy that also follows an image on
+  // some adventure pages.
+  block.querySelectorAll('.tabs-detail-panel p:has(> picture) + p, .tabs-detail-panel p:has(> img) + p').forEach((p) => {
+    const em = p.querySelector(':scope > em');
+    if (em && p.textContent.trim() === em.textContent.trim()) {
+      p.classList.add('tabs-detail-caption');
+      p.replaceChildren(...em.childNodes); // unwrap <em>; styling comes from the class
+    }
+  });
+
   block.prepend(tablist);
 }
