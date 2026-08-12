@@ -25,6 +25,13 @@ indices:
         select: head > meta[property="og:image"]
         value: |
           attribute(el, 'content')
+      # Comma-separated activity categories authored per page (e.g.
+      # "Cycling, Travel"), used to build the Adventures listing filter tabs.
+      # A page may belong to several categories or none.
+      category:
+        select: head > meta[name="category"]
+        value: |
+          attribute(el, 'content')
       lastModified:
         select: none
         value: |
