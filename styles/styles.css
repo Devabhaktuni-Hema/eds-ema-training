@@ -613,9 +613,25 @@ main > .section.quote-pull-container .default-content-wrapper p {
   }
 }
 
-/* Intro paragraph — source: 18px, 45px airy leading, justified. */
+/* Intro paragraph (left column) — source: 18px, 45px airy leading, justified.
+   Scoped to :not(:last-child) so it doesn't hit the right-sidebar contact
+   block, which the source styles differently (see below). */
 /* stylelint-disable-next-line no-descending-specificity -- independent component; the cards-container trailing-CTA separator above targets a different, non-overlapping section */
-main > .section.hero-article-container.accordion-faq-container > .default-content-wrapper p {
+main > .section.hero-article-container.accordion-faq-container > .default-content-wrapper:not(:last-child) p {
   line-height: 45px;
   text-align: justify;
+}
+
+/* Right-sidebar contact block ("Need more help?") — source renders its
+   contact paragraph smaller and tighter than the intro: 14px text on 35px
+   leading, left-aligned, with the phone/e-mail rendered as blue links. */
+/* stylelint-disable-next-line no-descending-specificity -- scoped to the FAQ sidebar's last default-content block; no overlap with the intro rule above */
+main > .section.hero-article-container.accordion-faq-container > .default-content-wrapper:last-child p {
+  font-size: var(--body-font-size-xs); /* 14px */
+  line-height: 35px;
+  text-align: left;
+}
+
+main > .section.hero-article-container.accordion-faq-container > .default-content-wrapper:last-child p a:any-link {
+  color: #0045ff;
 }
