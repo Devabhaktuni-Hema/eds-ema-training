@@ -136,6 +136,13 @@ main h2::after {
   border-bottom: 2px solid var(--accent-color);
 }
 
+/* About Us page title carries no accent bar in the source (only the
+   "Our Contributors"/"WKND Guides" section H2s do). Suppress the bar on the
+   page's H1 while leaving the H2 bars intact. */
+main .cards-team-container h1::after {
+  content: none;
+}
+
 h1 { font-size: var(--heading-font-size-xxl); }
 h2 { font-size: var(--heading-font-size-xl); }
 h3 { font-size: var(--heading-font-size-l); }
