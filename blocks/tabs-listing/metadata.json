@@ -1,0 +1,44 @@
+{
+  "variantName": "tabs-listing",
+  "baseBlock": "tabs",
+  "version": "1.0.0",
+  "created": "2026-08-07T10:35:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en/adventures.html",
+    "originPage": "WKND adventures listing page (adventures-listing template)",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "wide",
+    "purpose": "listing",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "tab label + card grid per row",
+    "buttonCount": 0,
+    "imageCount": 16
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "category-filterable listings where each tab reveals a grid of cards",
+      "adventure/product/article grids grouped under labeled filter tabs",
+      "tab switchers whose panels each contain a responsive image-card grid (image + title link + description)"
+    ],
+    "notSuitableFor": [
+      "tab panels of long-form prose / detail copy (use tabs-detail)",
+      "a single ungrouped card grid with no filtering (use cards)",
+      "accordion-style stacked content that is all visible at once"
+    ]
+  },
+  "distinctFrom": {
+    "tabs": "Vanilla local/collection 'tabs' styles panels for generic content. tabs-listing styles each panel as a responsive adventure-card grid (image on top, uppercase title link, description) and gives the tab bar the WKND uppercase active-dark-fill look.",
+    "tabs-detail": "tabs-detail panels render long-form justified prose (45px line-height, triangle-bullet lists) for a single adventure's Overview/Itinerary/What-to-Bring. tabs-listing panels render a grid of many adventure cards. Similarity scored ~0.47 (< 0.80 threshold) — new variant created.",
+    "cards": "A plain cards grid has no tab filtering. tabs-listing folds the card grid into a tab switcher so it stays one block (David's Model forbids nesting a cards block inside a tabs panel)."
+  },
+  "usage": {
+    "pagesUsing": ["/us/en/adventures"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-07T10:35:00.000Z"
+  }
+}

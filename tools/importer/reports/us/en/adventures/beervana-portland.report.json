@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "https://wknd.site/us/en/adventures/beervana-portland.html",
+  "path": "us/en/adventures/beervana-portland",
+  "timestamp": "2026-08-06T12:58:11.756Z",
+  "title": "Beervana in Portland",
+  "template": "adventure-detail",
+  "blocks": [
+    "carousel-hero",
+    "table-specs",
+    "tabs-detail"
+  ]
+}

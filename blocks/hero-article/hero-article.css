@@ -1,0 +1,53 @@
+/*
+ * hero-article — editorial LEAD image at the top of a magazine article.
+ * Image-only (no overlaid text or CTA). Sits above the article title.
+ *
+ * Source: https://wknd.site/us/en/magazine/arctic-surfing.html
+ * The source lead image is NOT full-bleed: it is constrained to the article
+ * content column, rendered at its natural landscape aspect ratio (~1.616:1,
+ * no crop), and reads wider than the inset body text below it.
+ * See migration-work/hero-article-extracted.css for the raw computed styles.
+ */
+
+/*
+ * Keep the block within the site content column (--content-max-width: 1024px,
+ * inherited from `main > .section > div`) — do NOT go full viewport bleed.
+ * Cancel the section wrapper's side padding so the lead image spans the full
+ * content column edge-to-edge, making it read wider than the padded body text.
+ */
+.hero-article-container .hero-article-wrapper {
+  padding: 0;
+}
+
+.hero-article {
+  margin: 0;
+  padding: 0;
+}
+
+/* rows and cells are structural passthrough — no styling */
+.hero-article > div,
+.hero-article > div > div {
+  margin: 0;
+  padding: 0;
+}
+
+.hero-article picture {
+  display: block;
+  line-height: 0; /* remove inline whitespace gap beneath the image */
+}
+
+/*
+ * Render at natural aspect ratio (no crop, no fixed height), transparent
+ * background, no border/radius — matching the source lead image exactly.
+ */
+.hero-article img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  object-fit: cover;
+  object-position: 50% 50%;
+}

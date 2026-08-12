@@ -1,0 +1,38 @@
+/*
+ * brand.css — WKND design tokens
+ * Extracted from https://wknd.site/us/en (adventure-detail template).
+ * Imported first by styles.css so these custom properties are available site-wide.
+ */
+
+:root {
+  /* Typography */
+  --heading-font-family: "Asar", georgia, "Times New Roman", times, serif;
+  --body-font-family: "Source Sans Pro", "Helvetica Neue", helvetica, arial, sans-serif;
+
+  /* Brand colors */
+  --background-color: #fff;
+  --text-color: #202020;
+  --link-color: #202020;
+  --link-hover-color: #000;
+  --accent-color: #ffea00; /* WKND yellow — heading underline, active indicators */
+  --muted-color: #696969; /* spec labels, secondary text */
+  --dark-color: #2f3133;
+  --light-color: #f5f5f5;
+
+  /* Spacing / layout */
+  --section-padding: 10px;
+
+  /* Content region: 1200 max-width + 32px section padding centers to a 152px
+     gutter at 1440 (text flush at 152, width 1136) — matching the WKND source
+     and the header/footer/hero, which all align to the same 152/1288 edges. */
+  --content-max-width: 1200px;
+  --nav-height: 64px;
+
+  /* Heading sizes (desktop) */
+  --heading-size-xxl: 40px;
+  --heading-size-xl: 34px;
+  --heading-size-l: 24px;
+  --heading-size-m: 20px;
+  --heading-size-s: 16px;
+  --heading-size-xs: 14px;
+}

@@ -1,0 +1,38 @@
+version: 1
+
+indices:
+  default:
+    include:
+      - '/**'
+    exclude:
+      - '/drafts/**'
+      - '/tools/**'
+    target: /query-index.json
+    properties:
+      # Short nav title (e.g. "Arctic Surfing"), matching the source listing
+      # cards — not og:title, which holds the long article headline.
+      title:
+        select: head > meta[name="Title"]
+        value: |
+          attribute(el, 'content')
+      # Clean authored teaser, matching the source cards — not the lowercase
+      # `description`, which is an auto-generated dump of the page body.
+      description:
+        select: head > meta[name="Description"]
+        value: |
+          attribute(el, 'content')
+      image:
+        select: head > meta[property="og:image"]
+        value: |
+          attribute(el, 'content')
+      # Comma-separated activity categories authored per page (e.g.
+      # "Cycling, Travel"), used to build the Adventures listing filter tabs.
+      # A page may belong to several categories or none.
+      category:
+        select: head > meta[name="category"]
+        value: |
+          attribute(el, 'content')
+      lastModified:
+        select: none
+        value: |
+          parseTimestamp(headers('last-modified'), 'ddd, DD MMM YYYY hh:mm:ss GMT')

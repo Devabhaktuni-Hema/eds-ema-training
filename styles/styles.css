@@ -1,3 +1,5 @@
+@import url('brand.css');
+
 /*
  * Copyright 2020 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -11,46 +13,34 @@
  */
 
 :root {
-  /* colors */
-  --background-color: white;
-  --light-color: #f8f8f8;
-  --dark-color: #505050;
-  --text-color: #131313;
-  --link-color: #3b63fb;
-  --link-hover-color: #1d3ecf;
+  /* colors — WKND brand (see brand.css for source-of-truth tokens) */
+  --background-color: #fff;
+  --light-color: #f5f5f5;
+  --dark-color: #2f3133;
+  --text-color: #202020;
+  --link-color: #202020;
+  --link-hover-color: #000;
 
-  /* fonts */
-  --body-font-family: roboto, roboto-fallback, sans-serif;
-  --heading-font-family: roboto-condensed, roboto-condensed-fallback, sans-serif;
+  /* fonts — Asar (serif headings) + Source Sans Pro (body) */
+  --body-font-family: "Source Sans Pro", "Helvetica Neue", helvetica, arial, sans-serif;
+  --heading-font-family: "Asar", georgia, "Times New Roman", times, serif;
 
   /* body sizes */
-  --body-font-size-m: 22px;
-  --body-font-size-s: 19px;
-  --body-font-size-xs: 17px;
+  --body-font-size-m: 18px;
+  --body-font-size-s: 16px;
+  --body-font-size-xs: 14px;
 
-  /* heading sizes */
-  --heading-font-size-xxl: 55px;
-  --heading-font-size-xl: 44px;
-  --heading-font-size-l: 34px;
-  --heading-font-size-m: 27px;
-  --heading-font-size-s: 24px;
-  --heading-font-size-xs: 22px;
+  /* heading sizes — mobile first */
+  --heading-font-size-xxl: 36px;
+  --heading-font-size-xl: 28px;
+  --heading-font-size-l: 22px;
+  --heading-font-size-m: 18px;
+  --heading-font-size-s: 16px;
+  --heading-font-size-xs: 14px;
 
-  /* nav height */
-  --nav-height: 64px;
-}
-
-/* fallback fonts */
-@font-face {
-  font-family: roboto-condensed-fallback;
-  size-adjust: 88.82%;
-  src: local('Arial');
-}
-
-@font-face {
-  font-family: roboto-fallback;
-  size-adjust: 99.529%;
-  src: local('Arial');
+  /* nav height — reserves space so the sticky header doesn't cause CLS.
+     Mobile: single row (~91px, utility bar hidden behind hamburger). */
+  --nav-height: 91px;
 }
 
 @media (width >= 900px) {
@@ -60,13 +50,17 @@
     --body-font-size-s: 16px;
     --body-font-size-xs: 14px;
 
-    /* heading sizes */
-    --heading-font-size-xxl: 45px;
+    /* heading sizes — desktop (from WKND source) */
+    --heading-font-size-xxl: 40px;
     --heading-font-size-xl: 36px;
-    --heading-font-size-l: 28px;
-    --heading-font-size-m: 22px;
-    --heading-font-size-s: 20px;
-    --heading-font-size-xs: 18px;
+    --heading-font-size-l: 24px;
+    --heading-font-size-m: 20px;
+    --heading-font-size-s: 16px;
+    --heading-font-size-xs: 14px;
+
+    /* desktop header: dark utility bar (~28px) + tall main row (~171px),
+       matching the source's airy ~194px header */
+    --nav-height: 199px;
   }
 }
 
@@ -84,8 +78,25 @@ body.appear {
   display: block;
 }
 
+/* Header stays pinned to the top while the page scrolls (matches WKND).
+   The reserved height keeps it in normal flow so there's no layout shift.
+   On scroll it collapses (see header.js → .nav-scrolled), so animate height. */
 header {
   height: var(--nav-height);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  transition: height 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Shrunk state: the source drops the header from ~194px to ~114px once
+   scrolled and adds a drop shadow beneath the bar. Mobile has no tall padding
+   to shed, so the height only shrinks on desktop (the --nav-height override +
+   reduced brand padding live in the desktop MQ); the shadow applies at all
+   widths. */
+header.nav-scrolled {
+  height: var(--nav-height);
+  box-shadow: 0 8px 20px 0 rgb(0 0 0 / 26%); /* source scrolled-header shadow */
 }
 
 header .header,
@@ -107,9 +118,29 @@ h6 {
   margin-top: 0.8em;
   margin-bottom: 0.25em;
   font-family: var(--heading-font-family);
-  font-weight: 600;
-  line-height: 1.25;
+  font-weight: 400; /* Asar is served at regular weight on WKND */
+  line-height: 1.5; /* WKND source: H1 60/40, H2 54/36, H3 36/24 */
+  color: var(--text-color);
   scroll-margin: 40px;
+}
+
+/* WKND signature: fixed 84px yellow accent bar beneath top-level headings.
+   Source spacing: ~8px between the heading text and the bar, then ~13.5px
+   below the bar before the following content. */
+main h1::after,
+main h2::after {
+  content: "";
+  display: block;
+  width: 84px;
+  margin-top: 8px;
+  border-bottom: 2px solid var(--accent-color);
+}
+
+/* About Us page title carries no accent bar in the source (only the
+   "Our Contributors"/"WKND Guides" section H2s do). Suppress the bar on the
+   page's H1 while leaving the H2 bars intact. */
+main .cards-team-container h1::after {
+  content: none;
 }
 
 h1 { font-size: var(--heading-font-size-xxl); }
@@ -118,6 +149,14 @@ h3 { font-size: var(--heading-font-size-l); }
 h4 { font-size: var(--heading-font-size-m); }
 h5 { font-size: var(--heading-font-size-s); }
 h6 { font-size: var(--heading-font-size-xs); }
+
+/* Section headings that carry the accent bar sit ~13.5px above the content
+   that follows (source). Placed after the h1–h6 rules to keep ascending
+   specificity order. */
+main h1,
+main h2 {
+  margin-bottom: 13.5px;
+}
 
 p,
 dl,
@@ -278,6 +317,71 @@ button.button.accent:disabled:focus-visible {
   color: var(--dark-color);
 }
 
+/*
+ * WKND section CTAs. On wknd.site, a standalone call-to-action link in default
+ * content (e.g. "All Articles", "All Trips") is authored with the Core
+ * Components button and renders as a solid yellow block with dark uppercase
+ * text. The import emits these as a bare <p><a> (no <strong>/<em>), so the
+ * boilerplate's decorateButtons() leaves them as plain links. Style any
+ * default-content paragraph whose only child is a link to match the source
+ * button — scoped to main default content so block links and inline links
+ * (where the <p> holds more than the anchor) are untouched.
+ */
+main .default-content-wrapper p:has(> a:only-child) {
+  margin: 12px 0;
+  line-height: 0;
+}
+
+main .default-content-wrapper p:has(> a:only-child) > a:only-child {
+  display: inline-block;
+  padding: 14px 35px;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 600;
+  line-height: 21px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+main .default-content-wrapper p:has(> a:only-child) > a:only-child:hover,
+main .default-content-wrapper p:has(> a:only-child) > a:only-child:focus-visible {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+/*
+ * Section separator before a follow-on heading. On wknd.site a thin light
+ * rule sits between a section's CTA ("All Articles") and the next section
+ * heading ("Next Adventures"). The import merges them into one default-content
+ * block with no <hr>, so draw the rule as a top border on a heading that
+ * directly follows the CTA paragraph, with the source's generous spacing
+ * (~64px above the line, ~90px below to the heading text).
+ */
+main .default-content-wrapper p:has(> a:only-child) + h2 {
+  margin-top: 64px;
+  padding-top: 90px;
+  border-top: 1px solid #ebebeb;
+}
+
+/*
+ * Trailing section separator. The source also closes the final listing
+ * section ("Where do you want to go?" → "All Trips") with the same thin rule
+ * before the footer. That CTA is the last default-content-wrapper of a cards
+ * section with no following heading, so draw the rule as a bottom border on
+ * the CTA paragraph itself (which sits inside the 32px content padding, so the
+ * line spans the 152→1288 gutter like the source): ~64px below the button,
+ * then ~112px to the footer.
+ */
+main > .section.cards-container > .default-content-wrapper:last-child > p:has(> a:only-child):last-child {
+  margin-bottom: 112px;
+  padding-bottom: 64px;
+  border-bottom: 1px solid #ebebeb;
+}
+
 main img {
   max-width: 100%;
   width: auto;
@@ -301,7 +405,8 @@ main > .section {
 }
 
 main > .section > div {
-  max-width: 1200px;
+  box-sizing: border-box; /* padding sits inside max-width → content edge at the 152 gutter */
+  max-width: var(--content-max-width, 1024px);
   margin: auto;
   padding: 0 24px;
 }
@@ -322,4 +427,229 @@ main .section.highlight {
   background-color: var(--light-color);
   margin: 0;
   padding: 40px 0;
+}
+
+/*
+ * Adventure-detail breadcrumb. The import emits the trail as a plain <ol> in
+ * the page's first section (not the breadcrumbs-article block), so style that
+ * leading list to match the source: a horizontal uppercase trail with a yellow
+ * "▸" separator between items. Scoped to a first-section <ol> so it can't hit
+ * ordered lists in article body content.
+ */
+main > .section:first-child .default-content-wrapper > ol {
+  list-style: none;
+  margin: 0;
+
+  /* Breathing room around the breadcrumb band (source: ~11px above the trail,
+     ~10px below before the hero). Without the top gap the trail sits flush at
+     the sticky header's bottom edge, so a small scroll tucks it under the
+     still-full-height header and clips it. The top space gives it clearance. */
+  padding: 11px 0 10px;
+  font-size: var(--body-font-size-xs); /* 14px */
+  line-height: 21px;
+  text-transform: uppercase;
+}
+
+main > .section:first-child .default-content-wrapper > ol li {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Separator: solid yellow right-triangle. Drawn with CSS borders rather than a
+   Unicode glyph so the shape/size is identical across platforms (the source
+   uses a private icon-font triangle we can't ship). Source glyph ≈ 8px tall. */
+main > .section:first-child .default-content-wrapper > ol li + li::before {
+  content: "";
+  width: 0;
+  height: 0;
+  margin: 0 10px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid var(--accent-color); /* points right, WKND yellow */
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- independent component; the section-CTA "p > a" rule above targets a different, non-overlapping selector */
+main > .section:first-child .default-content-wrapper > ol a {
+  color: var(--text-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- independent component; the section-CTA "p > a" rule above targets a different, non-overlapping selector */
+main > .section:first-child .default-content-wrapper > ol a:hover {
+  text-decoration: underline;
+}
+
+/*
+ * Adventure-detail 2-column body (matches wknd.site adventure pages).
+ * The import emits one section per page whose direct children are, in order:
+ *   1. default-content-wrapper  → page H1
+ *   2. table-specs-wrapper      → spec sheet
+ *   3. default-content-wrapper  → "Share this Adventure" heading
+ *   4. tabs-detail-wrapper       → Overview / Itinerary / What to Bring tabs
+ * On desktop the H1 spans the top, the spec sheet + share heading sit in a
+ * narrow left column, and the tabs fill the right column. Mobile stays stacked.
+ */
+@media (width >= 900px) {
+  main > .section.table-specs-container.tabs-detail-container {
+    box-sizing: border-box; /* padding inside max-width → grid aligns to the 152 gutter */
+    max-width: var(--content-max-width, 1024px);
+    margin: 40px auto;
+    padding: 0 32px;
+    display: grid;
+    grid-template:
+      "title title" auto
+      "specs tabs" auto
+      "share tabs" 1fr
+      / 280px 1fr;
+    column-gap: 48px;
+  }
+
+  /* Section is now the grid — neutralise the per-wrapper centering/padding. */
+  main > .section.table-specs-container.tabs-detail-container > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  main > .section.table-specs-container.tabs-detail-container > .default-content-wrapper:first-child {
+    grid-area: title;
+  }
+
+  main > .section.table-specs-container.tabs-detail-container > .table-specs-wrapper {
+    grid-area: specs;
+  }
+
+  main > .section.table-specs-container.tabs-detail-container > .table-specs-wrapper + .default-content-wrapper {
+    grid-area: share;
+    align-self: start;
+  }
+
+  main > .section.table-specs-container.tabs-detail-container > .tabs-detail-wrapper {
+    grid-area: tabs;
+  }
+}
+
+/* "Share this Adventure" heading — source renders it 14px uppercase 600
+   (not the default h5 size). Scoped to the adventure-detail section. */
+main > .section.table-specs-container.tabs-detail-container h5 {
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 600;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/*
+ * Feature-landing (About Us) group intros. The two intro blurbs ("Meet the
+ * outstanding individuals…", "Meet our extraordinary travel guides…") are
+ * authored with <em>, so they'd render italic 18px; the source renders them
+ * upright 14px justified. Scoped to the section's default content so the
+ * card role/name text (inside .cards-team-card-body) is untouched.
+ */
+/* stylelint-disable-next-line no-descending-specificity -- independent component; the cards-container trailing-CTA separator above targets a different, non-overlapping section */
+main > .section.cards-team-container .default-content-wrapper p {
+  font-size: var(--body-font-size-xs); /* 14px */
+  line-height: 35px;
+  text-align: justify;
+}
+
+main > .section.cards-team-container .default-content-wrapper p em {
+  font-style: normal; /* source group intros are upright, not italic */
+}
+
+/*
+ * Magazine-article body (matches wknd.site magazine articles). The article
+ * H1/byline/paragraphs render as default content inside the section that also
+ * holds the quote-pull block (.quote-pull-container is unique to this
+ * template). Constrain the reading column, style the byline as a compact
+ * uppercase label, and give body paragraphs the WKND airy justified leading.
+ */
+main > .section.quote-pull-container > div {
+  /* Source article text measure is 776px. The base rule adds box-sizing:
+     border-box + 0 32px padding, so add the 64px back to keep the *text* at
+     776 (not 712). */
+  max-width: 840px;
+}
+
+/* Byline "By Jacob Wester" — source: 16px Source Sans, 600, uppercase
+   (imported as an h4, which would otherwise be Asar 20px). */
+main > .section.quote-pull-container .default-content-wrapper h4 {
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 1.35;
+  margin: 0 0 0.8em;
+}
+
+/* Body paragraphs — source uses the WKND text component's airy 45px leading,
+   justified. */
+/* stylelint-disable-next-line no-descending-specificity -- independent component; the cards-container trailing-CTA separator above targets a different, non-overlapping section */
+main > .section.quote-pull-container .default-content-wrapper p {
+  line-height: 45px;
+  text-align: justify;
+}
+
+/*
+ * FAQ template (matches wknd.site/us/en/faqs). The source lays the page out in
+ * two columns: a ~748px left column (FAQs heading, lead image, intro,
+ * accordion) and a ~291px right sidebar ("Need more help?" + contact),
+ * top-aligned, with a ~111px gutter. The import emits one section whose
+ * children are, in order: FAQs H1 (default-content), lead image
+ * (hero-article), intro (default-content), accordion, and the Need-more-help
+ * default-content block. On desktop, grid the section into those two columns
+ * and drop the trailing block into the right column at the top row. Mobile
+ * stays single-column stacked.
+ */
+@media (width >= 900px) {
+  main > .section.hero-article-container.accordion-faq-container {
+    box-sizing: border-box;
+    max-width: var(--content-max-width, 1024px);
+    margin: 40px auto;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: 748fr 291fr; /* left content · right sidebar */
+    column-gap: 111px;
+    align-items: start;
+  }
+
+  /* Neutralise the base per-wrapper centering/padding now that the section is
+     the grid. Left-column items (all but the last) stack in column 1. */
+  main > .section.hero-article-container.accordion-faq-container > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    grid-column: 1;
+  }
+
+  /* The trailing default-content block ("Need more help?") is the right
+     sidebar: column 2, starting at the first row so it top-aligns with FAQs. */
+  main > .section.hero-article-container.accordion-faq-container > div:last-child {
+    grid-column: 2;
+    grid-row: 1 / 100;
+  }
+}
+
+/* Intro paragraph (left column) — source: 18px, 45px airy leading, justified.
+   Scoped to :not(:last-child) so it doesn't hit the right-sidebar contact
+   block, which the source styles differently (see below). */
+/* stylelint-disable-next-line no-descending-specificity -- independent component; the cards-container trailing-CTA separator above targets a different, non-overlapping section */
+main > .section.hero-article-container.accordion-faq-container > .default-content-wrapper:not(:last-child) p {
+  line-height: 45px;
+  text-align: justify;
+}
+
+/* Right-sidebar contact block ("Need more help?") — source renders its
+   contact paragraph smaller and tighter than the intro: 14px text on 35px
+   leading, left-aligned, with the phone/e-mail rendered as blue links. */
+/* stylelint-disable-next-line no-descending-specificity -- scoped to the FAQ sidebar's last default-content block; no overlap with the intro rule above */
+main > .section.hero-article-container.accordion-faq-container > .default-content-wrapper:last-child p {
+  font-size: var(--body-font-size-xs); /* 14px */
+  line-height: 35px;
+  text-align: left;
+}
+
+main > .section.hero-article-container.accordion-faq-container > .default-content-wrapper:last-child p a:any-link {
+  color: #0045ff;
 }

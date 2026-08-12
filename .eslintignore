@@ -1,2 +1,6 @@
 helix-importer-ui
 *.min.js
+
+# Migration scratch tooling (gitignored, never shipped)
+migration-work
+tools/importer/*.bundle.js

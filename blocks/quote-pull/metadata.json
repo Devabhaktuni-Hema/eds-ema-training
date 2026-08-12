@@ -1,0 +1,42 @@
+{
+  "variantName": "quote-pull",
+  "baseBlock": "quote",
+  "version": "1.0.0",
+  "created": "2026-08-07T09:10:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en/magazine/arctic-surfing.html",
+    "originPage": "WKND magazine article (magazine-article template)",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "pull-quote",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "quotation + optional attribution",
+    "buttonCount": 0,
+    "imageCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "mid-article pull-quotes in editorial/magazine content",
+      "highlighted quotations set apart from body prose",
+      "quotations with an optional attribution/citation line"
+    ],
+    "notSuitableFor": [
+      "inline blockquotes that should stay part of default body content",
+      "testimonials with author photos (use cards or a testimonial block)",
+      "callouts requiring background color or icons"
+    ]
+  },
+  "distinctFrom": {
+    "quote": "Built from the Block Collection vanilla 'quote' block. quote-pull is styled as a spacious, centered pull-quote (max 900px, 120% quotation size, decorative smart-quote glyphs) for magazine article bodies. No existing quote variant in the project, so a new variant was created."
+  },
+  "usage": {
+    "pagesUsing": ["/us/en/magazine/arctic-surfing"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-07T09:10:00.000Z"
+  }
+}

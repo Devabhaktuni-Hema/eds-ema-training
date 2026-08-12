@@ -1,0 +1,91 @@
+/*
+ * accordion-faq — WKND FAQ accordion
+ * Visual design extracted from source .cmp-accordion on
+ * https://wknd.site/us/en/faqs.html (computed styles).
+ * Native <details>/<summary>; decorate() builds:
+ *   details.accordion-faq-item
+ *     > summary.accordion-faq-item-label > p   (question)
+ *     > div.accordion-faq-item-body > p        (answer)
+ */
+
+.accordion-faq {
+  margin: 0;
+  padding: 0;
+}
+
+/* one Q&A item — items are contiguous (no gap/margin in source) */
+.accordion-faq .accordion-faq-item {
+  margin: 0;
+  border: 0;
+}
+
+/* question header (clickable) — flex so text sits left, +/- indicator right */
+.accordion-faq .accordion-faq-item-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 13px;
+  border-bottom: 2px solid #ebebeb; /* item divider (source #ebebeb) */
+  cursor: pointer;
+  list-style: none;
+}
+
+.accordion-faq .accordion-faq-item-label::-webkit-details-marker {
+  display: none;
+}
+
+/* keyboard focus — visible on tab, no change to default appearance */
+.accordion-faq .accordion-faq-item-label:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: -2px;
+}
+
+/* divider is removed on the open header (matches source) */
+.accordion-faq .accordion-faq-item[open] .accordion-faq-item-label {
+  border-bottom: 0;
+}
+
+/* question text */
+.accordion-faq .accordion-faq-item-label p {
+  margin: 0;
+  padding-left: 8px; /* source .cmp-accordion__title padding-left */
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  text-transform: uppercase;
+  color: #000;
+}
+
+/* +/- indicator (source wknd-icon-font glyph, right-aligned, black) */
+.accordion-faq .accordion-faq-item-label::after {
+  content: "+";
+  flex: 0 0 auto;
+  width: 21px; /* source .cmp-accordion__icon width */
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 20px; /* source icon height — keeps row height ~47px like source */
+  text-align: center;
+  color: #000;
+}
+
+.accordion-faq .accordion-faq-item[open] .accordion-faq-item-label::after {
+  content: "\2212"; /* minus sign — matches source open glyph */
+}
+
+/* answer panel */
+.accordion-faq .accordion-faq-item-body {
+  padding: 7px 0 0 7px; /* source .cmp-accordion__panel padding */
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--text-color);
+}
+
+.accordion-faq .accordion-faq-item-body p {
+  margin: 0 0 13.5px;
+  font-size: 14px;
+  line-height: 24.5px; /* source panel paragraph line-height (1.75) */
+  color: var(--text-color);
+}

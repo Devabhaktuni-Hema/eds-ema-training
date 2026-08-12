@@ -4,16 +4,16 @@
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
-  gap: 24px;
+  gap: 14px; /* source card gutter (~14px between the 4 article cards) */
 }
 
+/* WKND article cards are borderless — image with text flowing beneath it */
 .cards > ul > li {
-  border: 1px solid #dadada;
-  background-color: var(--background-color);
+  background-color: transparent;
 }
 
 .cards .cards-card-body {
-  margin: 16px;
+  margin: 12px 0 0;
 }
 
 .cards .cards-card-image {
@@ -22,6 +22,58 @@
 
 .cards > ul > li img {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 13 / 10; /* source article thumbnails render ~260x200 */
   object-fit: cover;
+}
+
+/* Card title — source renders a dark, uppercase, semibold body-font label
+   (cmp-image-list__item-title), not a blue link or serif heading. */
+.cards .cards-card-body h3 {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m); /* 18px */
+  font-weight: 600;
+  line-height: 1.5; /* 27px */
+  text-transform: uppercase;
+}
+
+.cards .cards-card-body h3 a:any-link {
+  color: var(--text-color); /* #202020 */
+  text-decoration: none;
+}
+
+.cards .cards-card-body h3 a:hover {
+  color: var(--text-color);
+  text-decoration: underline;
+}
+
+/* Card description — muted grey, uppercase, truncated to a single line with
+   an ellipsis (matches the source card excerpt). */
+.cards .cards-card-body p {
+  margin: 16px 0 0;
+  font-size: var(--body-font-size-xs); /* 14px */
+  line-height: 1.5; /* 21px */
+  color: #696969;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Dynamic listing (Magazine "All Articles") — the source renders these card
+   titles as a plain-weight, sentence-case blue link, unlike the dark uppercase
+   labels on the homepage "Recent Articles" grid. */
+.cards.cards-dynamic .cards-card-body h3 {
+  font-weight: 400;
+  text-transform: none;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.cards.cards-dynamic .cards-card-body h3 a:any-link {
+  color: #0045ff;
+}
+
+.cards.cards-dynamic .cards-card-body h3 a:hover {
+  color: #0045ff;
+  text-decoration: underline;
 }

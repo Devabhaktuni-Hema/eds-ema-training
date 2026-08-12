@@ -1,0 +1,42 @@
+{
+  "variantName": "breadcrumbs-article",
+  "baseBlock": "breadcrumbs",
+  "version": "1.0.0",
+  "created": "2026-08-07T09:10:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en/magazine/arctic-surfing.html",
+    "originPage": "WKND magazine article (magazine-article template)",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "breadcrumb",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "trail of ancestor links + current page label",
+    "buttonCount": 0,
+    "imageCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "article/detail page breadcrumb trails",
+      "navigation showing the current page's location in the site hierarchy",
+      "magazine and adventure detail pages"
+    ],
+    "notSuitableFor": [
+      "primary site navigation menus (use header)",
+      "pagination controls",
+      "in-content link lists"
+    ]
+  },
+  "distinctFrom": {
+    "note": "No 'breadcrumbs' or 'breadcrumb' block exists in the local project or the Block Collection library, so this block was built from scratch. It decorates an authored trail of links into an accessible <nav><ol> breadcrumb, treating the last item as the current (aria-current) page. Base name recorded as 'breadcrumbs' for future variant tracking even though no vanilla template exists."
+  },
+  "usage": {
+    "pagesUsing": ["/us/en/magazine/arctic-surfing"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-07T09:10:00.000Z"
+  }
+}

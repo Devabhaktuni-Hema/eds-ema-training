@@ -1,0 +1,152 @@
+/* Block: tabs-detail — WKND adventure trip details tab switcher.
+   Values extracted from source .cmp-tabs computed styles
+   (https://wknd.site/us/en/adventures/bali-surf-camp.html — Overview /
+   Itinerary / What to Bring). Active tab is a solid dark fill with white
+   uppercase text; inactive tabs are plain dark uppercase text. Panel body
+   uses the WKND text component's airy 2.5 line-height with justified
+   paragraphs and small triangle list markers.
+
+   EDS decorated DOM (targets below reflect this, NOT the .plain.html table):
+     .tabs-detail.block
+       > .tabs-detail-list[role=tablist]
+           > button.tabs-detail-tab[role=tab] > p   (label wrapped in <p>)
+       > .tabs-detail-panel[role=tabpanel]          (visibility via aria-hidden)
+           > div (content cell) > p | p>picture>img | ul>li
+   NOTE: panel typography is scoped to .tabs-detail-panel so it never
+   restyles the <p> inside the tab buttons. */
+
+/* ---- Tablist (source: ol.cmp-tabs__tablist — flex, margin 18px 0, no border, flush) ---- */
+.tabs-detail .tabs-detail-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 18px 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---- Tab (source: li.cmp-tabs__tab — reset EDS/browser button chrome first) ---- */
+.tabs-detail .tabs-detail-tab {
+  box-sizing: border-box;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 8px 16px;
+  background-color: transparent;
+  color: var(--text-color); /* rgb(32,32,32) */
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 400;
+  line-height: 21px;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Label text is wrapped in a <p> by EDS — strip its default block margins. */
+.tabs-detail .tabs-detail-tab p {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  text-transform: inherit;
+  color: inherit;
+}
+
+.tabs-detail .tabs-detail-tab:hover {
+  background-color: var(--light-color);
+}
+
+/* Active tab: solid dark fill, white text (source: --active state). */
+.tabs-detail .tabs-detail-tab[aria-selected='true'] {
+  background-color: var(--text-color); /* rgb(32,32,32) */
+  color: var(--background-color); /* #fff */
+  cursor: default;
+}
+
+/* Keep the active tab dark on hover (no light-grey flash). */
+.tabs-detail .tabs-detail-tab[aria-selected='true']:hover {
+  background-color: var(--text-color);
+}
+
+/* ---- Panel (source: div.cmp-tabs__tabpanel — no padding/margin/border) ---- */
+.tabs-detail .tabs-detail-panel {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: var(--text-color);
+  font-size: var(--body-font-size-m); /* 18px */
+  line-height: 27px;
+}
+
+.tabs-detail .tabs-detail-panel[aria-hidden='true'] {
+  display: none;
+}
+
+/* ---- Panel body paragraphs (source: 18px / line-height 45px / justified) ---- */
+.tabs-detail .tabs-detail-panel p {
+  margin: 0 0 13.5px;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m); /* 18px */
+  line-height: 45px; /* WKND text component — 2.5 × 18px */
+  text-align: justify;
+  color: var(--text-color);
+}
+
+/* ---- Panel images (source: full width, block, small vertical margin) ---- */
+.tabs-detail .tabs-detail-panel img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 7px 0;
+}
+
+/* Image sits alone in a <p> (EDS wrapping) — neutralise the tall text
+   line-height so the picture is not pushed by the 45px paragraph leading. */
+.tabs-detail .tabs-detail-panel p:has(> picture),
+.tabs-detail .tabs-detail-panel p:has(> img) {
+  line-height: 0;
+}
+
+/* Image caption — the short line beneath an image (source .cmp-image__title):
+   14px semibold, left-aligned, tight. Authored as an emphasised paragraph
+   (<em>) so it's distinguishable from body copy that also follows an image on
+   other adventure pages. */
+.tabs-detail .tabs-detail-panel p.tabs-detail-caption {
+  margin-top: 0;
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 600;
+  line-height: 21px;
+  text-align: left;
+}
+
+/* ---- Panel lists (source: ul list-style none, li 18px / line-height 36px,
+   triangle marker reproduced from the wknd-icon-font glyph) ---- */
+.tabs-detail .tabs-detail-panel ul {
+  margin: 18px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tabs-detail .tabs-detail-panel li {
+  position: relative;
+  padding-left: 16px;
+  font-size: var(--body-font-size-m); /* 18px */
+  line-height: 36px; /* WKND — 2 × 18px */
+  color: var(--text-color);
+  list-style: none;
+}
+
+/* Small right-pointing triangle marker (matches source ▸ icon-font bullet). */
+.tabs-detail .tabs-detail-panel li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 14px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px 0 4px 6px;
+  border-color: transparent transparent transparent var(--text-color);
+}

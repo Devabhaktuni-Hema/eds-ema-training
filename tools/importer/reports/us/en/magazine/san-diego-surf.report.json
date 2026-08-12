@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://wknd.site/us/en/magazine/san-diego-surf.html",
+  "path": "us/en/magazine/san-diego-surf",
+  "timestamp": "2026-08-07T09:23:21.914Z",
+  "title": "San Diego Surf Spots",
+  "template": "magazine-article",
+  "blocks": [
+    "hero-article",
+    "breadcrumbs-article"
+  ]
+}

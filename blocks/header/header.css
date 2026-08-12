@@ -1,272 +1,460 @@
-/* header and nav layout */
+/*
+ * WKND header — migrated from wknd.site/us/en.
+ *   - dark full-width utility bar (#202020): Sign In + language toggle
+ *     (US flag + locale label, dropdown of 11 locales), right-aligned
+ *   - main white header: logo (left), primary nav + search box (right)
+ * Content comes from /content/nav.plain.html; layout, search form, and locale
+ * dropdown behavior are built in header.js.
+ */
+
 header .nav-wrapper {
-  background-color: var(--background-color);
+  background-color: #fff;
   width: 100%;
   z-index: 2;
-  position: fixed;
+  position: relative;
 }
 
 header nav {
   box-sizing: border-box;
   display: grid;
-  grid-template:
-    'hamburger brand tools' var(--nav-height)
-    'sections sections sections' 1fr / auto 1fr auto;
-  align-items: center;
-  gap: 0 24px;
+  grid-template: 'brand  tools' auto / auto 1fr;
+  gap: 0;
+  max-width: 1200px;
   margin: auto;
-  max-width: 1248px;
-  height: var(--nav-height);
-  padding: 0 24px;
+  padding: 0 32px; /* content edge ~152px at 1440, matching the source gutter */
   font-family: var(--body-font-family);
 }
 
-header nav[aria-expanded='true'] {
-  grid-template:
-    'hamburger brand' var(--nav-height)
-    'sections sections' 1fr
-    'tools tools' var(--nav-height) / auto 1fr;
-  overflow-y: auto;
-  min-height: 100dvh;
+/* --- Utility bar (Sign In + locale): full-width dark band ---
+   A direct wrapper child so it spans the content width (scrollbar-safe, no
+   `vw` breakout); its inner row is centered to the same content edge as the
+   header below and right-aligns Sign In / locale. */
+header .nav-utility-bar {
+  background-color: #202020;
+  color: #ebebeb;
 }
 
-@media (width >= 900px) {
-  header .nav-wrapper {
-    position: relative;
-  }
-
-  header nav {
-    display: flex;
-    justify-content: space-between;
-    gap: 0 32px;
-    max-width: 1264px;
-    padding: 0 32px;
-  }
-
-  header nav[aria-expanded='true'] {
-    min-height: 0;
-    overflow: visible;
-  }
-}
-
-header nav p {
-  margin: 0;
-  line-height: 1;
-}
-
-header nav a:any-link {
-  color: currentcolor;
-}
-
-/* hamburger */
-header nav .nav-hamburger {
-  grid-area: hamburger;
-  height: 22px;
+header .nav-utility {
+  box-sizing: border-box;
   display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+  max-width: 1200px;
+  margin: auto;
+  padding: 3px 32px; /* align with the header row's ~152px content edge */
+  font-size: 14px;
+}
+
+header .nav-utility a.nav-signin {
+  color: #ebebeb;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+header .nav-utility a.nav-signin:hover {
+  color: #fff;
+}
+
+/* Locale toggle */
+header .nav-locale {
+  position: relative;
+}
+
+header .nav-locale-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: #ebebeb;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* US flag before the locale label */
+header .nav-locale-flag {
+  display: inline-flex;
+  width: 22px;
+  height: 15px;
+  flex: 0 0 auto;
+}
+
+header .nav-locale-flag svg {
+  width: 100%;
+  height: 100%;
+  border-radius: 1px;
+}
+
+header .nav-locale-toggle::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-right: 1px solid currentcolor;
+  border-bottom: 1px solid currentcolor;
+  transform: rotate(45deg);
+  margin-left: 2px;
+  margin-top: -3px;
+  transition: transform 0.2s ease;
+}
+
+/* Caret points up while the dropdown is open (matches source ∧). */
+header .nav-locale[data-expanded='true'] .nav-locale-toggle::after {
+  transform: rotate(-135deg);
+  margin-top: 3px;
+}
+
+/* Dropdown panel: dark, country-grouped (matches WKND source). */
+header .nav-locale-list {
+  display: none;
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 270px;
+  margin: 0;
+  padding: 0;
+  background: #202020;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 30%);
+  z-index: 10;
+}
+
+header .nav-locale[data-expanded='true'] .nav-locale-list {
+  display: block;
+}
+
+/* One country row: flag + (name over locale codes), divider between rows. */
+header .nav-locale-country {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgb(255 255 255 / 12%);
+}
+
+header .nav-locale-country:last-child { border-bottom: none; }
+
+header .nav-locale-country-flag {
+  display: inline-flex;
+  width: 34px;
+  height: 22px;
+  flex: 0 0 auto;
+}
+
+header .nav-locale-country-flag svg {
+  width: 100%;
+  height: 100%;
+  border-radius: 1px;
+}
+
+header .nav-locale-country-name {
+  display: block;
+  color: #b8b8b8;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+/* Locale codes on one line, separated by thin vertical dividers. */
+header .nav-locale-codes {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
 }
 
-header nav .nav-hamburger button {
-  height: 22px;
-  margin: 0;
-  border: 0;
-  border-radius: 0;
-  padding: 0;
-  background-color: var(--background-color);
-  color: inherit;
-  overflow: initial;
-  text-overflow: initial;
-  white-space: initial;
+header .nav-locale-codes a {
+  color: #f7f7f7;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 0 10px;
+  border-left: 1px solid rgb(255 255 255 / 25%);
+  line-height: 1.2;
 }
 
-header nav .nav-hamburger-icon,
-header nav .nav-hamburger-icon::before,
-header nav .nav-hamburger-icon::after {
-  box-sizing: border-box;
-  display: block;
-  position: relative;
-  width: 20px;
+header .nav-locale-codes a:first-child {
+  padding-left: 0;
+  border-left: none;
 }
 
-header nav .nav-hamburger-icon::before,
-header nav .nav-hamburger-icon::after {
-  content: '';
-  position: absolute;
-  background: currentcolor;
+header .nav-locale-codes a:hover {
+  text-decoration: underline;
 }
 
-header nav[aria-expanded='false'] .nav-hamburger-icon,
-header nav[aria-expanded='false'] .nav-hamburger-icon::before,
-header nav[aria-expanded='false'] .nav-hamburger-icon::after {
-  height: 2px;
-  border-radius: 2px;
-  background: currentcolor;
+/* Current locale is underlined (matches source). */
+header .nav-locale-codes a[aria-current='true'] {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
-header nav[aria-expanded='false'] .nav-hamburger-icon::before {
-  top: -6px;
-}
-
-header nav[aria-expanded='false'] .nav-hamburger-icon::after {
-  top: 6px;
-}
-
-header nav[aria-expanded='true'] .nav-hamburger-icon {
-  height: 22px;
-}
-
-header nav[aria-expanded='true'] .nav-hamburger-icon::before,
-header nav[aria-expanded='true'] .nav-hamburger-icon::after {
-  top: 3px;
-  left: 1px;
-  transform: rotate(45deg);
-  transform-origin: 2px 1px;
-  width: 24px;
-  height: 2px;
-  border-radius: 2px;
-}
-
-header nav[aria-expanded='true'] .nav-hamburger-icon::after {
-  top: unset;
-  bottom: 3px;
-  transform: rotate(-45deg);
-}
-
-@media (width >= 900px) {
-  header nav .nav-hamburger {
-    display: none;
-    visibility: hidden;
-  }
-}
-
-/* brand */
-header .nav-brand {
+/* --- Brand / logo --- */
+header nav .nav-brand {
   grid-area: brand;
-  flex-basis: 128px;
-  font-size: var(--heading-font-size-s);
-  font-weight: 700;
-  line-height: 1;
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  transition: padding 0.2s ease;
 }
+
+/* stylelint-disable-next-line no-descending-specificity -- independent component, cannot match the same <a> as .nav-locale-list a:hover */
+header nav .nav-brand a { display: inline-flex; }
 
 header nav .nav-brand img {
   width: 128px;
   height: auto;
 }
 
-/* sections */
-header nav .nav-sections {
-  grid-area: sections;
-  flex: 1 1 auto;
-  display: none;
-  visibility: hidden;
-}
-
-header nav[aria-expanded='true'] .nav-sections {
-  display: block;
-  visibility: visible;
-  align-self: start;
+/* --- Primary nav + search --- */
+header nav .nav-tools {
+  grid-area: tools;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 32px;
 }
 
 header nav .nav-sections ul {
+  display: flex;
+  gap: 0;
   list-style: none;
-  padding-left: 0;
-  font-size: var(--body-font-size-s);
+  margin: 0;
+  padding: 0;
 }
 
-header nav .nav-sections ul > li {
-  font-weight: 500;
-}
+header nav .nav-sections li { margin: 0; }
 
-header nav .nav-sections ul > li > ul {
-  margin-top: 0;
-}
-
-header nav .nav-sections ul > li > ul > li {
+/* stylelint-disable-next-line no-descending-specificity -- independent component, cannot match the same <a> as .nav-locale-list a:hover */
+header nav .nav-sections a {
+  color: var(--text-color);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 14px;
   font-weight: 400;
+  letter-spacing: 0.03em;
+  padding: 15px 17px;
+  display: inline-block;
+  transition: background-color 0.2s ease;
 }
 
+/* Hover + active page: solid yellow fill box with dark text (matches the WKND
+   source, where the current page's nav link carries aria-current="page"). */
+header nav .nav-sections a:hover,
+header nav .nav-sections a[aria-current='page'] {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+}
+
+/* --- Search: always-visible light-grey box (magnifier + input) --- */
+header nav .nav-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgb(235 235 235 / 54%);
+
+  /* transparent border at rest so the focus border doesn't shift layout */
+  border: 1px solid transparent;
+  padding: 0 16px;
+  height: 42px;
+  min-width: 194px;
+  box-sizing: border-box;
+}
+
+/* Magnifying-glass drawn in CSS (circle + handle) */
+header nav .nav-search-icon {
+  width: 16px;
+  height: 16px;
+  position: relative;
+  display: inline-block;
+  flex: 0 0 auto;
+  color: var(--text-color);
+}
+
+header nav .nav-search-icon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border: 2px solid currentcolor;
+  border-radius: 50%;
+}
+
+header nav .nav-search-icon::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 6px;
+  height: 2px;
+  background: currentcolor;
+  transform: rotate(45deg);
+  transform-origin: right center;
+}
+
+header nav .nav-search input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  font-size: 12px;
+  color: var(--text-color);
+}
+
+header nav .nav-search input::placeholder {
+  color: #6b6b6b;
+}
+
+header nav .nav-search input:focus {
+  outline: none;
+}
+
+/* On focus/click the box gains a dark border and white fill (WKND source). */
+header nav .nav-search:focus-within {
+  border: 1px solid var(--text-color);
+  background: #fff;
+}
+
+/* --- Hamburger (mobile only, hidden on desktop) --- */
+header nav .nav-hamburger { display: none; }
+
+/* ================= Desktop ================= */
 @media (width >= 900px) {
+  /* Taller main row (~52px above/below the 48px logo → ~166px), giving the
+     ~194px airy header of the source. Mobile stays compact. */
+  header nav .nav-brand {
+    padding: 52px 0;
+  }
+
+  /* Shrink-on-scroll (source: ~194px → ~114px). Drop the reserved header
+     height and the brand row's vertical padding so the fixed bar collapses
+     smoothly once the page is scrolled. */
+  header.nav-scrolled {
+    --nav-height: 119px;
+  }
+
+  header.nav-scrolled nav .nav-brand {
+    padding: 12px 0;
+  }
+}
+
+/* ================= Mobile ================= */
+@media (width < 900px) {
+  /* Source mobile header: a dark utility bar (Sign In left, locale right) that
+     stays visible, over a white row of hamburger | logo | search box. The nav
+     links live behind the hamburger and drop down full-width when opened. */
+
+  /* Utility bar stays visible (source keeps Sign In + locale on mobile). */
+  header .nav-utility-bar { display: block; }
+
+  header .nav-utility {
+    justify-content: space-between; /* Sign In left · locale right */
+    gap: 12px;
+    padding: 4px 16px;
+  }
+
+  /* Main row: hamburger | logo | search, all always visible. nav-tools is a
+     pass-through so its children (search + sections) become grid items. */
+  header nav {
+    grid-template: 'hamburger brand search' auto / auto 1fr auto;
+    gap: 12px;
+    padding: 8px 16px;
+    align-items: center;
+  }
+
+  header nav .nav-brand {
+    grid-area: brand;
+    padding: 8px 0;
+  }
+
+  header nav .nav-brand img { width: 96px; } /* source mobile logo width */
+
+  header nav .nav-tools { display: contents; }
+
+  /* Search box stays visible on the right of the main row. */
+  header nav .nav-search {
+    grid-area: search;
+    width: auto;
+    min-width: 140px;
+    height: 40px;
+  }
+
+  header nav .nav-hamburger {
+    grid-area: hamburger;
+    display: flex;
+    align-items: center;
+  }
+
+  header nav .nav-hamburger button {
+    width: 28px;
+    height: 28px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+  }
+
+  header nav .nav-hamburger button::before,
+  header nav .nav-hamburger button::after,
+  header nav .nav-hamburger button span {
+    content: '';
+    position: absolute;
+    left: 3px;
+    right: 3px;
+    height: 2px;
+    background: var(--text-color);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  header nav .nav-hamburger button::before { top: 7px; }
+  header nav .nav-hamburger button span { top: 13px; }
+  header nav .nav-hamburger button::after { top: 19px; }
+
+  header nav[aria-expanded='true'] .nav-hamburger button::before {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  header nav[aria-expanded='true'] .nav-hamburger button span { opacity: 0; }
+
+  header nav[aria-expanded='true'] .nav-hamburger button::after {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  /* Nav links hide behind the hamburger; drop down full-width when opened. */
   header nav .nav-sections {
-    display: block;
-    visibility: visible;
-    white-space: nowrap;
+    grid-area: sections;
+    display: none;
+  }
+
+  header nav[aria-expanded='true'] {
+    grid-template:
+      'hamburger brand search' auto
+      'sections sections sections' auto / auto 1fr auto;
   }
 
   header nav[aria-expanded='true'] .nav-sections {
-    align-self: unset;
-  }
-
-  header nav .nav-sections .nav-drop {
-    position: relative;
-    padding-right: 16px;
-    cursor: pointer;
-  }
-
-  header nav .nav-sections .nav-drop::after {
-    content: '';
-    display: inline-block;
-    position: absolute;
-    top: 0.5em;
-    right: 2px;
-    transform: rotate(135deg);
-    width: 6px;
-    height: 6px;
-    border: 2px solid currentcolor;
-    border-radius: 0 1px 0 0;
-    border-width: 2px 2px 0 0;
-  }
-
-  header nav .nav-sections .nav-drop[aria-expanded='true']::after {
-    top: unset;
-    bottom: 0.5em;
-    transform: rotate(315deg);
-  }
-
-  header nav .nav-sections ul {
-    display: flex;
-    gap: 24px;
-    margin: 0;
-  }
-
-  header nav .nav-sections .default-content-wrapper > ul > li {
-    flex: 0 1 auto;
-    position: relative;
-  }
-
-  header nav .nav-sections .default-content-wrapper > ul > li > ul {
-    display: none;
-    position: relative;
-  }
-
-  header nav .nav-sections .default-content-wrapper > ul > li[aria-expanded='true'] > ul {
     display: block;
-    position: absolute;
-    left: -24px;
-    width: 200px;
-    top: 150%;
-    padding: 16px;
-    background-color: var(--light-color);
-    white-space: initial;
+    padding: 8px 0 16px;
   }
 
-  header nav .nav-sections .default-content-wrapper > ul > li > ul::before {
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: 16px;
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid var(--light-color);
+  header nav[aria-expanded='true'] .nav-sections ul {
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
   }
 
-  header nav .nav-sections .default-content-wrapper > ul > li > ul > li {
-    padding: 8px 0;
+  header nav[aria-expanded='true'] .nav-sections a {
+    display: block;
+    width: 100%;
+    padding: 12px 0;
+    border-bottom: 1px solid #ebebeb;
   }
-}
-
-/* tools */
-header nav .nav-tools {
-  grid-area: tools;
 }
