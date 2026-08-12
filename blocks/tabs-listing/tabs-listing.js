@@ -140,10 +140,13 @@ function buildTabRow(label, pages) {
  * an "All" tab plus one tab per distinct category (alphabetical).
  * @param {Element} block
  * @param {string} source
+ * @returns {Promise<boolean>} true if rows were built, false if the index
+ *   yielded no pages (empty/unavailable) — caller must then not decorate the
+ *   leftover config cell as a tab.
  */
 async function buildDynamicRows(block, source) {
   const pages = childPages(await fetchIndex(), source);
-  if (!pages.length) return;
+  if (!pages.length) return false;
 
   const categories = [...new Set(pages.flatMap(pageCategories))].sort((a, b) => a.localeCompare(b));
 
@@ -153,6 +156,7 @@ async function buildDynamicRows(block, source) {
     const members = pages.filter((p) => pageCategories(p).includes(cat));
     block.append(buildTabRow(cat, members));
   });
+  return true;
 }
 
 function buildCards(panel) {
@@ -194,7 +198,15 @@ export default async function decorate(block) {
   const source = getDynamicSource(block);
   if (source) {
     block.classList.add('tabs-listing-dynamic');
-    await buildDynamicRows(block, source);
+    const built = await buildDynamicRows(block, source);
+    // No index yet (e.g. query-index.json unavailable on a branch preview
+    // before helix-query.yaml is on main): the config-path cell is still in
+    // the block. Clear it and bail so decoration doesn't render the raw path
+    // ("/us/en/adventures") as a tab — degrade to an empty region instead.
+    if (!built) {
+      block.textContent = '';
+      return;
+    }
   }
 
   // build tablist
