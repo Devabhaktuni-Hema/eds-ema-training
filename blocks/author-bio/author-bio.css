@@ -1,0 +1,63 @@
+/*
+ * author-bio — end-of-article author card.
+ * Source: wknd.site/us/en/magazine/arctic-surfing.html (.cmp-teaser author).
+ * A thin light rule above, then the author name (Asar 24px, no accent bar),
+ * role(s) (12px uppercase grey), and social links.
+ */
+
+.author-bio {
+  margin: 36px 0 0;
+  padding: 27px 0 0;
+  border-top: 1px solid #ebebeb; /* source separator */
+}
+
+.author-bio .author-bio-name {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-color);
+}
+
+/* No WKND accent bar under the author name (source has none). */
+.author-bio .author-bio-name::after {
+  content: none;
+}
+
+.author-bio .author-bio-role {
+  margin: 4px 0 0;
+  font-family: var(--body-font-family);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--muted-color, #696969);
+}
+
+/* Social links row. */
+.author-bio .author-bio-socials {
+  display: flex;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.author-bio .author-bio-social:any-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.author-bio .author-bio-social svg {
+  width: 22px;
+  height: 22px;
+}
+
+.author-bio .author-bio-social:hover,
+.author-bio .author-bio-social:focus-visible {
+  opacity: 0.7;
+}

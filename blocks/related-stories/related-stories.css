@@ -1,0 +1,65 @@
+/*
+ * related-stories — "Share this Story" magazine sidebar.
+ * Source: wknd.site/us/en/magazine/arctic-surfing.html (.cmp-teaser list).
+ * A compact uppercase heading over a list of story links, each with an
+ * uppercase title and a muted grey date.
+ */
+
+.related-stories {
+  margin: 27px 0 0;
+}
+
+.related-stories .related-stories-heading {
+  margin: 0 0 23px;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+/* Heading carries no WKND accent bar in the source. */
+.related-stories .related-stories-heading::after {
+  content: none;
+}
+
+.related-stories .related-stories-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.related-stories .related-stories-list li {
+  margin: 0;
+}
+
+.related-stories .related-stories-list a:any-link {
+  display: block;
+  padding: 8px 0;
+  text-decoration: none;
+}
+
+.related-stories .related-stories-title {
+  display: block;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+.related-stories .related-stories-list a:hover .related-stories-title,
+.related-stories .related-stories-list a:focus-visible .related-stories-title {
+  text-decoration: underline;
+}
+
+.related-stories .related-stories-date {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--body-font-family);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted-color, #696969);
+}
