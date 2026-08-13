@@ -157,6 +157,14 @@ main > .section.hero-banner-container h1::after {
   content: none;
 }
 
+/* Magazine ARTICLE title carries no accent bar in the source (only the article
+   section H2s do). Scope to the article template via its unique
+   .breadcrumbs-article-container; suppress the H1 bar only, leaving H2 bars. */
+/* stylelint-disable-next-line no-descending-specificity -- :has() page scope; independent of the listing h1::after rules above */
+main:has(.breadcrumbs-article-container) h1::after {
+  content: none;
+}
+
 h1 { font-size: var(--heading-font-size-xxl); }
 h2 { font-size: var(--heading-font-size-xl); }
 h3 { font-size: var(--heading-font-size-l); }
