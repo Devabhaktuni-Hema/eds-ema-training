@@ -90,9 +90,13 @@
   margin-top: 18px;
 }
 
-.columns.teasers .columns-img-col img {
+/* In this teaser the picture is a sibling of the title/desc (not the sole cell
+   child), so columns.js never tags it .columns-img-col — target the teaser
+   picture directly. */
+.columns.teasers > div > div img {
   aspect-ratio: 128 / 71; /* source teaser image 360x200 */
   object-fit: cover;
+  opacity: 0.5; /* locked/members-only content reads as disabled (faded) */
 }
 
 /* Teaser title — compact body-font label, not the serif section heading,
