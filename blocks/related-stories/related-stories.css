@@ -31,13 +31,23 @@
 }
 
 .related-stories .related-stories-list li {
-  margin: 0;
+  margin: 0 0 18px; /* source: 18px between items */
 }
 
+/* Each item link carries the source's 5px light-grey left rule + 8px 16px pad. */
 .related-stories .related-stories-list a:any-link {
   display: block;
-  padding: 8px 0;
+  padding: 8px 16px;
+  border-left: 5px solid #ebebeb;
   text-decoration: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Hover: full WKND-yellow fill with the left rule turned dark (source). */
+.related-stories .related-stories-list a:hover,
+.related-stories .related-stories-list a:focus-visible {
+  background-color: var(--accent-color); /* #ffea00 */
+  border-left-color: var(--text-color); /* #202020 */
 }
 
 .related-stories .related-stories-title {
@@ -45,14 +55,9 @@
   font-family: var(--body-font-family);
   font-size: 18px;
   font-weight: 400;
-  line-height: 1.4;
+  line-height: 1.5; /* 27px at 18px, per source */
   text-transform: uppercase;
   color: var(--text-color);
-}
-
-.related-stories .related-stories-list a:hover .related-stories-title,
-.related-stories .related-stories-list a:focus-visible .related-stories-title {
-  text-decoration: underline;
 }
 
 .related-stories .related-stories-date {
@@ -61,5 +66,6 @@
   font-family: var(--body-font-family);
   font-size: 12px;
   line-height: 1.5;
+  text-transform: uppercase; /* source date is uppercase */
   color: var(--muted-color, #696969);
 }

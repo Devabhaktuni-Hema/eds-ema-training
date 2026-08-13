@@ -68,6 +68,11 @@ footer .footer-nav a:hover {
   text-decoration: underline;
 }
 
+/* Current page: source underlines the footer nav link for the active page. */
+footer .footer-nav a.footer-nav-active {
+  text-decoration: underline;
+}
+
 /* --- "FOLLOW US" label + social box, inline on the right --- */
 footer .footer-follow {
   display: flex;

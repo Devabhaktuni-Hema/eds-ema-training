@@ -133,5 +133,23 @@ export default async function decorate(block) {
     ul.append(li);
   });
   ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
+
+  // Make the card image link to the same target as the card title, so clicking
+  // the image navigates like clicking the title (source behaviour). The image
+  // link is hidden from assistive tech to avoid a duplicate of the title link.
+  ul.querySelectorAll('li').forEach((li) => {
+    const imageCell = li.querySelector('.cards-card-image');
+    const picture = imageCell?.querySelector('picture');
+    const titleLink = li.querySelector('.cards-card-body a[href]');
+    if (imageCell && picture && titleLink && !imageCell.querySelector('a')) {
+      const link = document.createElement('a');
+      link.href = titleLink.getAttribute('href');
+      link.setAttribute('aria-hidden', 'true');
+      link.setAttribute('tabindex', '-1');
+      picture.replaceWith(link);
+      link.append(picture);
+    }
+  });
+
   block.replaceChildren(ul);
 }

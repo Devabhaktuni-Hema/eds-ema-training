@@ -87,7 +87,25 @@ export default async function decorate(block) {
   // --- Footer nav ---
   const navCol = document.createElement('div');
   navCol.className = 'footer-nav';
-  if (navSection) navCol.append(...navSection.childNodes);
+  if (navSection) {
+    navCol.append(...navSection.childNodes);
+    // Highlight the nav link for the current page (source underlines it and
+    // sets aria-current). Compare on the normalised path, tolerant of the
+    // /content prefix (aem up) and the trailing .html the source links carry.
+    const normalize = (p) => (p || '')
+      .replace(/^\/content/, '')
+      .replace(/\.html$/, '')
+      .replace(/\/$/, '');
+    const here = normalize(window.location.pathname);
+    navCol.querySelectorAll('a[href]').forEach((a) => {
+      let path;
+      try { path = new URL(a.href, window.location).pathname; } catch { return; }
+      if (normalize(path) === here) {
+        a.classList.add('footer-nav-active');
+        a.setAttribute('aria-current', 'page');
+      }
+    });
+  }
 
   // --- Follow Us + social icons ---
   const follow = document.createElement('div');

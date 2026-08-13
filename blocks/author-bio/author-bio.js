@@ -1,9 +1,11 @@
 /*
  * author-bio — WKND magazine-article author block.
- * Appears at the end of a magazine article: a thin rule, the author name,
- * their role(s), and social links. Matches the source .cmp-teaser author card.
+ * Appears at the end of a magazine article: a thin rule, then a horizontal row
+ * of the author avatar, name + role(s), and social icons in a dark box on the
+ * right. Matches the source .cmp-teaser byline card.
  *
- * Authored structure (rows):
+ * Authored structure (rows), avatar optional:
+ *   row A (optional) -> avatar image (a picture/img cell)
  *   row 1 -> name        (e.g. "Jacob Wester")
  *   row 2 -> role(s)     (e.g. "Skater, Writer")
  *   row 3 -> social link | social link | social link  (optional)
@@ -32,34 +34,58 @@ function socialKey(a) {
 export default function decorate(block) {
   const rows = [...block.children];
 
-  // Row 1: name → h2 (styling comes from CSS; no accent bar on this heading).
-  const nameCell = rows[0]?.querySelector(':scope > div') || rows[0];
+  // Split rows into: an optional avatar row (contains a picture/img), the
+  // socials row (contains links), and the text rows (name, role) in between.
+  const avatarRow = rows.find((r) => r.querySelector('picture, img'));
+  const socialsRow = rows.find((r) => r.querySelector('a'));
+  const textRows = rows.filter((r) => r !== avatarRow && r !== socialsRow);
+
+  // --- Avatar (optional) ---
+  let avatar = null;
+  if (avatarRow) {
+    const pic = avatarRow.querySelector('picture') || avatarRow.querySelector('img');
+    avatar = document.createElement('div');
+    avatar.className = 'author-bio-avatar';
+    avatar.append(pic);
+  }
+
+  // --- Name + role text column ---
+  const info = document.createElement('div');
+  info.className = 'author-bio-info';
+  const [nameRow, roleRow] = textRows;
+  const nameCell = nameRow?.querySelector(':scope > div') || nameRow;
   if (nameCell) {
     const h2 = document.createElement('h2');
     h2.className = 'author-bio-name';
     h2.textContent = nameCell.textContent.trim();
-    nameCell.replaceChildren(h2);
-    rows[0].className = 'author-bio-heading';
+    info.append(h2);
+  }
+  if (roleRow) {
+    const p = document.createElement('p');
+    p.className = 'author-bio-role';
+    p.textContent = roleRow.textContent.trim();
+    info.append(p);
   }
 
-  // Row 2: role(s) → muted uppercase label.
-  if (rows[1]) {
-    const roleCell = rows[1].querySelector(':scope > div') || rows[1];
-    const p = roleCell.querySelector('p') || roleCell;
-    p.classList.add('author-bio-role');
-    rows[1].className = 'author-bio-role-row';
-  }
-
-  // Row 3 (optional): social links → icon links (label kept for a11y).
-  if (rows[2]) {
-    rows[2].className = 'author-bio-socials';
-    rows[2].querySelectorAll('a').forEach((a) => {
+  // --- Social icons (dark box, right) ---
+  let socials = null;
+  if (socialsRow) {
+    socials = document.createElement('div');
+    socials.className = 'author-bio-socials';
+    socialsRow.querySelectorAll('a').forEach((a) => {
       a.classList.add('author-bio-social');
       const key = socialKey(a);
       if (key) {
         a.setAttribute('aria-label', a.textContent.trim());
         a.innerHTML = SOCIAL_ICONS[key];
       }
+      socials.append(a);
     });
   }
+
+  // --- Rebuild as a single horizontal row ---
+  block.textContent = '';
+  if (avatar) block.append(avatar);
+  block.append(info);
+  if (socials) block.append(socials);
 }

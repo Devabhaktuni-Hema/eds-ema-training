@@ -99,10 +99,22 @@
 }
 
 /*
- * --- Desktop: crop the image to the source band and overlap the white panel
- * onto its lower edge (bottom-aligned, horizontally centred). ---
+ * --- Desktop: the source intro banner is full-bleed (the feature image spans
+ * the whole viewport) with a wide white panel (~83% of the viewport) overlapping
+ * its lower edge, bottom-aligned and horizontally centred. Break the block out
+ * of the content column to span the viewport, then crop the image to the source
+ * 640px band and pull the panel up over it. ---
  */
 @media (width >= 900px) {
+  /* Full-bleed: the section already spans the full (scrollbar-free) page width,
+     so just drop the wrapper's max-width + side padding. Avoid 100vw here — it
+     includes the scrollbar and would cause a horizontal scroll. */
+  main > .section.hero-listing-container > .hero-listing-wrapper {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
   .hero-listing .hero-listing-image img {
     height: 640px; /* source uses a fixed 640px intro image at desktop widths */
     aspect-ratio: auto;
@@ -113,13 +125,12 @@
     z-index: 1;
     display: flex;
     justify-content: center; /* centre the panel across the image width */
-    margin-top: -128px; /* pull the panel up so its base meets the image edge */
+    margin-top: -180px; /* pull the panel up so its base meets the image edge */
   }
 
   .hero-listing .hero-listing-text > div {
-    width: 83%; /* source panel is ~82.8% of the image width */
-    max-width: 850px;
-    min-height: 128px; /* panel band taller than its text, per source */
+    width: 82.8%; /* source panel is ~82.8% of the viewport width (1192/1440) */
+    min-height: 180px; /* panel band taller than its text, per source */
     padding: 0 28px; /* source desktop panel side padding */
   }
 }

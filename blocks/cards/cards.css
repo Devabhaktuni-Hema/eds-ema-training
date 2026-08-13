@@ -42,9 +42,11 @@
   text-decoration: none;
 }
 
-.cards .cards-card-body h3 a:hover {
+/* Source card titles show no underline on hover. */
+.cards .cards-card-body h3 a:hover,
+.cards .cards-card-body h3 a:focus-visible {
   color: var(--text-color);
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 /* Card description — muted grey, uppercase, truncated to a single line with
@@ -60,20 +62,6 @@
   text-overflow: ellipsis;
 }
 
-/* Dynamic listing (Magazine "All Articles") — the source renders these card
-   titles as a plain-weight, sentence-case blue link, unlike the dark uppercase
-   labels on the homepage "Recent Articles" grid. */
-.cards.cards-dynamic .cards-card-body h3 {
-  font-weight: 400;
-  text-transform: none;
-}
-
-/* stylelint-disable-next-line no-descending-specificity */
-.cards.cards-dynamic .cards-card-body h3 a:any-link {
-  color: #0045ff;
-}
-
-.cards.cards-dynamic .cards-card-body h3 a:hover {
-  color: #0045ff;
-  text-decoration: underline;
-}
+/* Dynamic listing (Magazine "All Articles") uses the same dark, uppercase,
+   semibold card titles as the homepage "Recent Articles" grid (see the base
+   .cards-card-body h3 rules above) — matching the WKND magazine listing design. */

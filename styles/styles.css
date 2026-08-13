@@ -143,6 +143,28 @@ main .cards-team-container h1::after {
   content: none;
 }
 
+/* Adventures listing title carries no accent bar in the source. Scope to the
+   page via its unique tabs-listing section so only this H1 is affected (the
+   section H2s keep their bars). */
+main:has(.tabs-listing-container) h1::after {
+  content: none;
+}
+
+/* Magazine listing title carries no accent bar in the source. The H1 sits in
+   the page's hero-banner section (the featured-article promo), unique to this
+   listing, so scope the suppression there and leave section H2 bars intact. */
+main > .section.hero-banner-container h1::after {
+  content: none;
+}
+
+/* Magazine ARTICLE title carries no accent bar in the source (only the article
+   section H2s do). Scope to the article template via its unique
+   .breadcrumbs-article-container; suppress the H1 bar only, leaving H2 bars. */
+/* stylelint-disable-next-line no-descending-specificity -- :has() page scope; independent of the listing h1::after rules above */
+main:has(.breadcrumbs-article-container) h1::after {
+  content: none;
+}
+
 h1 { font-size: var(--heading-font-size-xxl); }
 h2 { font-size: var(--heading-font-size-xl); }
 h3 { font-size: var(--heading-font-size-l); }
@@ -560,35 +582,98 @@ main > .section.cards-team-container .default-content-wrapper p em {
 
 /*
  * Magazine-article body (matches wknd.site magazine articles). The article
- * H1/byline/paragraphs render as default content inside the section that also
- * holds the quote-pull block (.quote-pull-container is unique to this
- * template). Constrain the reading column, style the byline as a compact
- * uppercase label, and give body paragraphs the WKND airy justified leading.
+ * H1/byline/paragraphs render as default content in the article body section.
+ * Scope to the magazine template via its unique .breadcrumbs-article-container
+ * (present on every article) rather than .quote-pull-container, which only
+ * exists on articles that happen to have a pull-quote (e.g. San Diego has none).
+ * The body section lives in .magazine-layout-main after the two-column wrap.
+ * NB: descendant (not child) combinators so these apply in both layouts.
  */
-main > .section.quote-pull-container > div {
+main:has(.breadcrumbs-article-container) .magazine-layout-main > .section > div {
   /* Source article text measure is 776px. The base rule adds box-sizing:
      border-box + 0 32px padding, so add the 64px back to keep the *text* at
      776 (not 712). */
   max-width: 840px;
 }
 
+/* Article H1/H2 top margin — source uses a fixed 27px (not the global 0.8em,
+   which is 32px at 40px / 28.8px at 36px). */
+/* stylelint-disable no-descending-specificity -- scoped to the magazine article body; does not overlap the cards-container h2 rule above */
+main:has(.breadcrumbs-article-container) .magazine-layout-main h1,
+main:has(.breadcrumbs-article-container) .magazine-layout-main h2 {
+  margin-top: 27px;
+}
+/* stylelint-enable no-descending-specificity */
+
 /* Byline "By Jacob Wester" — source: 16px Source Sans, 600, uppercase
    (imported as an h4, which would otherwise be Asar 20px). */
-main > .section.quote-pull-container .default-content-wrapper h4 {
+main:has(.breadcrumbs-article-container) .magazine-layout-main .default-content-wrapper h4 {
   font-family: var(--body-font-family);
   font-size: 16px;
   font-weight: 600;
   text-transform: uppercase;
-  line-height: 1.35;
-  margin: 0 0 0.8em;
+  line-height: 1.5; /* source: 24px on 16px */
+  margin: 1.33em 0; /* source: 21.28px top/bottom */
 }
 
 /* Body paragraphs — source uses the WKND text component's airy 45px leading,
    justified. */
 /* stylelint-disable-next-line no-descending-specificity -- independent component; the cards-container trailing-CTA separator above targets a different, non-overlapping section */
-main > .section.quote-pull-container .default-content-wrapper p {
+main:has(.breadcrumbs-article-container) .magazine-layout-main .default-content-wrapper p {
   line-height: 45px;
   text-align: justify;
+}
+
+/*
+ * Magazine two-column layout (matches wknd.site magazine articles).
+ * scripts.js groups the flat sibling sections into two column containers:
+ *   .magazine-layout-main  -> article body + author bio (left, 776px)
+ *   .magazine-layout-aside -> optional download card + "Share this Story" (right, 291px)
+ * The columns have independent heights, so this is a grid on the wrapper rather
+ * than the shared-row grid used by the FAQ template. Mobile (< 900px) stays
+ * single-column stacked: the wrapper is display:block and sections keep their
+ * default centering, so the sidebar simply follows the article.
+ */
+@media (width >= 900px) {
+  main > .magazine-layout {
+    box-sizing: border-box;
+
+    /* Fit the source's two-column region: 776 article + 97 gutter + 291 sidebar
+       = 1164, plus the 32px side padding either side. */
+    max-width: 1228px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: minmax(0, 776fr) 291fr; /* article · sidebar */
+    column-gap: 97px; /* source gutter */
+    align-items: start;
+  }
+
+  /* Columns own their vertical rhythm; neutralise the base section centering so
+     the article text sits flush-left in column 1 and the sidebar in column 2. */
+  main > .magazine-layout .magazine-layout-main,
+  main > .magazine-layout .magazine-layout-aside {
+    min-width: 0;
+  }
+
+  main > .magazine-layout .section {
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  main > .magazine-layout .section > div {
+    max-width: none;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* First section in each column drops its top margin so the article H1 and the
+     sidebar's first card top-align. */
+  main > .magazine-layout .magazine-layout-main > .section:first-child,
+  main > .magazine-layout .magazine-layout-aside > .section:first-child {
+    margin-top: 0;
+  }
 }
 
 /*
