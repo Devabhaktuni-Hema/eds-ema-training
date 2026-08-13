@@ -578,29 +578,40 @@ main > .section.cards-team-container .default-content-wrapper p em {
  * holds the quote-pull block (.quote-pull-container is unique to this
  * template). Constrain the reading column, style the byline as a compact
  * uppercase label, and give body paragraphs the WKND airy justified leading.
+ * NB: descendant (not child) combinator so these still apply after the
+ * two-column layout wraps the section in .magazine-layout-main (see below).
  */
-main > .section.quote-pull-container > div {
+main .section.quote-pull-container > div {
   /* Source article text measure is 776px. The base rule adds box-sizing:
      border-box + 0 32px padding, so add the 64px back to keep the *text* at
      776 (not 712). */
   max-width: 840px;
 }
 
+/* Article H1/H2 top margin — source uses a fixed 27px (not the global 0.8em,
+   which is 32px at 40px / 28.8px at 36px). */
+/* stylelint-disable no-descending-specificity -- scoped to the magazine article body; does not overlap the cards-container h2 rule above */
+main .section.quote-pull-container h1,
+main .section.quote-pull-container h2 {
+  margin-top: 27px;
+}
+/* stylelint-enable no-descending-specificity */
+
 /* Byline "By Jacob Wester" — source: 16px Source Sans, 600, uppercase
    (imported as an h4, which would otherwise be Asar 20px). */
-main > .section.quote-pull-container .default-content-wrapper h4 {
+main .section.quote-pull-container .default-content-wrapper h4 {
   font-family: var(--body-font-family);
   font-size: 16px;
   font-weight: 600;
   text-transform: uppercase;
   line-height: 1.5; /* source: 24px on 16px */
-  margin: 0 0 0.8em;
+  margin: 1.33em 0; /* source: 21.28px top/bottom */
 }
 
 /* Body paragraphs — source uses the WKND text component's airy 45px leading,
    justified. */
 /* stylelint-disable-next-line no-descending-specificity -- independent component; the cards-container trailing-CTA separator above targets a different, non-overlapping section */
-main > .section.quote-pull-container .default-content-wrapper p {
+main .section.quote-pull-container .default-content-wrapper p {
   line-height: 45px;
   text-align: justify;
 }
