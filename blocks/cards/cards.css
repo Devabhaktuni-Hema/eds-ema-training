@@ -42,9 +42,11 @@
   text-decoration: none;
 }
 
-.cards .cards-card-body h3 a:hover {
+/* Source card titles show no underline on hover. */
+.cards .cards-card-body h3 a:hover,
+.cards .cards-card-body h3 a:focus-visible {
   color: var(--text-color);
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 /* Card description — muted grey, uppercase, truncated to a single line with
