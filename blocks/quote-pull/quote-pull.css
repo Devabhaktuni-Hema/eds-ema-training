@@ -67,3 +67,50 @@
   content: '—';
   padding-right: 0.5ch;
 }
+
+/* =====================================================================
+   Definition variant (e.g. Western Australia "Wanderlust … / noun").
+   Source: a full-width grey box holding a large Asar quote (36px/54px) with a
+   short yellow accent bar under it, then a small label ("noun") below.
+   ===================================================================== */
+.quote-pull.quote-pull-definition > blockquote {
+  margin: 18px 0; /* full width, no side indent (source) */
+  padding: 14px;
+  background: #ebebeb; /* source grey box */
+}
+
+.quote-pull.quote-pull-definition blockquote p {
+  font-family: var(--heading-font-family); /* Asar */
+  font-size: 36px;
+  line-height: 54px;
+}
+
+/* Quote text is bold in the source markup; keep it regular weight to match the
+   rendered WKND look (Asar 400). */
+.quote-pull.quote-pull-definition blockquote p strong {
+  font-weight: 400;
+}
+
+/* Yellow accent bar under the quote (source: 80px, 2px). */
+.quote-pull.quote-pull-definition .quote-pull-quotation > blockquote::after {
+  content: "";
+  display: block;
+  width: 80px;
+  margin-top: 18px;
+  border-bottom: 2px solid var(--accent-color);
+}
+
+/* "noun" label below the quote. */
+.quote-pull.quote-pull-definition .quote-pull-label {
+  margin: 18px 0 0;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-color);
+}
+
+.quote-pull.quote-pull-definition .quote-pull-label strong {
+  font-weight: 400;
+}
