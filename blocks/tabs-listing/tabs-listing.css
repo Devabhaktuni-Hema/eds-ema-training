@@ -31,7 +31,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0;
-  margin: 18px 0 27px;
+  margin: 18px 0; /* source uses a symmetric 18px; 18px above tabs, 18px to grid */
   padding: 0;
   list-style: none;
 }
