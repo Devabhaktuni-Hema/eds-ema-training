@@ -68,15 +68,16 @@
   background-color: var(--light-color);
 }
 
-/* Active tab: solid dark fill, white text (source: #202020 bg / #fff text). */
+/* Active tab: WKND yellow fill, dark text (matches the source Adventures
+   filter — the selected "ALL" tab is a yellow chip). */
 .tabs-listing .tabs-listing-tab[aria-selected='true'] {
-  background-color: var(--text-color);
-  color: var(--background-color);
+  background-color: var(--accent-color);
+  color: var(--text-color);
   cursor: default;
 }
 
 .tabs-listing .tabs-listing-tab[aria-selected='true']:hover {
-  background-color: var(--text-color);
+  background-color: var(--accent-color);
 }
 
 /* ---- Panel ---- */
@@ -144,19 +145,19 @@
   margin: 0;
 }
 
-/* Card title link — Adobe-blue plain-weight link, normal-case (matches the
-   WKND source and the homepage cards). */
+/* Card title — dark, uppercase, semibold body-font label (matches the WKND
+   Adventures listing and the homepage/magazine cards). */
 .tabs-listing .tabs-listing-card-body h3 {
   margin: 2px 0 0;
   font-family: var(--body-font-family);
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 27px;
-  text-transform: none;
+  text-transform: uppercase;
 }
 
 .tabs-listing .tabs-listing-card-body h3 a {
-  color: #0045ff;
+  color: var(--text-color);
   font: inherit;
   text-transform: inherit;
   text-decoration: none;
