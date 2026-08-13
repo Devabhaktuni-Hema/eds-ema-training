@@ -163,8 +163,10 @@
   text-decoration: none;
 }
 
-.tabs-listing .tabs-listing-card-body h3 a:hover {
-  text-decoration: underline;
+/* Source card titles show no underline on hover. */
+.tabs-listing .tabs-listing-card-body h3 a:hover,
+.tabs-listing .tabs-listing-card-body h3 a:focus-visible {
+  text-decoration: none;
 }
 
 /* Card description — uppercase muted grey, single-line ellipsis. */
