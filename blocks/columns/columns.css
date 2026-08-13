@@ -50,8 +50,38 @@
 }
 
 .columns.teasers > div > div {
+  position: relative; /* anchor the members-only lock ribbon */
   display: flex;
   flex-direction: column;
+  padding-top: 8px; /* room for the corner ribbon above the title */
+}
+
+/* "Members only" lock ribbon — a yellow triangular corner tab in the top-left
+   with a black padlock, matching the source locked-content teasers. The tab is
+   drawn with a border triangle (::before) and the padlock is an inline SVG
+   background centred on it (::after). */
+.columns.teasers > div > div::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-top: 54px solid var(--accent-color); /* WKND yellow */
+  border-right: 54px solid transparent;
+  pointer-events: none;
+}
+
+.columns.teasers > div > div::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  width: 20px;
+  height: 20px;
+  background: no-repeat center / contain
+    url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"%3E%3Cpath fill="%23202020" d="M17 9V7a5 5 0 0 0-10 0v2H5v12h14V9h-2zM9 7a3 3 0 0 1 6 0v2H9V7zm4 8.72V18h-2v-2.28a1.5 1.5 0 1 1 2 0z"/%3E%3C/svg%3E');
+  pointer-events: none;
 }
 
 /* Image sits below the teaser text (source order). */
