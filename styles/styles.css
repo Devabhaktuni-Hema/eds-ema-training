@@ -579,7 +579,7 @@ main > .section.quote-pull-container .default-content-wrapper h4 {
   font-size: 16px;
   font-weight: 600;
   text-transform: uppercase;
-  line-height: 1.35;
+  line-height: 1.5; /* source: 24px on 16px */
   margin: 0 0 0.8em;
 }
 
@@ -589,6 +589,58 @@ main > .section.quote-pull-container .default-content-wrapper h4 {
 main > .section.quote-pull-container .default-content-wrapper p {
   line-height: 45px;
   text-align: justify;
+}
+
+/*
+ * Magazine two-column layout (matches wknd.site magazine articles).
+ * scripts.js groups the flat sibling sections into two column containers:
+ *   .magazine-layout-main  -> article body + author bio (left, 776px)
+ *   .magazine-layout-aside -> optional download card + "Share this Story" (right, 291px)
+ * The columns have independent heights, so this is a grid on the wrapper rather
+ * than the shared-row grid used by the FAQ template. Mobile (< 900px) stays
+ * single-column stacked: the wrapper is display:block and sections keep their
+ * default centering, so the sidebar simply follows the article.
+ */
+@media (width >= 900px) {
+  main > .magazine-layout {
+    box-sizing: border-box;
+
+    /* Fit the source's two-column region: 776 article + 97 gutter + 291 sidebar
+       = 1164, plus the 32px side padding either side. */
+    max-width: 1228px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: minmax(0, 776fr) 291fr; /* article · sidebar */
+    column-gap: 97px; /* source gutter */
+    align-items: start;
+  }
+
+  /* Columns own their vertical rhythm; neutralise the base section centering so
+     the article text sits flush-left in column 1 and the sidebar in column 2. */
+  main > .magazine-layout .magazine-layout-main,
+  main > .magazine-layout .magazine-layout-aside {
+    min-width: 0;
+  }
+
+  main > .magazine-layout .section {
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  main > .magazine-layout .section > div {
+    max-width: none;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* First section in each column drops its top margin so the article H1 and the
+     sidebar's first card top-align. */
+  main > .magazine-layout .magazine-layout-main > .section:first-child,
+  main > .magazine-layout .magazine-layout-aside > .section:first-child {
+    margin-top: 0;
+  }
 }
 
 /*

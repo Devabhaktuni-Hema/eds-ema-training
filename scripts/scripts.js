@@ -143,6 +143,59 @@ function decorateButtons(main) {
 }
 
 /**
+ * Groups a magazine article's flat sibling sections into a two-column layout
+ * matching the source (wknd.site magazine articles): a wide left column holding
+ * the article body and author bio, and a narrow right sidebar holding the
+ * optional download card and the "Share this Story" (related-stories) block.
+ *
+ * EDS emits each of these as a separate top-level section. The two columns have
+ * independent heights (a long article next to a short sidebar), which a shared
+ * CSS grid can't express, so wrap them into explicit column containers here.
+ * Only acts on pages that have both an author-bio and a related-stories block;
+ * the actual columns are established by CSS at >= 900px, so mobile stays stacked.
+ *
+ * @param {Element} main The main element
+ */
+function buildMagazineLayout(main) {
+  try {
+    const authorBlock = main.querySelector('.author-bio');
+    const relatedBlock = main.querySelector('.related-stories');
+    if (!authorBlock || !relatedBlock) return;
+
+    // The sections are direct children of main; find the one wrapping each block.
+    const sectionOf = (el) => {
+      const section = el.closest('.section');
+      return section && section.parentElement === main ? section : null;
+    };
+    const authorSection = sectionOf(authorBlock);
+    const relatedSection = sectionOf(relatedBlock);
+    const downloadBlock = main.querySelector('.download');
+    const downloadSection = downloadBlock ? sectionOf(downloadBlock) : null;
+    // The article body is the section immediately preceding the author bio.
+    const bodySection = authorSection?.previousElementSibling;
+    if (!authorSection || !relatedSection || !bodySection
+      || !bodySection.classList.contains('section')) return;
+
+    const grid = document.createElement('div');
+    grid.className = 'magazine-layout';
+    const col1 = document.createElement('div');
+    col1.className = 'magazine-layout-main';
+    const col2 = document.createElement('div');
+    col2.className = 'magazine-layout-aside';
+
+    // Place the grid where the body section is, then move the sections in.
+    bodySection.parentElement.insertBefore(grid, bodySection);
+    col1.append(bodySection, authorSection);
+    if (downloadSection) col2.append(downloadSection);
+    col2.append(relatedSection);
+    grid.append(col1, col2);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Magazine layout failed', error);
+  }
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -151,6 +204,7 @@ export function decorateMain(main) {
   decorateIcons(main);
   buildAutoBlocks(main);
   decorateSections(main);
+  buildMagazineLayout(main);
   decorateBlocks(main);
   decorateButtons(main);
 }

@@ -54,9 +54,9 @@
   color: var(--muted-color, #696969);
 }
 
-/* Dark action button. */
+/* Dark action button — content-width (not full-bleed), matching the source. */
 .download .download-action:any-link {
-  display: block;
+  display: inline-block;
   padding: 14px 32px;
   background: var(--text-color);
   color: #fff;
