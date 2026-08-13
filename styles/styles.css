@@ -143,6 +143,13 @@ main .cards-team-container h1::after {
   content: none;
 }
 
+/* Adventures listing title carries no accent bar in the source. Scope to the
+   page via its unique tabs-listing section so only this H1 is affected (the
+   section H2s keep their bars). */
+main:has(.tabs-listing-container) h1::after {
+  content: none;
+}
+
 h1 { font-size: var(--heading-font-size-xxl); }
 h2 { font-size: var(--heading-font-size-xl); }
 h3 { font-size: var(--heading-font-size-l); }
