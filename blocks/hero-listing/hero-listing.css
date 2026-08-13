@@ -106,11 +106,12 @@
  * 640px band and pull the panel up over it. ---
  */
 @media (width >= 900px) {
-  /* Full-bleed: break out of the section's centered content column. */
+  /* Full-bleed: the section already spans the full (scrollbar-free) page width,
+     so just drop the wrapper's max-width + side padding. Avoid 100vw here — it
+     includes the scrollbar and would cause a horizontal scroll. */
   main > .section.hero-listing-container > .hero-listing-wrapper {
     max-width: none;
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
+    margin: 0;
     padding: 0;
   }
 
