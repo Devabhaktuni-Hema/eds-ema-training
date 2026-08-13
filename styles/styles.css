@@ -150,6 +150,13 @@ main:has(.tabs-listing-container) h1::after {
   content: none;
 }
 
+/* Magazine listing title carries no accent bar in the source. The H1 sits in
+   the page's hero-banner section (the featured-article promo), unique to this
+   listing, so scope the suppression there and leave section H2 bars intact. */
+main > .section.hero-banner-container h1::after {
+  content: none;
+}
+
 h1 { font-size: var(--heading-font-size-xxl); }
 h2 { font-size: var(--heading-font-size-xl); }
 h3 { font-size: var(--heading-font-size-l); }
