@@ -1,14 +1,40 @@
 /*
  * author-bio — end-of-article author card.
- * Source: wknd.site/us/en/magazine/arctic-surfing.html (.cmp-teaser author).
- * A thin light rule above, then the author name (Asar 24px, no accent bar),
- * role(s) (12px uppercase grey), and social links.
+ * Source: wknd.site/us/en/magazine/arctic-surfing.html (.byline teaser).
+ * A thin light rule above, then a horizontal row: circular avatar (60px) on the
+ * left, author name (Asar 24px) + role(s) (12px uppercase grey) next to it, and
+ * the social icons in dark 48px boxes pushed to the right.
  */
 
 .author-bio {
+  display: flex;
+  align-items: center;
+  gap: 25px;
   margin: 36px 0 0;
   padding: 27px 0 0;
   border-top: 1px solid #ebebeb; /* source separator */
+}
+
+/* Circular avatar (source: 60x60). */
+.author-bio .author-bio-avatar {
+  flex: 0 0 auto;
+  width: 60px;
+  height: 60px;
+}
+
+.author-bio .author-bio-avatar picture,
+.author-bio .author-bio-avatar img {
+  display: block;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Name + role column. */
+.author-bio .author-bio-info {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .author-bio .author-bio-name {
@@ -35,29 +61,43 @@
   color: var(--muted-color, #696969);
 }
 
-/* Social links row. */
+/* Social icons — dark 48px boxes on the right (source: #202020 bg, #ebebeb icon). */
 .author-bio .author-bio-socials {
+  flex: 0 0 auto;
   display: flex;
-  gap: 16px;
-  margin-top: 14px;
+  margin-left: auto; /* push to the far right */
 }
 
 .author-bio .author-bio-social:any-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  color: var(--text-color);
+  width: 48px;
+  height: 48px;
+  background-color: var(--text-color); /* #202020 */
+  color: #ebebeb;
   text-decoration: none;
 }
 
 .author-bio .author-bio-social svg {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
 }
 
 .author-bio .author-bio-social:hover,
 .author-bio .author-bio-social:focus-visible {
-  opacity: 0.7;
+  color: #fff;
+}
+
+/* Mobile: stack avatar + info, keep social box below. */
+@media (width < 600px) {
+  .author-bio {
+    flex-wrap: wrap;
+  }
+
+  .author-bio .author-bio-socials {
+    flex-basis: 100%;
+    margin-left: 0;
+    margin-top: 14px;
+  }
 }
